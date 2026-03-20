@@ -1,0 +1,123 @@
+trigger:
+  branches:
+    include:
+      - main
+      - master
+
+pr:
+  branches:
+    include:
+      - main
+      - master
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  azureServiceConnection: 'azure-service-connection'
+  resourceGroupName: 'rg-mi-app'
+  storageAccountName: 'stmiappweb'
+  artifactName: 'site'
+
+stages:
+  - stage: Validate
+    displayName: Validar sitio estático
+    jobs:
+      - job: ValidateFiles
+        displayName: Validar estructura
+        steps:
+          - checkout: self
+
+          - task: UseNode@1
+            displayName: Preparar Node.js
+            inputs:
+              version: '18.x'
+
+          - bash: |
+              set -euo pipefail
+              echo "🔧 Instalando npm..."
+              npm install --silent
+              echo "✅ npm instalado"
+            displayName: Instalar dependencias
+            condition: always()
+
+          - bash: |
+              set -euo pipefail
+              echo "🏗️  Generando HTML desde Markdown..."
+              npm run build
+              echo "✅ HTML generado"
+            displayName: Build HTML desde Markdown
+            condition: always()
+
+          - bash: |
+              set -euo pipefail
+              required_files=(src/index.html)
+              for file in "${required_files[@]}"; do
+                if [[ ! -f "$file" ]]; then
+                  echo "Falta archivo requerido: $file"
+                  exit 1
+                fi
+              done
+              echo "Validación OK: index.html generado en src/"
+            displayName: Verificar HTML requeridos
+
+          - task: CopyFiles@2
+            displayName: Copiar archivos a staging
+            inputs:
+              SourceFolder: '$(Build.SourcesDirectory)'
+              Contents: |
+                src/**/*.html
+                src/**/*.css
+                src/**/*.js
+              TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+          - task: PublishBuildArtifacts@1
+            displayName: Publicar artifact
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              ArtifactName: '$(artifactName)'
+              publishLocation: 'Container'
+
+  - stage: Deploy
+    displayName: Desplegar en Azure Storage Static Website
+    dependsOn: Validate
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    jobs:
+      - deployment: DeployStaticSite
+        displayName: Deploy a $web
+        environment: prod
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: $(artifactName)
+
+                - task: AzureCLI@2
+                  displayName: Habilitar Static Website
+                  inputs:
+                    azureSubscription: '$(azureServiceConnection)'
+                    scriptType: bash
+                    scriptLocation: inlineScript
+                    inlineScript: |
+                      set -euo pipefail
+                      az storage blob service-properties update \
+                        --account-name "$(storageAccountName)" \
+                        --static-website \
+                        --index-document index.html \
+                        --404-document index.html
+
+                - task: AzureCLI@2
+                  displayName: Subir contenido a contenedor $web
+                  inputs:
+                    azureSubscription: '$(azureServiceConnection)'
+                    scriptType: bash
+                    scriptLocation: inlineScript
+                    inlineScript: |
+                      set -euo pipefail
+                      az storage blob upload-batch \
+                        --account-name "$(storageAccountName)" \
+                        --auth-mode login \
+                        --destination '$web' \
+                        --source "$(Pipeline.Workspace)/$(artifactName)" \
+                        --overwrite true

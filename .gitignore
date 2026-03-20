@@ -1,0 +1,42 @@
+# Build outputs & artifacts
+build/
+build-data.json
+dist/
+*.min.js
+*.min.css
+
+# Node modules
+node_modules/
+package-lock.json
+yarn.lock
+npm-debug.log*
+*.log
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+*~
+.env
+.env.local
+
+# Temporales
+*.tmp
+*.temp
+.cache/
+
+# Archivos generados (NO commitear)
+src/index.html              # Generado por build-html.js
+
+# Pero SÍ commitear estos
+!content/
+!docs/
+!src/
+!src/build-html.js
+!src/index.template.html
+!package.json
+!azure-pipelines.yml
+!README.md
+

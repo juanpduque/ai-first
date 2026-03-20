@@ -1,0 +1,25 @@
+{
+  "name": "ia-first-cde-presentation",
+  "version": "1.0.0",
+  "description": "Estrategia IA First - Centro de Excelencia - Presentación interactiva",
+  "main": "index.html",
+  "scripts": {
+    "build": "node src/build-html.js",
+    "validate": "npm run build && node -e \"const fs=require('fs'); const h=fs.readFileSync('src/index.html','utf-8'); console.log(h.length + ' bytes generado');\"",
+    "sync": "npm run build && git status --short",
+    "serve": "cd src && python3 -m http.server 8080",
+    "serve:open": "bash -c 'cd src && python3 -m http.server 8080 & sleep 1; open http://localhost:8080; wait'"
+  },
+  "keywords": [
+    "ia-first",
+    "analytics",
+    "cde",
+    "presentation"
+  ],
+  "author": "CDE Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {}
+}
