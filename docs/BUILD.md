@@ -5,24 +5,24 @@
 El proyecto usa un **flujo de build-time** donde los Markdown son la fuente de verdad:
 
 ```
-┌─────────────────────────────────────────┐
-│  contenido_sitio.md (Pantallas 1-11)   │
-│  diagrama_textos.md (Pantalla 12)      │
-└────────────────┬────────────────────────┘
-                 │ npm run build
-                 ↓
-         ┌──────────────────┐
-         │  build-html.js   │
-         └────────┬─────────┘
-                  │
-         ┌────────↓──────────┐
-         │ index.template.html│
-         └────────┬──────────┘
-                  │
-         ┌────────↓──────────┐
-         │    index.html      │
-         │   (generado)       │
-         └────────────────────┘
+┌──────────────────────────────────────────────┐
+│  contenido_sitio.md  ·  diagrama_textos.md   │
+└───────────────────────┬──────────────────────┘
+                        │ npm run build
+                        ↓
+                ┌───────────────┐
+                │ build-html.js │
+                └───────┬───────┘
+                        │ aplica
+         ┌──────────────↓────────────────┐
+         │ src/index.template.html       │
+         │  · MD_PATCH (textos puntuales) │
+         │  · MD_INSERT (bloques HTML)    │
+         └──────────────┬────────────────┘
+                        ↓
+                ┌───────────────┐
+                │ src/index.html│
+                └───────────────┘
 ```
 
 ## Uso Local
@@ -31,9 +31,48 @@ El proyecto usa un **flujo de build-time** donde los Markdown son la fuente de v
 - Node.js 14+
 - npm/yarn
 
+### Marcadores en la plantilla
+
+- `<!--MD_PATCH id="…"-->…<!--/MD_PATCH-->`: fragmento reemplazado por un valor derivado del Markdown (p. ej. título de portada, KPIs).
+- `<!--MD_INSERT id="…"-->…<!--/MD_INSERT-->`: todo el bloque (p. ej. rejilla de tarjetas) se sustituye por HTML generado; el interior sirve de referencia si el insert falla.
+
+**Diagrama (`diagrama_textos.md` → parches `diag_*`):** además de `diag_h1`, `diag_subtitle` y `diag_ayuda`, el build rellena `diag_btn_flujo`, `diag_pilar_etiqueta`, `diag_pilar_sub`, `diag_toolbar_1`–`3`, `diag_watermark`, `diag_legend_title` y `diag_legend_rows` (leyenda con emoji + etiqueta por línea).
+
+### Anclas en la URL (deep links)
+
+Cada panel horizontal del scroll tiene un `id` estable (`pantalla-1` … `pantalla-18`). Tras el build, podés enlazar directamente a una sección:
+
+`https://…/index.html#pantalla-12`
+
+- El título que ves en los puntos de navegación lateral es el atributo `data-screen-title` del panel (tabla siguiente).
+- **`#diagramPanel`** se resuelve al mismo panel que **`#pantalla-18`** (diagrama interactivo), por compatibilidad con enlaces antiguos.
+
+| Ancla | Título en UI (`data-screen-title`) |
+|-------|-------------------------------------|
+| `#pantalla-1` | Inicio |
+| `#pantalla-2` | Cultura |
+| `#pantalla-3` | Depende del Markdown: campo **Título** de `## Pantalla 3` en `contenido_sitio.md` (por defecto *Cultura* si falta). |
+| `#pantalla-4` | Bienestar |
+| `#pantalla-5` | A qué apuntamos |
+| `#pantalla-6` | OKR |
+| `#pantalla-7` | Objetivos y KPI's |
+| `#pantalla-8` | Visión AI First |
+| `#pantalla-9` | Marketing Analytic (RUN) |
+| `#pantalla-10` | Analytics Hub (CHANGE) |
+| `#pantalla-11` | Evolución (GROW) |
+| `#pantalla-12` | Resumen 3 Capas |
+| `#pantalla-13` | Gobernanza de IA |
+| `#pantalla-14` | BI Generativo |
+| `#pantalla-15` | Growth |
+| `#pantalla-16` | Ingeniería de datos |
+| `#pantalla-17` | Ciencia de datos |
+| `#pantalla-18` o `#diagramPanel` | Diagrama |
+
+Los bloques HTML de las pantallas **8–13** se generan en `build-html.js` a partir de `## Pantalla 8` … `## Pantalla 13` en `contenido_sitio.md`; el resto (salvo variaciones de la 3) está fijado en `src/index.template.html`.
+
 ### Editar Contenido
 
-1. **Para editar pantallas (Pantalla 1-11):**
+1. **Para editar pantallas (`## Pantalla N` en `contenido_sitio.md`):**
    ```bash
    # Editar en tu editor favorito
    # (VS Code, GitHub Web, etc.)
@@ -43,7 +82,7 @@ El proyecto usa un **flujo de build-time** donde los Markdown son la fuente de v
    - Edita el texto bajo cada pantalla
    - Salva el archivo
 
-2. **Para editar diagrama (Pantalla 12):**
+2. **Para editar diagrama (pantalla 18 · `#pantalla-18` / `#diagramPanel`):**
    ```bash
    vim diagrama_textos.md
    ```
@@ -81,8 +120,8 @@ El pipeline automáticamente:
 /Users/jupduque/Downloads/IA First/
 ├── index.html              ← HTML generado (salida de build)
 ├── index.template.html     ← Template base (no editar)
-├── contenido_sitio.md      ← Editable: Pantallas 1-11
-├── diagrama_textos.md      ← Editable: Pantalla 12
+├── contenido_sitio.md      ← Editable: Pantallas 1–18 (estructura por sección)
+├── diagrama_textos.md      ← Editable: textos del diagrama (UI pantalla 18)
 ├── build-html.js          ← Script de build
 ├── package.json           ← Configuración npm
 ├── azure-pipelines.yml    ← Pipeline de CI/CD

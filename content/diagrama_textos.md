@@ -1,6 +1,6 @@
 # Textos del diagrama · Estrategia IA First CDE
 
-Este archivo concentra únicamente los textos de la pantalla de diagrama del sitio (`index.html`).
+Este archivo alimenta textos de la pantalla de diagrama; `npm run build` los inyecta en `src/index.html` vía `src/index.template.html`.
 
 ## Encabezado y navegación local
 
@@ -8,7 +8,6 @@ Este archivo concentra únicamente los textos de la pantalla de diagrama del sit
 - **Subtítulo:** Analítica Mercadeo 2026
 - **Botones:**
   - Flujo Cíclico
-  - Vista AI First
 - **Toolbar de niveles:**
   - Nivel 1 · Capacidades
   - Nivel 2 · Roles
@@ -142,9 +141,14 @@ Este archivo concentra únicamente los textos de la pantalla de diagrama del sit
 
 ## Leyenda de clasificación (solo en diagrama)
 
+- **Encabezado:** Clasificación
 - Consumidor (🧠)
 - Híbrido (🤖)
 - Productor (⚙️)
+
+## Marca de agua (diagrama)
+
+- **Texto:** ECOSISTEMA
 
 ## Textos de modales y paneles del diagrama
 

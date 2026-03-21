@@ -6,7 +6,7 @@ Este archivo resume el contenido actual de la presentación web (`index.html`) p
 
 - Editar textos directamente aquí en cada sección.
 - Mantener la numeración de pantallas para evitar confusiones.
-- Si cambian títulos o copys, luego se sincroniza al `index.html`.
+- Tras editar, ejecutar en la raíz del repo: `npm run build` (genera `src/index.html` desde este archivo y la plantilla).
 
 ---
 
@@ -417,7 +417,7 @@ IA / MLOps, Agentes de IA, Martech inteligente y estándares reutilizables.
 
 ## Notas de mantenimiento
 
-- Archivo fuente visual: `index.html`
-- Archivo editable de contenidos: `contenido_sitio.md`
-- Archivo editable del diagrama: `diagrama_textos.md`
-- Recomendación: mantener este markdown como insumo de cambios antes de tocar la UI.
+- Plantilla con marcadores: `src/index.template.html` (estructura y clases; no editar a mano salvo layout).
+- Salida generada: `src/index.html` (`npm run build`).
+- Contenido narrativo: `contenido_sitio.md` (este archivo).
+- Textos del diagrama (cabecera, ayuda, etc.): `diagrama_textos.md`.
