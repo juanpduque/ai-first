@@ -1,73 +1,38 @@
-# 📚 Documentación · IA First CDE
+# Documentación · IA First CDE
 
-Índice de documentación del proyecto.
+Índice de las guías que viven en esta carpeta (`docs/`).
 
-## Guías Rápidas
+> **¿Por qué hay otro README?** En la raíz del repo, [README.md](../README.md) es la **portada del proyecto** (lo primero que ves en GitHub). Este archivo es solo el **índice de documentación** cuando entrás a la carpeta `docs/`.
 
-### 👥 Para tu Equipo (No-Developers)
+## Guías
 
-**Empezar:** [QUICK-START.md](QUICK-START.md)
-- Cómo editar contenido
-- Dónde cambiar textos
-- Cómo publicar cambios
+### Para el equipo (sin desarrollo)
 
-### 🔧 Para Developers
+- [QUICK-START.md](QUICK-START.md) — Cómo editar contenido en Markdown y publicar cambios.
 
-**Proceso de Build:** [BUILD.md](BUILD.md)
-- Cómo funciona el build
-- Comandos disponibles
-- Troubleshooting
+### Para desarrollo
 
-**Arquitectura:** [ARCHITECTURE.md](ARCHITECTURE.md)
-- Decisiones técnicas
-- Flujo de datos
-- Escalabilidad
+- [BUILD.md](BUILD.md) — Build (`npm run build`), marcadores de plantilla, **tabla de las 18 pantallas y anclas** (`#pantalla-1` … `#pantalla-18`, `#diagramPanel`).
+- [ARCHITECTURE.md](ARCHITECTURE.md) — Flujo de build, mapa de pantallas y rutas `content/` · `src/`.
+- [GITHUB-PAGES.md](GITHUB-PAGES.md) — Publicar el sitio con GitHub Actions (GitHub Pages).
 
-### 📖 Contexto General
-
-**Proyecto:** [PROJECT-STATUS.md](PROJECT-STATUS.md)
-- Estado actual
-- Qué está hecho
-- Qué falta
-
-**Integración AI First:** [CONSOLIDATION.md](CONSOLIDATION.md)
-- Cómo se integró `ai_first.html`
-- Estructura de las 3 capas
-- Organización de pantallas
-
----
-
-## 🎯 Estructura de Carpetas
+## Estructura de esta carpeta
 
 ```
 docs/
-├── README.md                    ← Este archivo (índice)
-├── QUICK-START.md               ← Para tu equipo 
-├── BUILD.md                     ← Procesos técnicos
-├── ARCHITECTURE.md              ← Decisiones de diseño
-├── CONSOLIDATION.md             ← Integración AI First
-└── PROJECT-STATUS.md            ← Estado del proyecto
+├── README.md        ← Este índice
+├── QUICK-START.md
+├── BUILD.md
+└── ARCHITECTURE.md
 ```
 
----
-
-## 🚀 Acceso Rápido
+## Acceso rápido
 
 | Pregunta | Documento |
 |----------|-----------|
-| "¿Cómo edito contenido?" | [QUICK-START.md](QUICK-START.md) |
-| "¿Cómo hago build local?" | [BUILD.md](BUILD.md) |
-| "¿Cómo funciona esto?" | [ARCHITECTURE.md](ARCHITECTURE.md) |
-| "¿Qué hay hecho?" | [PROJECT-STATUS.md](PROJECT-STATUS.md) |
-| "¿De dónde vino AI First?" | [CONSOLIDATION.md](CONSOLIDATION.md) |
-
----
-
-## 📞 Contacto
-
-- Documentación: Equipo Dev
-- Contenido: Equipo Marketing
-- Infraestructura: DevOps
+| ¿Cómo edito textos? | [QUICK-START.md](QUICK-START.md) |
+| ¿Cómo genero el HTML y qué son las anclas? | [BUILD.md](BUILD.md) |
+| ¿Cómo está armado el proyecto? | [ARCHITECTURE.md](ARCHITECTURE.md) |
 
 ---
 

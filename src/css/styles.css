@@ -129,18 +129,27 @@
     box-shadow: 0 4px 12px rgba(1, 70, 142, 0.3);
 }
 
+/* Altura aproximada de la píldora fija de puntos (top-3 + contenido + margen) */
+:root {
+    --screen-nav-safe: 4.25rem;
+}
+
 /* Horizontal scroll snap */
 html,
 body {
     height: 100%;
     overflow: hidden;
+    overflow-x: hidden;
+    max-width: 100%;
 }
 
 .h-scroll-wrap {
     display: flex;
     flex-direction: row;
     width: 100%;
+    max-width: 100%;
     height: 100%;
+    min-width: 0;
     overflow-x: auto;
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
@@ -156,12 +165,35 @@ body {
     scrollbar-width: none;
 }
 
+/* 100% del contenedor de scroll (≈ viewport), evita overflow horizontal por 100vw + scrollbar */
 .h-panel {
-    flex: none;
-    width: 100vw;
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
     height: 100%;
+    min-width: 0;
+    box-sizing: border-box;
     scroll-snap-align: start;
     overflow: hidden;
+}
+
+/*
+ * La barra de puntos es position:fixed y tapa el inicio de cada panel.
+ * padding-top en cada panel deja el texto/etiquetas por debajo del nav.
+ */
+.h-scroll-wrap > section.h-panel {
+    padding-top: calc(var(--screen-nav-safe) + env(safe-area-inset-top, 0px));
+}
+
+.h-scroll-wrap > main#pantalla-18 {
+    padding-top: calc(var(--screen-nav-safe) + env(safe-area-inset-top, 0px));
+}
+
+/* En sm+ el encabezado del diagrama vuelve a absolute; top respecto al viewport-nav */
+@media (min-width: 640px) {
+    #pantalla-18 > .diagram-header-row {
+        top: calc(var(--screen-nav-safe) + 0.35rem);
+    }
 }
 
 /* Cover panel styles */
@@ -267,7 +299,10 @@ body {
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    white-space: nowrap;
+    white-space: normal;
+    text-align: center;
+    max-width: min(240px, 78vw);
+    line-height: 1.25;
     opacity: 0;
     pointer-events: none;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);

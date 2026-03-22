@@ -6,7 +6,7 @@ El proyecto usa un **flujo de build-time** donde los Markdown son la fuente de v
 
 ```
 ┌──────────────────────────────────────────────┐
-│  contenido_sitio.md  ·  diagrama_textos.md   │
+│  content/contenido_sitio.md  ·  content/diagrama_textos.md   │
 └───────────────────────┬──────────────────────┘
                         │ npm run build
                         ↓
@@ -51,7 +51,7 @@ Cada panel horizontal del scroll tiene un `id` estable (`pantalla-1` … `pantal
 |-------|-------------------------------------|
 | `#pantalla-1` | Inicio |
 | `#pantalla-2` | Cultura |
-| `#pantalla-3` | Depende del Markdown: campo **Título** de `## Pantalla 3` en `contenido_sitio.md` (por defecto *Cultura* si falta). |
+| `#pantalla-3` | Depende del Markdown: campo **Título** de `## Pantalla 3` en `content/contenido_sitio.md` (por defecto *Cultura* si falta). |
 | `#pantalla-4` | Bienestar |
 | `#pantalla-5` | A qué apuntamos |
 | `#pantalla-6` | OKR |
@@ -68,15 +68,15 @@ Cada panel horizontal del scroll tiene un `id` estable (`pantalla-1` … `pantal
 | `#pantalla-17` | Ciencia de datos |
 | `#pantalla-18` o `#diagramPanel` | Diagrama |
 
-Los bloques HTML de las pantallas **8–13** se generan en `build-html.js` a partir de `## Pantalla 8` … `## Pantalla 13` en `contenido_sitio.md`; el resto (salvo variaciones de la 3) está fijado en `src/index.template.html`.
+Los bloques HTML de las pantallas **8–13** se generan en `build-html.js` a partir de `## Pantalla 8` … `## Pantalla 13` en `content/contenido_sitio.md`; el resto (salvo variaciones de la 3) está fijado en `src/index.template.html`.
 
 ### Editar Contenido
 
-1. **Para editar pantallas (`## Pantalla N` en `contenido_sitio.md`):**
+1. **Para editar pantallas (`## Pantalla N` en `content/contenido_sitio.md`):**
    ```bash
    # Editar en tu editor favorito
    # (VS Code, GitHub Web, etc.)
-   vim contenido_sitio.md
+   vim content/contenido_sitio.md
    ```
    - Estructura: `## Pantalla N · Nombre`
    - Edita el texto bajo cada pantalla
@@ -84,7 +84,7 @@ Los bloques HTML de las pantallas **8–13** se generan en `build-html.js` a par
 
 2. **Para editar diagrama (pantalla 18 · `#pantalla-18` / `#diagramPanel`):**
    ```bash
-   vim diagrama_textos.md
+   vim content/diagrama_textos.md
    ```
    - Edita cualquier sección bajo los headers
    - Diagrama: niveles, roles, artefactos, modales
@@ -92,12 +92,12 @@ Los bloques HTML de las pantallas **8–13** se generan en `build-html.js` a par
 ### Generar HTML
 
 ```bash
-# Generar index.html desde Markdown
+# Generar src/index.html desde Markdown
 npm run build
 
 # Validar cambios
 git status
-git diff index.html
+git diff src/index.html
 
 # Commit
 git add .
@@ -110,22 +110,26 @@ git push
 El pipeline automáticamente:
 
 1. **Checkout** del código
-2. **Build:** `npm run build` → genera `index.html` desde Markdown
+2. **Build:** `npm run build` → genera `src/index.html` desde Markdown
 3. **Validate:** verifica que archivos HTML requeridos existan
 4. **Deploy:** sube a Azure Storage static website
 
-## Estructura de Archivos
+## Estructura de archivos (repo actual)
 
 ```
-/Users/jupduque/Downloads/IA First/
-├── index.html              ← HTML generado (salida de build)
-├── index.template.html     ← Template base (no editar)
-├── contenido_sitio.md      ← Editable: Pantallas 1–18 (estructura por sección)
-├── diagrama_textos.md      ← Editable: textos del diagrama (UI pantalla 18)
-├── build-html.js          ← Script de build
-├── package.json           ← Configuración npm
-├── azure-pipelines.yml    ← Pipeline de CI/CD
-└── build-data.json        ← Datos generados (debug)
+IA First/
+├── content/
+│   ├── contenido_sitio.md   ← Pantallas 1–18 (## Pantalla N)
+│   └── diagrama_textos.md   ← Diagrama UI (pantalla 18)
+├── docs/
+├── src/
+│   ├── index.html           ← Generado (build)
+│   ├── index.template.html
+│   ├── build-html.js
+│   └── css/styles.css
+├── package.json
+├── azure-pipelines.yml
+└── build/build-data.json    ← debug opcional
 ```
 
 ## Flujo Recomendado: Team Edits
@@ -133,13 +137,13 @@ El pipeline automáticamente:
 ### Para No-Desarrolladores (Marketing, Product)
 
 ✅ **EDITABLE:**
-- `contenido_sitio.md` - Edita textos de pantallas
-- `diagrama_textos.md` - Edita textos del diagrama
+- `content/contenido_sitio.md` — Textos de pantallas 1–18
+- `content/diagrama_textos.md` — Textos del diagrama (pantalla 18)
 
-❌ **NO TOCAR:**
-- `index.html` - Generado automáticamente
-- `index.template.html` - Template base
-- `build-html.js` - Script de build
+❌ **NO TOCAR (como fuente de verdad):**
+- `src/index.html` — Generado automáticamente
+- `src/index.template.html` — Plantilla (solo devs, con cuidado)
+- `src/build-html.js` — Script de build
 - `package.json` - Configuración
 - `azure-pipelines.yml` - Pipeline CI/CD
 
@@ -148,7 +152,7 @@ El pipeline automáticamente:
 #### Opción A: GitHub Web (Más fácil)
 
 1. Abrí el repo en GitHub
-2. Navegá a `contenido_sitio.md`
+2. Navegá a `content/contenido_sitio.md`
 3. Click en ✏️ (Edit)
 4. Edita directamente en el navegador
 5. Scroll a abajo: "Commit changes"
@@ -164,12 +168,12 @@ El pipeline automáticamente:
 git pull origin main
 
 # 2. Editar
-vim contenido_sitio.md
+vim content/contenido_sitio.md
 # ...editar...
 
 # 3. Build local (validar)
 npm run build
-git diff index.html  # Ver cambios
+git diff src/index.html  # Ver cambios
 
 # 4. Commit
 git add .
@@ -186,14 +190,14 @@ git push
 El script:
 
 ```javascript
-1. Lee contenido_sitio.md
+1. Lee content/contenido_sitio.md
    → Parsea secciones: ## Pantalla N
    → Extrae contenido Markdown
    
-2. Lee diagrama_textos.md
+2. Lee content/diagrama_textos.md
    → Parsea secciones de diagrama
    
-3. Lee index.template.html
+3. Lee src/index.template.html
    → Usa como base/estructura
    
 4. Procesa:
@@ -201,7 +205,7 @@ El script:
    ✓ Identifica patrones (bold, bullets, etc.)
    ✓ Genera HTML limpio
    
-5. Crea index.html
+5. Escribe src/index.html
    ✓ Salida final lista para navegador
 ```
 
@@ -252,25 +256,26 @@ Antes de pushear:
 # Validar build
 npm run validate
 
-# Validar HTML
-npm run build && xmllint --html --noout index.html
+# Validar HTML (opcional, si tenés xmllint)
+npm run build && xmllint --html --noout src/index.html
 
 # Ver diff
-git diff --color index.html
+git diff --color src/index.html
 ```
 
 ## Troubleshooting
 
 ### "build-html.js: No such file or directory"
 ```bash
-cd '/Users/jupduque/Downloads/IA First'
-ls -la *.js
+cd /ruta/al/repo
+ls -la src/build-html.js
+npm run build
 ```
 
 ### Build falla en CI/CD
 - Revisa logs en Azure DevOps
 - Busca errores en Markdown (sintaxis)
-- Valida que contenido_sitio.md y diagrama_textos.md existan
+- Valida que `content/contenido_sitio.md` y `content/diagrama_textos.md` existan
 
 ### HTML no actualiza en website
 - Espera 3-5 minutos (propagación)
