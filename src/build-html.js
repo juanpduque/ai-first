@@ -263,7 +263,7 @@ function buildPantalla8(p) {
     ? `<div class="shrink-0 rounded-2xl border border-fuchsia-200 bg-white/90 px-3 py-2.5 md:px-5 md:py-4 shadow-md">
             <p class="text-[9px] md:text-xs font-black uppercase tracking-[0.18em] text-fuchsia-700">Resumen ponderado</p>
             <p class="hidden md:block mt-1 text-xs md:text-sm text-slate-600">Impacto estimado por línea de conocimiento y consolidado del CDE.</p>
-            <div class="impact-badges-grid mt-2 md:mt-3 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-1.5 md:gap-3">
+            <div class="impact-badges-grid mt-2 md:mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1.5 md:gap-3">
                         ${impactBadges.filter(Boolean).join('')}
                     </div>
             ${cdeBadge ? `<div class="mt-2 md:mt-3 flex justify-center">${cdeBadge}</div>` : ''}
@@ -274,14 +274,14 @@ function buildPantalla8(p) {
             id="pantalla-8"
             class="h-panel bg-gradient-to-br from-slate-50 to-slate-100 relative overflow-hidden px-5 md:px-8 lg:px-10"
             data-screen-title="Visión AI First">
-        <div class="max-w-4xl mx-auto h-full min-h-0 flex flex-col justify-start overflow-y-auto overflow-x-auto gap-2 md:gap-4 py-2 md:py-4">
+        <div class="max-w-4xl mx-auto h-full min-h-0 flex flex-col justify-start overflow-y-auto overflow-x-hidden gap-2 md:gap-4 py-2 md:py-4">
                 <div class="shrink-0">
                     <div class="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-fuchsia-700 mb-1">${escapeHtml(etiqueta)}</div>
                     <h2 class="font-headline font-black text-slate-900 tracking-tight leading-none"
                         style="font-size: clamp(1.35rem, 3.2vw, 2.65rem);">AI First</h2>
                     <p class="text-slate-600 text-xs md:text-sm mt-2 leading-snug max-w-full md:max-w-3xl">${introHtml}</p>
                 </div>
-                <div class="cards-scroll-mobile grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 min-h-0">
+                <div class="cards-scroll-mobile grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 min-h-0 overflow-x-hidden">
                     ${cards.join('\n')}
                 </div>
                 ${impactSummaryHtml}
