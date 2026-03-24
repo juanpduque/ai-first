@@ -548,21 +548,16 @@ body {
 @media (max-width: 639px) {
     .cards-scroll-mobile,
     .linea-cards-grid {
-        display: flex !important;
-        flex-wrap: nowrap !important;
-        overflow-x: auto !important;
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        overflow-x: hidden !important;
         overflow-y: visible !important;
-        scroll-snap-type: x proximity;
-        -webkit-overflow-scrolling: touch;
-        padding-bottom: 0.25rem;
     }
 
     .cards-scroll-mobile > div,
     .linea-cards-grid > div {
-        flex: 0 0 86%;
-        min-width: 280px;
-        max-width: 92vw;
-        scroll-snap-align: start;
+        min-width: 0 !important;
+        max-width: 100% !important;
     }
 
     .impact-badges-grid {
