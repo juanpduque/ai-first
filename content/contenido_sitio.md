@@ -254,25 +254,35 @@ BI Generativo debe reducir fricción entre dato y decisión, automatizando tarea
 **Contexto:**
 En Growth, IA First debe acelerar el ciclo completo hipótesis → experimento → lectura → decisión para aumentar velocidad de aprendizaje y foco en impacto.
 
-1. **IA para hipótesis, diseño y análisis de experimentos**
-   - IA genera hipótesis, sugiere diseño experimental y propone criterios de éxito.
-   - Lectura estadística asistida y recomendaciones del siguiente experimento.
-    - **Impacto:** Reducción del 24% - 34% del tiempo de un analista de growth.
+1. **Agente de experimentación**
+   - El diseño experimental es uno de los procesos más cognitivos del AT.
+   - La IA puede asumir la carga mecánica de estructuración y dejar decisiones estratégicas al AT.
+   - **Impacto:** Reducción del 45% - 60% del tiempo de un analista de growth.
 
-2. **Estimación de impacto ex-ante y priorización**
-   - Modelos estiman impacto esperado antes de ejecutar pruebas.
-   - Priorización automática de backlog de experimentos por valor esperado.
-    - **Impacto:** Reducción del 26% - 36% del tiempo de un analista de growth.
+2. **Agente de análisis**
+   - La parte descriptiva del análisis es altamente automatizable con IA.
+   - La capa estratégica mantiene criterio humano, pero se acelera con una lectura inicial asistida.
+   - **Impacto:** Reducción del 30% - 50% del tiempo de un analista de growth.
 
-3. **Exploración automática de comportamiento y dashboardless**
-   - Detección automática de patrones de comportamiento y fricciones.
-   - Consulta conversacional para insights sin dependencia de dashboards estáticos.
-    - **Impacto:** Reducción del 30% - 42% del tiempo de un analista de growth.
+3. **Agente de storytelling**
+   - Las tareas de comunicación y presentación son altamente generativas y estructuradas.
+   - IA crea borradores de narrativa y visuales para iterar más rápido en mensajes de negocio.
+   - **Impacto:** Reducción del 50% - 70% del tiempo de un analista de growth.
 
-4. **NSM con usuarios sintéticos + rol AT como agentes**
-   - IA evalúa NSM y escenarios de experimento con usuarios sintéticos.
-   - Evolución del rol AT hacia agentes que acompañan diseño, ejecución y seguimiento.
-    - **Impacto:** Reducción del 14% - 22% del tiempo de un analista de growth.
+4. **Agente de entendimiento de contexto**
+   - Lectura, resumen y contextualización inicial de información de negocio y datos.
+   - Procesos de 4 a 8 horas por caso pueden comprimirse de forma significativa con IA.
+   - **Impacto:** Reducción del 35% - 45% del tiempo de un analista de growth.
+
+5. **Agente orquestador**
+   - Esta etapa requiere juicio experto para coordinar hipótesis, evidencias y decisiones.
+   - IA reduce tiempos de análisis preliminar y disminuye reprocesos entre etapas.
+   - **Impacto:** Reducción del 25% - 35% del tiempo de un analista de growth.
+
+6. **Builder Agent**
+   - La creación de historias de usuario es estandarizable y repetitiva.
+   - IA puede generar una primera versión robusta para que el AT realice ajustes finos.
+   - **Impacto:** Reducción del 40% - 60% del tiempo de un analista de growth.
 
 ## Pantalla 16 · Ingeniería de datos (Oportunidades IA First)
 

@@ -91,6 +91,29 @@ function parsePantallas(markdown) {
   return pantallas;
 }
 
+function parsePantallaTitles(markdown) {
+  const titles = {};
+  const regex = /^## Pantalla (\d+)\s*[·-]\s*(.+)$/gm;
+  let match;
+  while ((match = regex.exec(markdown)) !== null) {
+    const screen = parseInt(match[1], 10);
+    titles[screen] = match[2].trim();
+  }
+  return titles;
+}
+
+function applyNavScreenTitles(html, titlesByScreen) {
+  let out = html;
+  [14, 15, 16, 17].forEach((screen) => {
+    const title = titlesByScreen[screen];
+    if (!title) return;
+    const safe = escapeHtml(title);
+    const re = new RegExp(`(<(?:section|main)\\s+id=\"pantalla-${screen}\"[^>]*\\sdata-screen-title=\")([^\"]*)(\")`, 'i');
+    out = out.replace(re, `$1${safe}$3`);
+  });
+  return out;
+}
+
 /** Secciones ### al inicio de línea (incl. primera línea del bloque). */
 function splitMarkdownH3(block) {
   return block
@@ -248,7 +271,7 @@ function buildPantalla8(p) {
             id="pantalla-8"
             class="h-panel bg-gradient-to-br from-slate-50 to-slate-100 relative overflow-hidden px-5 md:px-8 lg:px-10"
             data-screen-title="Visión AI First">
-            <div class="max-w-4xl mx-auto h-full min-h-0 flex flex-col justify-center overflow-hidden gap-3 py-2 md:py-4">
+        <div class="max-w-4xl mx-auto h-full min-h-0 flex flex-col justify-start overflow-y-auto overflow-x-hidden gap-3 py-2 md:py-4">
                 <div class="shrink-0">
                     <div class="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-fuchsia-700 mb-1">${escapeHtml(etiqueta)}</div>
                     <h2 class="font-headline font-black text-slate-900 tracking-tight leading-none"
@@ -820,6 +843,7 @@ function main() {
   const diagramaMd = fs.readFileSync(diagramaMdPath, 'utf-8');
 
   const pantallas = parsePantallas(contentMd);
+  const pantallaTitles = parsePantallaTitles(contentMd);
   const p1 = pantallas[1] || '';
   const p2 = pantallas[2] || '';
   const p3 = pantallas[3] || '';
@@ -928,6 +952,7 @@ function main() {
   let out = template;
   out = applyMdInserts(out, inserts);
   out = applyMdPatches(out, patches);
+  out = applyNavScreenTitles(out, pantallaTitles);
   const cacheVersion = resolveCacheVersion();
   out = out.replace(/href="css\/styles\.css(?:\?v=[^"]*)?"/g, `href="css/styles.css?v=${cacheVersion}"`);
 

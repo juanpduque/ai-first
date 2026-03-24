@@ -423,3 +423,9 @@ body {
     right: 16px;
     transform: none;
 }
+
+@media (hover: none), (pointer: coarse) {
+    .nav-label {
+        display: none !important;
+    }
+}
