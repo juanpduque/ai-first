@@ -666,3 +666,68 @@ body {
         justify-content: center;
     }
 }
+
+@media (max-width: 399px) {
+    #pantalla-18 .diagram-scroll {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        padding-top: 0.4rem;
+        padding-bottom: 0.6rem;
+    }
+
+    #pantalla-18 .diagram-layout {
+        gap: 0.55rem;
+    }
+
+    #pantalla-18 #viewSwitcher > div {
+        grid-template-columns: 1fr;
+        gap: 0.4rem;
+        padding: 0.35rem;
+    }
+
+    #pantalla-18 #viewSwitcher .view-btn {
+        width: 100%;
+        min-width: 0;
+        justify-content: flex-start;
+        text-align: left;
+        font-size: 10px;
+        padding: 0.5rem 0.55rem;
+    }
+
+    #pantalla-18 #viewSwitcher .view-btn .material-symbols-outlined {
+        font-size: 16px;
+    }
+
+    #pantalla-18 .layer-run,
+    #pantalla-18 .layer-change,
+    #pantalla-18 .layer-grow {
+        padding: 0.65rem;
+        border-radius: 0.95rem;
+    }
+
+    #pantalla-18 .layer-run > h3,
+    #pantalla-18 .layer-change > h3,
+    #pantalla-18 .layer-grow > h3 {
+        font-size: 0.9rem;
+        line-height: 1.2;
+        padding: 0.55rem;
+        border-radius: 0.8rem;
+        flex-wrap: wrap;
+        white-space: normal;
+    }
+
+    #pantalla-18 .layer-run > h3 .material-symbols-outlined,
+    #pantalla-18 .layer-change > h3 .material-symbols-outlined,
+    #pantalla-18 .layer-grow > h3 .material-symbols-outlined {
+        font-size: 20px;
+    }
+
+    #pantalla-18 .view-content {
+        grid-template-columns: 1fr !important;
+        gap: 0.5rem !important;
+    }
+
+    #pantalla-18 .view-content > div {
+        min-width: 0;
+    }
+}
