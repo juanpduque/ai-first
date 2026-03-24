@@ -37,6 +37,7 @@ jobs:
           cp src/index.html build/
           cp -r src/css build/ 2>/dev/null || true
           cp src/flujo_ciclico.html build/ 2>/dev/null || true
+          cp -r assets build/ 2>/dev/null || true
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3

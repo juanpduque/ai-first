@@ -26,10 +26,13 @@ function escapeHtml(s) {
     .replace(/"/g, '&quot;');
 }
 
-/** Convierte **negrita** y *cursiva* a HTML (sin anidar HTML arbitrario). */
+/** Convierte **negrita**, *cursiva* e ![alt](src) a HTML (sin anidar HTML arbitrario). */
 function mdInlineToHtml(s) {
   if (!s) return '';
   let t = escapeHtml(s.trim());
+  // Procesar imágenes primero: ![alt text](url)
+  t = t.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="max-w-full h-auto rounded-lg shadow-sm">');
+  // Luego negritas y cursivas
   t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   t = t.replace(/\*(.+?)\*/g, '<em>$1</em>');
   return t;
@@ -779,12 +782,14 @@ function main() {
       'rápido',
       '<span class="text-secondary font-black">rápido</span>'
     ),
+    p3_imagen: extractValue(p3, 'Imagen') ? mdInlineToHtml(extractValue(p3, 'Imagen')) : '',
 
     p4_titulo: extractValue(p4, 'Título') || 'Bienestar',
     p4_mensaje: mdInlineToHtml(bienMsg).replace(
       'siente bien',
       '<span class="text-secondary font-black italic">siente bien</span>'
     ),
+    p4_imagen: extractValue(p4, 'Imagen') ? mdInlineToHtml(extractValue(p4, 'Imagen')) : '',
 
     p5_etiqueta: extractValue(p5, 'Etiqueta') || 'PROPOSITO',
     p5_titulo: splitPurposeTitle(extractValue(p5, 'Título') || 'A qué le apuntamos'),
@@ -794,6 +799,7 @@ function main() {
     p6_lema: lema
       ? escapeHtml(lema).replace(/\s*\|\s*/g, ' &nbsp; | &nbsp; ')
       : 'SOMOS BANQUEROS &nbsp; | &nbsp; SOMOS MARQUETEROS &nbsp; | &nbsp; SOMOS ANALÍTICOS',
+    p6_imagen: extractValue(p6, 'Imagen') ? mdInlineToHtml(extractValue(p6, 'Imagen')) : '',
 
     p7_left_label: 'OBJETIVOS Y KPI’s {KR}',
     p7_col1_title: colA.name,

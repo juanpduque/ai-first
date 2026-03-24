@@ -26,12 +26,14 @@ Este archivo resume el contenido actual de la presentación web (`index.html`) p
 - **Título:** Cultura
 - **Mensaje principal:**
   Promovemos la toma de decisiones basadas en información. Inyectamos datos, experimentación, ciencia y aprendizaje rápido y constante al ejercicio de mercadeo.
+- **Imagen:** ![Imagen Pantalla 3](assets/images/pantalla-3-imagen.png)
 
 ## Pantalla 4 · Bienestar
 
 - **Título:** Bienestar
 - **Mensaje principal:**
   Cuando una persona se siente bien, trabaja mejor. Nuestro comité de bienestar piensa en grande para que trabajar en el CDE sea increíble.
+- **Imagen:** ![Imagen Pantalla 4](assets/images/pantalla-4-imagen.png)
 
 ## Pantalla 5 · Propósito
 
@@ -45,6 +47,7 @@ Este archivo resume el contenido actual de la presentación web (`index.html`) p
 - **Mensaje principal:**
   Contribuir activamente a que las estrategias de mercadeo y CX impulsen los objetivos de negocio y marca, haciendo mercadeo dirigido por los datos de principio a fin.
 - **Lema:** SOMOS BANQUEROS | SOMOS MARQUETEROS | SOMOS ANALÍTICOS
+- **Imagen:** ![Imagen Pantalla 6](assets/images/pantalla-6-imagen.png)
 
 ## Pantalla 7 · Objetivos y KPI’s {KR}
 
