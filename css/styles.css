@@ -445,3 +445,102 @@ body {
         display: none !important;
     }
 }
+
+/* Optimización para pantallas muy pequeñas (< 480px) - iPhone SE */
+@media (max-width: 479px) {
+    /* Reducir padding en secciones */
+    section.h-panel {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+    }
+
+    /* Pantalla 1 - Portada */
+    #pantalla-1 {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    #pantalla-1 h1 {
+        font-size: clamp(1.8rem, 4.5vw, 4.2rem) !important;
+        line-height: 1.1 !important;
+    }
+
+    #pantalla-1 .text-2xl {
+        font-size: clamp(1.2rem, 3vw, 1.875rem) !important;
+    }
+
+    /* Pantalla 7 - KPIs */
+    #pantalla-7 {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    #pantalla-7 h2 {
+        font-size: clamp(1.75rem, 5vw, 7rem) !important;
+    }
+
+    #pantalla-7 h3 {
+        font-size: clamp(1.25rem, 3.5vw, 4rem) !important;
+    }
+
+    #pantalla-7 h4 {
+        font-size: clamp(0.875rem, 2vw, 3rem) !important;
+    }
+
+    #pantalla-7 ol {
+        font-size: clamp(0.875rem, 2vw, 4rem) !important;
+    }
+
+    #pantalla-7 .material-symbols-outlined {
+        font-size: clamp(24px, 8vw, 5rem) !important;
+    }
+
+    #pantalla-7 article {
+        padding: 0.75rem !important;
+    }
+
+    #pantalla-7 .gap-3 {
+        gap: 0.5rem !important;
+    }
+
+    /* Pantallas 14-17 - Líneas de conocimiento */
+    #pantalla-14, #pantalla-15, #pantalla-16, #pantalla-17 {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+    }
+
+    #pantalla-14 h2, #pantalla-15 h2, #pantalla-16 h2, #pantalla-17 h2 {
+        font-size: clamp(1.1rem, 2.8vw, 2.65rem) !important;
+    }
+
+    #pantalla-14 .text-\[12px\], #pantalla-15 .text-\[12px\], 
+    #pantalla-16 .text-\[12px\], #pantalla-17 .text-\[12px\] {
+        font-size: 9px !important;
+    }
+
+    #pantalla-14 .text-\[10px\], #pantalla-15 .text-\[10px\], 
+    #pantalla-16 .text-\[10px\], #pantalla-17 .text-\[10px\] {
+        font-size: 8px !important;
+    }
+
+    #pantalla-14 h3, #pantalla-15 h3, #pantalla-16 h3, #pantalla-17 h3 {
+        font-size: clamp(0.7rem, 1.8vw, 0.875rem) !important;
+    }
+
+    #pantalla-14 p, #pantalla-15 p, #pantalla-16 p, #pantalla-17 p {
+        font-size: clamp(0.65rem, 1.5vw, 0.75rem) !important;
+    }
+
+    #pantalla-14 .gap-3, #pantalla-15 .gap-3, #pantalla-16 .gap-3, #pantalla-17 .gap-3 {
+        gap: 0.4rem !important;
+    }
+
+    #pantalla-14 .p-3, #pantalla-15 .p-3, #pantalla-16 .p-3, #pantalla-17 .p-3 {
+        padding: 0.5rem !important;
+    }
+
+    /* Redondeo reducido en pequeños */
+    #pantalla-14 .rounded-xl, #pantalla-15 .rounded-xl, #pantalla-16 .rounded-xl, #pantalla-17 .rounded-xl {
+        border-radius: 0.5rem !important;
+    }
+}
