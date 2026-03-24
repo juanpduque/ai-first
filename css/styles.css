@@ -544,3 +544,67 @@ body {
         border-radius: 0.5rem !important;
     }
 }
+
+@media (max-width: 639px) {
+    .cards-scroll-mobile,
+    .linea-cards-grid {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        overflow-y: visible !important;
+        scroll-snap-type: x proximity;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 0.25rem;
+    }
+
+    .cards-scroll-mobile > div,
+    .linea-cards-grid > div {
+        flex: 0 0 86%;
+        min-width: 280px;
+        max-width: 92vw;
+        scroll-snap-align: start;
+    }
+
+    .impact-badges-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    #pantalla-8 h3,
+    #pantalla-8 p,
+    #pantalla-14 h3,
+    #pantalla-14 p,
+    #pantalla-15 h3,
+    #pantalla-15 p,
+    #pantalla-16 h3,
+    #pantalla-16 p,
+    #pantalla-17 h3,
+    #pantalla-17 p,
+    #pantalla-14 li,
+    #pantalla-15 li,
+    #pantalla-16 li,
+    #pantalla-17 li {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+}
+
+@media (max-width: 479px) {
+    #pantalla-14 h3,
+    #pantalla-15 h3,
+    #pantalla-16 h3,
+    #pantalla-17 h3 {
+        font-size: 0.82rem !important;
+    }
+
+    #pantalla-14 p,
+    #pantalla-15 p,
+    #pantalla-16 p,
+    #pantalla-17 p,
+    #pantalla-14 li,
+    #pantalla-15 li,
+    #pantalla-16 li,
+    #pantalla-17 li {
+        font-size: 0.74rem !important;
+        line-height: 1.35 !important;
+    }
+}
