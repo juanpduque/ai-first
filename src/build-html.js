@@ -26,11 +26,8 @@ function resolveCacheVersion() {
   try {
     const repoRoot = path.join(__dirname, '..');
     const head = execSync('git rev-parse --short HEAD', { cwd: repoRoot }).toString().trim();
-    const isDirty = execSync('git status --porcelain', { cwd: repoRoot }).toString().trim().length > 0;
-    if (isDirty) {
-      return `${head}-${Date.now().toString(36)}`.slice(0, 12);
-    }
-    return head;
+    const isCi = String(process.env.GITHUB_ACTIONS || '').toLowerCase() === 'true';
+    return isCi ? head : `${head}-${Date.now().toString(36)}`.slice(0, 12);
   } catch (_) {
     return String(Date.now());
   }
