@@ -565,33 +565,7 @@ function buildPantalla17(block) {
 function buildBlockP8P13(pantallas) {
   const parts = [
     buildPantalla8(pantallas[8] || ''),
-    buildLayerSection(pantallas[9] || '', {
-      grad: 'bg-gradient-to-br from-blue-50 to-blue-100',
-      border: 'border-blue-200',
-      accent: 'text-blue-700',
-      capLabel: 'CAPA RUN',
-      dataTitle: 'Marketing Analytic (RUN)',
-      h2: 'Marketing Analytic',
-      panelId: 'pantalla-9',
-    }),
-    buildLayerSection(pantallas[10] || '', {
-      grad: 'bg-gradient-to-br from-teal-50 to-teal-100',
-      border: 'border-teal-200',
-      accent: 'text-teal-700',
-      capLabel: 'CAPA CHANGE',
-      dataTitle: 'Analytics Hub (CHANGE)',
-      h2: 'Analytics Hub',
-      panelId: 'pantalla-10',
-    }),
-    buildLayerSection(pantallas[11] || '', {
-      grad: 'bg-gradient-to-br from-orange-50 to-orange-100',
-      border: 'border-orange-200',
-      accent: 'text-orange-700',
-      capLabel: 'CAPA GROW',
-      dataTitle: 'Evolución (GROW)',
-      h2: 'Evolución',
-      panelId: 'pantalla-11',
-    }),
+    // Las pantallas 9, 10 y 11 se ocultan: no se generan las secciones relacionadas.
     buildPantalla12(pantallas[12] || ''),
     buildPantalla13(pantallas[13] || ''),
   ];
