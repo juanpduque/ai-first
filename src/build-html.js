@@ -217,13 +217,13 @@ function buildPantalla8(p) {
 
   const cards = items.slice(0, 4).map((it, i) => {
     const sub = it.subs[0]
-      ? `<p class="text-[11px] md:text-xs text-slate-600 leading-snug">${mdInlineToHtml(it.subs[0])}</p>`
+      ? `<p class="text-[11px] md:text-xs text-slate-600 leading-snug break-words [overflow-wrap:anywhere]">${mdInlineToHtml(it.subs[0])}</p>`
       : '';
     return `<div class="bg-white/80 rounded-xl border border-fuchsia-100 p-3 md:p-4 shadow-sm min-h-0">
                         <div class="flex gap-2 items-start">
                             <span class="material-symbols-outlined text-fuchsia-600 text-[20px] md:text-[22px] flex-shrink-0">${ICONS_P8[i] || 'star'}</span>
                             <div class="min-w-0">
-                                <h3 class="font-black text-slate-900 text-xs md:text-sm mb-1 leading-tight">${escapeHtml(it.title)}</h3>
+                                <h3 class="font-black text-slate-900 text-xs md:text-sm mb-1 leading-tight break-words [overflow-wrap:anywhere]">${escapeHtml(it.title)}</h3>
                                 ${sub}
                             </div>
                         </div>
@@ -264,7 +264,7 @@ function buildPantalla8(p) {
     ? `<div class="shrink-0 rounded-2xl border border-fuchsia-200 bg-white/90 px-3 py-2.5 md:px-5 md:py-4 shadow-md">
             <p class="text-[9px] md:text-xs font-black uppercase tracking-[0.18em] text-fuchsia-700">Resumen ponderado</p>
             <p class="hidden md:block mt-1 text-xs md:text-sm text-slate-600">Impacto estimado por línea de conocimiento y consolidado del CDE.</p>
-            <div class="mt-2 md:mt-3 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-1.5 md:gap-3">
+            <div class="impact-badges-grid mt-2 md:mt-3 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-1.5 md:gap-3">
                         ${impactBadges.filter(Boolean).join('')}
                     </div>
             ${cdeBadge ? `<div class="mt-2 md:mt-3 flex justify-center">${cdeBadge}</div>` : ''}
@@ -282,7 +282,7 @@ function buildPantalla8(p) {
                         style="font-size: clamp(1.35rem, 3.2vw, 2.65rem);">AI First</h2>
                     <p class="text-slate-600 text-xs md:text-sm mt-2 leading-snug max-w-full md:max-w-3xl">${introHtml}</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 min-h-0">
+                <div class="cards-scroll-mobile grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 min-h-0">
                     ${cards.join('\n')}
                 </div>
                 ${impactSummaryHtml}
@@ -612,7 +612,7 @@ function parseNumberedSimple(block) {
 
 /** Rejilla 2 columnas para pantallas 14–17 (el MD_INSERT reemplaza todo el bloque, incluido el wrapper). */
 function wrapLineaConocimientoGrid(innerHtml) {
-  return `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 min-h-0 items-stretch">${innerHtml}</div>`;
+  return `<div class="linea-cards-grid grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 min-h-0 items-stretch">${innerHtml}</div>`;
 }
 
 function buildOportunidadesGrid(items, cardClass) {
@@ -652,15 +652,15 @@ function buildIngenieriaGrid(items) {
     .map((it) => {
       const ul =
         it.bullets.length > 0
-          ? `<ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug">${it.bullets
+          ? `<ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug break-words [overflow-wrap:anywhere]">${it.bullets
               .map((b) => `<li>${mdInlineToHtml(b)}</li>`)
               .join('')}</ul>`
           : '';
       const imp = it.impact
-        ? `<p class="text-[10px] md:text-xs font-bold text-cyan-800 mt-2 leading-snug">${mdInlineToHtml('Impacto: ' + it.impact)}</p>`
+        ? `<p class="text-[10px] md:text-xs font-bold text-cyan-800 mt-2 leading-snug break-words [overflow-wrap:anywhere]">${mdInlineToHtml('Impacto: ' + it.impact)}</p>`
         : '';
       return `<div class="bg-white rounded-xl border border-cyan-200 p-3 md:p-4 shadow-sm min-h-0">
-                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">${it.n}. ${escapeHtml(it.title)}</h3>
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight break-words [overflow-wrap:anywhere]">${it.n}. ${escapeHtml(it.title)}</h3>
                         ${ul}
                         ${imp}
                     </div>`;
@@ -685,8 +685,8 @@ function buildPantalla17(block) {
   const inner = cards
     .map(
       ([t, b]) => `<div class="bg-slate-50 rounded-xl border border-rose-200 p-3 md:p-4 shadow-sm min-h-0">
-                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">${escapeHtml(t)}</h3>
-                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">${mdInlineToHtml(b)}</p>
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight break-words [overflow-wrap:anywhere]">${escapeHtml(t)}</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug break-words [overflow-wrap:anywhere]">${mdInlineToHtml(b)}</p>
                     </div>`
     )
     .join('\n');
