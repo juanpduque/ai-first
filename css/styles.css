@@ -281,7 +281,7 @@ body {
 /* Barra de puntos: scroll horizontal solo si no caben; si no, evita “scroll anidado” y captura del gesto. */
 .nav-track {
     overflow-x: visible;
-    overflow-y: hidden;
+    overflow-y: visible; /* Cambiado de hidden a visible para que los tooltips no se corten */
     /* Evita que el 1.º y el último punto queden bajo el redondeo de la píldora o el borde del scroll */
     padding-inline: 0.5rem;
     box-sizing: border-box;
@@ -338,7 +338,7 @@ body {
 
 .nav-label {
     position: absolute;
-    top: calc(100% + 6px);
+    top: calc(100% + 12px); /* Aumentado de 6px a 12px para dar más espacio */
     left: 50%;
     transform: translateX(-50%) translateY(8px);
     background: #0f172a;
