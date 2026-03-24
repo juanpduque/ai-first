@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Flujo Cíclico - Estrategia CDE</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;500;700;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#01468e",
+                        "secondary": "#006b5f",
+                        "tertiary": "#793108",
+                        "background": "#f7fafc",
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        @keyframes pulse-soft {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(1, 70, 142, 0.15);
+            }
+
+            50% {
+                box-shadow: 0 0 0 10px rgba(1, 70, 142, 0.03);
+            }
+        }
+
+        @keyframes blink-flow {
+            0%,
+            100% {
+                opacity: 0.35;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .cycle-ring {
+            animation: blink-flow 4.8s ease-in-out infinite;
+        }
+
+        .cycle-node {
+            animation: none;
+            cursor: pointer;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .cycle-node:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .cycle-node.active {
+            box-shadow: 0 0 0 3px rgba(1, 70, 142, 0.3), 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .cycle-node.delay-1 {
+            animation: none;
+        }
+
+        .cycle-node.delay-2 {
+            animation: none;
+        }
+
+        .cycle-node.delay-3 {
+            animation: none;
+        }
+
+        .cycle-core {
+            animation: pulse-soft 3.2s ease-in-out infinite;
+        }
+
+        .cycle-arrow {
+            animation: blink-flow 1.8s ease-in-out infinite;
+        }
+
+        .cycle-arrow.delay-a {
+            animation-delay: 0.35s;
+        }
+
+        .cycle-arrow.delay-b {
+            animation-delay: 0.7s;
+        }
+
+        .cycle-arrow.delay-c {
+            animation-delay: 1.05s;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .cycle-ring,
+            .cycle-core,
+            .cycle-arrow {
+                animation: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-background font-body text-slate-800 antialiased min-h-screen">
+    <main class="max-w-6xl mx-auto px-4 md:px-8 py-8 md:py-10">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+            <div>
+                <h1 class="text-2xl font-black text-slate-900 tracking-tight font-headline">Flujo Cíclico</h1>
+                <p class="text-sm text-slate-500 font-bold uppercase tracking-widest">Versión circular del flujo de ejecución</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="index.html"
+                    class="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-2 text-xs font-black uppercase tracking-widest text-slate-700 shadow-sm hover:bg-slate-50">
+                    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                    Volver
+                </a>
+            </div>
+        </div>
+
+        <div class="glass-panel p-8 rounded-[1.5rem] relative overflow-hidden shadow-lg border-2 border-primary/15">
+            <div class="absolute top-0 left-0 w-2 h-full bg-primary"></div>
+
+            <div class="bg-primary/10 border border-primary/20 rounded-2xl p-5 mb-8">
+                <h2 class="font-black text-primary uppercase tracking-widest text-[11px] mb-2">Lógica del ciclo</h2>
+                <p class="text-slate-700 font-medium leading-relaxed">
+                    Marketing Analytic (Run) opera y aprende, Analytics Hub (Change) construye capacidades,
+                    Evolución (Grow) escala activos reutilizables y el aprendizaje vuelve a operación.
+                    Si el caso se resuelve en operación, el ciclo se cierra sin escalar.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-[1.6fr_0.85fr] gap-8 items-start">
+                <div class="bg-white border border-slate-200 rounded-[1.5rem] p-6">
+                    <h3 class="font-black text-slate-900 uppercase tracking-widest text-[11px] mb-5">Vista del ciclo</h3>
+
+                    <div class="md:hidden space-y-3">
+                        <div class="bg-primary/5 border border-primary/20 rounded-xl p-3">
+                            <div class="text-[10px] font-black uppercase tracking-widest text-primary mb-1">1 · 2 · 3</div>
+                            <div class="text-sm font-bold text-slate-900">Marketing Analytic (Run)</div>
+                            <p class="text-xs text-slate-600 mt-1">Brief, DoD y resolución en célula.</p>
+                        </div>
+                        <div class="flex justify-center text-slate-400">
+                            <span class="material-symbols-outlined">south</span>
+                        </div>
+                        <div class="bg-secondary/5 border border-secondary/20 rounded-xl p-3">
+                            <div class="text-[10px] font-black uppercase tracking-widest text-secondary mb-1">4 · 5</div>
+                            <div class="text-sm font-bold text-slate-900">Analytics Hub (Change)</div>
+                            <p class="text-xs text-slate-600 mt-1">Diseño y construcción de capacidades.</p>
+                        </div>
+                        <div class="flex justify-center text-slate-400">
+                            <span class="material-symbols-outlined">south</span>
+                        </div>
+                        <div class="bg-tertiary/5 border border-tertiary/20 rounded-xl p-3">
+                            <div class="text-[10px] font-black uppercase tracking-widest text-tertiary mb-1">6 · 8</div>
+                            <div class="text-sm font-bold text-slate-900">Evolución (Grow)</div>
+                            <p class="text-xs text-slate-600 mt-1">Gate y productización a escala.</p>
+                        </div>
+                        <div class="flex justify-center text-slate-400">
+                            <span class="material-symbols-outlined">reply</span>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                            <div class="text-[10px] font-black uppercase tracking-widest text-slate-600 mb-1">7 · 9</div>
+                            <div class="text-sm font-bold text-slate-900">Retorno operativo</div>
+                            <p class="text-xs text-slate-600 mt-1">Activación, aprendizaje y reinicio.</p>
+                        </div>
+                    </div>
+
+                    <div class="hidden md:block relative w-full max-w-[900px] mx-auto">
+                        <!-- Contenedor del flujo vertical -->
+                        <div class="space-y-8 py-4">
+                            
+                            <!-- NIVEL 1: RUN -->
+                            <div class="flex items-center gap-6">
+                                <!-- Nodo Run -->
+                                <div class="cycle-node w-[200px] bg-white border-2 border-primary/40 rounded-2xl p-4 text-center shadow-md z-20 cursor-pointer" data-phase="run" onclick="selectPhase('run', this)">
+                                    <div class="text-[9px] font-black uppercase text-primary mb-1">Pasos 1 · 2 · 3</div>
+                                    <div class="text-sm font-bold text-slate-900">Marketing Analytic</div>
+                                    <p class="text-[10px] text-slate-600 mt-0.5">(Run)</p>
+                                </div>
+
+                                <!-- Separador -->
+                                <div class="flex-1 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary text-lg">arrow_forward</span>
+                                    <div class="flex-1 h-0.5 bg-gradient-to-r from-primary to-primary/20"></div>
+                                </div>
+
+                                <!-- Decisión -->
+                                <div class="w-16 h-16 rounded-full border-2 border-dashed border-primary/60 bg-primary/5 flex items-center justify-center flex-shrink-0">
+                                    <span class="text-[11px] font-bold text-primary text-center leading-tight">¿Se<br/>resuelve?</span>
+                                </div>
+
+                                <!-- Salidas -->
+                                <div class="flex flex-col gap-2 flex-shrink-0">
+                                    <div class="flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+                                        <span class="text-[9px] font-bold text-primary">SÍ: Cierra</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-slate-400 text-sm">arrow_downward</span>
+                                        <span class="text-[9px] font-bold text-slate-500">NO: Continúa</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Conectar a siguiente nivel -->
+                            <div class="flex justify-between px-4">
+                                <div class="w-[200px]"></div>
+                                <div class="flex-1 flex justify-center">
+                                    <span class="material-symbols-outlined text-slate-300 text-2xl">expand_more</span>
+                                </div>
+                            </div>
+
+                            <!-- NIVEL 2: CHANGE -->
+                            <div class="flex items-center gap-6">
+                                <!-- Nodo Change -->
+                                <div class="cycle-node w-[200px] bg-white border-2 border-secondary/40 rounded-2xl p-4 text-center shadow-md z-20 cursor-pointer" data-phase="change" onclick="selectPhase('change', this)">
+                                    <div class="text-[9px] font-black uppercase text-secondary mb-1">Pasos 4 · 5</div>
+                                    <div class="text-sm font-bold text-slate-900">Analytics Hub</div>
+                                    <p class="text-[10px] text-slate-600 mt-0.5">(Change)</p>
+                                </div>
+
+                                <!-- Separador -->
+                                <div class="flex-1 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-secondary text-lg">arrow_forward</span>
+                                    <div class="flex-1 h-0.5 bg-gradient-to-r from-secondary to-secondary/20"></div>
+                                </div>
+
+                                <!-- Decisión -->
+                                <div class="w-16 h-16 rounded-full border-2 border-dashed border-secondary/60 bg-secondary/5 flex items-center justify-center flex-shrink-0">
+                                    <span class="text-[11px] font-bold text-secondary text-center leading-tight">¿Se<br/>resuelve?</span>
+                                </div>
+
+                                <!-- Salidas -->
+                                <div class="flex flex-col gap-2 flex-shrink-0">
+                                    <div class="flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-secondary text-sm">check_circle</span>
+                                        <span class="text-[9px] font-bold text-secondary">SÍ: Cierra</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-slate-400 text-sm">arrow_downward</span>
+                                        <span class="text-[9px] font-bold text-slate-500">NO: Continúa</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Conectar a siguiente nivel -->
+                            <div class="flex justify-between px-4">
+                                <div class="w-[200px]"></div>
+                                <div class="flex-1 flex justify-center">
+                                    <span class="material-symbols-outlined text-slate-300 text-2xl">expand_more</span>
+                                </div>
+                            </div>
+
+                            <!-- NIVEL 3: GROW -->
+                            <div class="flex items-center gap-6">
+                                <!-- Nodo Grow -->
+                                <div class="cycle-node w-[200px] bg-white border-2 border-tertiary/40 rounded-2xl p-4 text-center shadow-md z-20 cursor-pointer" data-phase="grow" onclick="selectPhase('grow', this)">
+                                    <div class="text-[9px] font-black uppercase text-tertiary mb-1">Pasos 6 · 8</div>
+                                    <div class="text-sm font-bold text-slate-900">Evolución</div>
+                                    <p class="text-[10px] text-slate-600 mt-0.5">(Grow)</p>
+                                </div>
+
+                                <!-- Separador -->
+                                <div class="flex-1 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-tertiary text-lg">check_circle</span>
+                                    <div class="flex-1 h-0.5 bg-gradient-to-r from-tertiary to-tertiary/20"></div>
+                                </div>
+
+                                <!-- Indicador "Siempre se ejecuta" -->
+                                <div class="w-16 h-16 rounded-full border-2 border-dashed border-tertiary/60 bg-tertiary/5 flex items-center justify-center flex-shrink-0">
+                                    <span class="text-[11px] font-bold text-tertiary text-center">Siempre</span>
+                                </div>
+
+                                <!-- Indicador -->
+                                <div class="flex items-center gap-2 flex-shrink-0">
+                                    <span class="material-symbols-outlined text-tertiary text-sm">arrow_downward</span>
+                                    <span class="text-[9px] font-bold text-tertiary">Continúa</span>
+                                </div>
+                            </div>
+
+                            <!-- Conectar a siguiente nivel -->
+                            <div class="flex justify-between px-4">
+                                <div class="w-[200px]"></div>
+                                <div class="flex-1 flex justify-center">
+                                    <span class="material-symbols-outlined text-slate-300 text-2xl">expand_more</span>
+                                </div>
+                            </div>
+
+                            <!-- NIVEL 4: RETORNO OPERATIVO -->
+                            <div class="flex items-center gap-6">
+                                <!-- Nodo Retorno -->
+                                <div class="cycle-node w-[200px] bg-white border-2 border-slate-300 rounded-2xl p-4 text-center shadow-md z-20 cursor-pointer" data-phase="return" onclick="selectPhase('return', this)">
+                                    <div class="text-[9px] font-black uppercase text-slate-600 mb-1">Pasos 7 · 9</div>
+                                    <div class="text-sm font-bold text-slate-900">Retorno Operativo</div>
+                                    <p class="text-[10px] text-slate-600 mt-0.5">Activación & aprendizaje</p>
+                                </div>
+
+                                <!-- Separador -->
+                                <div class="flex-1 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-slate-400 text-lg" style="transform: scaleX(-1);">arrow_forward</span>
+                                    <div class="flex-1 h-0.5 bg-gradient-to-r from-slate-400 to-slate-400/20"></div>
+                                </div>
+
+                                <!-- Indicador retorno a Run -->
+                                <div class="w-16 h-16 rounded-full border-2 border-dashed border-slate-400/60 bg-slate-50 flex items-center justify-center flex-shrink-0">
+                                    <span class="material-symbols-outlined text-slate-500 text-xl">refresh</span>
+                                </div>
+
+                                <!-- Indicador -->
+                                <div class="flex items-center gap-2 flex-shrink-0">
+                                    <span class="material-symbols-outlined text-slate-500 text-sm">arrow_upward</span>
+                                    <span class="text-[9px] font-bold text-slate-600">A Run</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Leyenda -->
+                        <div class="mt-8 bg-slate-50 border border-slate-200 rounded-xl p-4 text-center max-w-md mx-auto">
+                            <p class="text-[10px] text-slate-600 font-semibold leading-snug">El proceso se resuelve en Run, Change o Grow. Si no, continúa al siguiente nivel. Después de Grow, el Retorno Operativo lleva los aprendizajes de vuelta a Run para reiniciar.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div id="detail-panel" class="bg-white border border-slate-200 rounded-2xl p-4">
+                        <div class="font-black text-slate-900 mb-4">Selecciona una fase para ver detalles</div>
+                        <p class="text-sm text-slate-600">Haz clic en cualquier recuadro del ciclo (izquierda) para ver los pasos y entregables.</p>
+                    </div>
+
+                    <div class="hidden" id="detail-run">
+                        <div class="bg-primary/5 border border-primary/20 rounded-2xl p-4 mb-4">
+                            <div class="font-black text-primary uppercase tracking-widest text-[11px] mb-3">Paso 1 · 2 · 3</div>
+                            <div class="font-black text-slate-900 mb-3">Marketing Analytic (Run)</div>
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="font-bold text-slate-900 text-sm">Paso 1: Brief de la necesidad</div>
+                                    <p class="text-sm text-slate-700 mt-1">Captura el problema, el contexto y el objetivo de la solución.</p>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-slate-900 text-sm">Paso 2: DoD (Definition of Done)</div>
+                                    <p class="text-sm text-slate-700 mt-1">Define criterios de éxito, métricas y condiciones de salida.</p>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-slate-900 text-sm">Paso 3: Resolución en célula</div>
+                                    <p class="text-sm text-slate-700 mt-1">Equipo operativo ejecuta, aprende y propone: ¿Escala a Change o Grow, o se cierra aquí?</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-primary/5 border border-primary/20 rounded-2xl p-4">
+                            <div class="font-black text-slate-900 mb-2">Entregables</div>
+                            <ul class="text-sm text-slate-700 space-y-1.5 list-disc pl-4">
+                                <li>Decisión operativa documentada</li>
+                                <li>Feedback del experimento</li>
+                                <li>Recomendación de escalamiento o cierre</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="hidden" id="detail-change">
+                        <div class="bg-secondary/5 border border-secondary/20 rounded-2xl p-4 mb-4">
+                            <div class="font-black text-secondary uppercase tracking-widest text-[11px] mb-3">Paso 4 · 5</div>
+                            <div class="font-black text-slate-900 mb-3">Analytics Hub (Change)</div>
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="font-bold text-slate-900 text-sm">Paso 4: Diseño de la capacidad</div>
+                                    <p class="text-sm text-slate-700 mt-1">Equipo especializado diseña la solución: arquitectura, datos, modelos, métricas de confiabilidad.</p>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-slate-900 text-sm">Paso 5: Construcción y validación</div>
+                                    <p class="text-sm text-slate-700 mt-1">Construye features confiables, artefactos reutilizables y documentación de governance.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-secondary/5 border border-secondary/20 rounded-2xl p-4">
+                            <div class="font-black text-slate-900 mb-2">Entregables</div>
+                            <ul class="text-sm text-slate-700 space-y-1.5 list-disc pl-4">
+                                <li>Modelos, features y métricas confiables</li>
+                                <li>Documentación técnica y de governance</li>
+                                <li>Recomendación para productización vs. cierre</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="hidden" id="detail-grow">
+                        <div class="bg-tertiary/5 border border-tertiary/20 rounded-2xl p-4 mb-4">
+                            <div class="font-black text-tertiary uppercase tracking-widest text-[11px] mb-3">Paso 6 · 8</div>
+                            <div class="font-black text-slate-900 mb-3">Evolución (Grow)</div>
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="font-bold text-slate-900 text-sm">Paso 6: Gate de escalamiento</div>
+                                    <p class="text-sm text-slate-700 mt-1">Decide si escala por reutilización transversal, productización, o nuevos estándares.</p>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-slate-900 text-sm">Paso 8: Productización y gobierno</div>
+                                    <p class="text-sm text-slate-700 mt-1">Escala activos, establece gobierno continuo, integra a infraestructura común.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-tertiary/5 border border-tertiary/20 rounded-2xl p-4">
+                            <div class="font-black text-slate-900 mb-2">Entregables</div>
+                            <ul class="text-sm text-slate-700 space-y-1.5 list-disc pl-4">
+                                <li>Activos productizados a escala</li>
+                                <li>Estándares de gobierno y reutilización</li>
+                                <li>Plan de retorno a operación</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="hidden" id="detail-return">
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 mb-4">
+                            <div class="font-black text-slate-600 uppercase tracking-widest text-[11px] mb-3">Paso 7 · 9</div>
+                            <div class="font-black text-slate-900 mb-3">Retorno operativo</div>
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="font-bold text-slate-900 text-sm">Paso 7: Activación operativa</div>
+                                    <p class="text-sm text-slate-700 mt-1">Integra activos productizados a la operación diaria. Cambia de Grow a Run.</p>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-slate-900 text-sm">Paso 9: Aprendizaje y reinicio</div>
+                                    <p class="text-sm text-slate-700 mt-1">Captura aprendizajes, inicia nuevo ciclo con breves enriquecidos por feedback previo.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+                            <div class="font-black text-slate-900 mb-2">Entregables</div>
+                            <ul class="text-sm text-slate-700 space-y-1.5 list-disc pl-4">
+                                <li>Activos integrados a operación</li>
+                                <li>Documentación de aprendizajes</li>
+                                <li>Nuevos breves fundados en feedback</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function selectPhase(phase, element) {
+            // Remove active class from all cycle nodes
+            document.querySelectorAll('.cycle-node').forEach(node => {
+                node.classList.remove('active');
+            });
+
+            // Add active class to clicked element
+            element.classList.add('active');
+
+            // Hide all detail panels
+            document.querySelectorAll('[id^="detail-"]').forEach(panel => {
+                panel.classList.add('hidden');
+            });
+
+            // Show the detail panel for the main container
+            const detailPanel = document.getElementById('detail-panel');
+            const detailContent = document.getElementById(`detail-${phase}`);
+            
+            if (detailContent) {
+                detailPanel.classList.add('hidden');
+                detailContent.classList.remove('hidden');
+            }
+        }
+
+        // Automatically select the first phase on load (desktop view)
+        window.addEventListener('load', function() {
+            const firstNode = document.querySelector('.cycle-node[data-phase="run"]');
+            if (firstNode && window.innerWidth >= 768) {
+                firstNode.click();
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,2654 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Ecosistema - Dashboard Interactivo</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;500;700;800&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    /* 480px: etiquetas del diagrama (Nivel 1 · …); md/lg siguen siendo 768 / 1024 (iPad). */
+                    screens: {
+                        xs: '480px',
+                    },
+                    colors: {
+                        "primary": "#01468e",
+                        "secondary": "#006b5f",
+                        "tertiary": "#793108",
+                        "gbi": "#8b5cf6",
+                        "background": "#f7fafc",
+                        "surface": "#ffffff",
+                        "outline": "#737782",
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-in-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    },
+                },
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="bg-background font-body text-slate-800 antialiased">
+
+    <div class="fixed top-3 inset-x-0 z-40 pointer-events-none flex justify-center px-4 sm:px-5">
+        <!-- Fondo blur en capa aparte: en WebKit backdrop-filter + rounded-full recorta hijos (puntos activos). -->
+        <div
+            class="relative pointer-events-auto max-w-full min-w-0 overflow-visible rounded-full py-2 px-3 sm:px-5 sm:py-3">
+            <div class="pointer-events-none absolute inset-0 rounded-full border border-slate-200 bg-white/90 shadow-md backdrop-blur-md"
+                aria-hidden="true"></div>
+            <div id="screenNavTrack"
+                class="nav-track relative z-10 flex max-w-full min-w-0 items-center gap-1.5 whitespace-nowrap py-2 scrollbar-hide sm:gap-3 md:gap-5">
+            </div>
+        </div>
+    </div>
+
+    <!-- Flechas a los lados (md+): no reservan franja inferior; el centro sigue libre para el contenido. -->
+    <div
+        class="nav-arrows-wrap pointer-events-none fixed inset-y-0 left-0 right-0 z-30 hidden items-center justify-between px-2 sm:px-4 lg:px-5 md:flex">
+        <button id="navPrev" type="button"
+            aria-label="Pantalla anterior"
+            class="pointer-events-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white/85 shadow-lg backdrop-blur-md transition-all hover:bg-white hover:text-primary text-slate-400 disabled:opacity-40 disabled:pointer-events-none">
+            <span class="material-symbols-outlined font-bold">chevron_left</span>
+        </button>
+        <button id="navNext" type="button"
+            aria-label="Pantalla siguiente"
+            class="pointer-events-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white/85 shadow-lg backdrop-blur-md transition-all hover:bg-white hover:text-primary text-slate-400 disabled:opacity-40 disabled:pointer-events-none">
+            <span class="material-symbols-outlined font-bold">chevron_right</span>
+        </button>
+    </div>
+
+    <div class="h-scroll-wrap" id="hScroll">
+
+        <!-- ═══════════════════════════════════════════════
+         PANEL 1 · PORTADA
+         ═══════════════════════════════════════════════ -->
+        <section id="pantalla-1" class="h-panel cover-bg relative flex flex-col items-center justify-center px-8"
+            data-screen-title="Inicio">
+
+            <!-- Decorative blobs -->
+            <div
+                class="absolute top-[-10%] left-[-8%] w-[520px] h-[520px] rounded-full bg-primary/8 blur-[80px] pointer-events-none">
+            </div>
+            <div
+                class="absolute bottom-[-12%] right-[-6%] w-[480px] h-[480px] rounded-full bg-secondary/8 blur-[80px] pointer-events-none">
+            </div>
+
+            <div class="relative z-10 max-w-3xl w-full text-center flex flex-col items-center gap-6">
+
+                <!-- Eyebrow -->
+                <div
+                    class="anim-fade-up anim-delay-1 inline-flex items-center gap-2 bg-white/70 backdrop-blur-md border border-primary/20 rounded-full px-5 py-2 text-[11px] font-black uppercase tracking-widest text-primary shadow-sm">
+                                        <span class="material-symbols-outlined text-[15px]">auto_awesome</span>
+                    IA First · CDE
+                </div>
+
+                <!-- Main title -->
+                <h1 class="anim-fade-up anim-delay-2 font-headline font-black text-slate-900 leading-tight tracking-tight"
+                    style="font-size: clamp(2.4rem, 6vw, 4.2rem);">
+                                        Estrategia&nbsp;<span class="text-primary">IA&nbsp;First</span><br>CDE&nbsp;Analítica&nbsp;de&nbsp;Mercadeo
+                </h1>
+
+                <!-- Year badge -->
+                <div class="anim-fade-up anim-delay-3 flex items-center gap-3">
+                    <div class="h-px w-12 bg-primary/30"></div>
+                    <span class="text-2xl font-black font-headline text-tertiary tracking-widest">2026</span>
+                    <div class="h-px w-12 bg-primary/30"></div>
+                </div>
+
+                <!-- Subtitle -->
+                <p class="anim-fade-up anim-delay-4 text-base text-slate-500 font-medium max-w-xl leading-relaxed">
+                    IA-first no es “usar IA”, es rediseñar el trabajo alrededor de ella.
+                </p>
+            </div>
+
+
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+         PANEL 2 · CULTURA
+         ═══════════════════════════════════════════════ -->
+        <section id="pantalla-2" class="h-panel bg-secondary relative flex items-center px-8 md:px-16 lg:px-24"
+            data-screen-title="Cultura">
+            <div class="w-full max-w-5xl mx-auto">
+                <div class="text-[13px] font-black uppercase tracking-widest text-slate-900 mb-8">CULTURA</div>
+                <h2 class="font-headline font-black text-slate-900 leading-[0.92] tracking-tight"
+                    style="font-size: clamp(3.2rem, 11vw, 8.4rem); max-width: 10ch;">
+                    Qué nos mueve
+                </h2>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+         PANEL 3 · PROPÓSITO
+         ═══════════════════════════════════════════════ -->
+        <section id="pantalla-3" class="h-panel bg-white relative overflow-hidden" data-screen-title="Cultura">
+            <div class="h-full grid grid-cols-1 md:grid-cols-2">
+                <div
+                    class="bg-slate-100 h-full flex items-center justify-center px-8 md:px-16 lg:px-20 py-12 border-r border-slate-300/70">
+                    <div class="w-full max-w-[480px]">
+                        <h3 class="font-headline font-black text-slate-900 leading-none mb-6"
+                            style="font-size: clamp(2.2rem, 5vw, 4rem);">
+                            Cultura
+                        </h3>
+                        <p class="text-slate-800 font-medium leading-relaxed"
+                            style="font-size: clamp(1.2rem, 2.2vw, 1.85rem); max-width: 45ch;">
+                            Promovemos la toma de decisiones basadas en información. Inyectamos datos, experimentación, ciencia y aprendizaje <span class="text-secondary font-black">rápido</span> y constante al ejercicio de mercadeo.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-gbi h-full relative overflow-hidden flex items-center justify-center">
+                    <div
+                        class="absolute -top-8 left-1/2 -translate-x-1/2 w-4 h-[230px] rounded-full bg-yellow-300 rotate-[12deg]">
+                    </div>
+                    <div class="absolute top-[30%] left-[24%] w-8 h-[260px] rounded-full bg-emerald-400 rotate-[5deg]">
+                    </div>
+                    <div
+                        class="absolute bottom-[18%] left-[45%] w-[360px] h-7 rounded-full bg-orange-400 rotate-[12deg]">
+                    </div>
+                    <div
+                        class="absolute bottom-[10%] right-[-2%] w-[340px] h-8 rounded-full bg-yellow-300 -rotate-[10deg]">
+                    </div>
+
+                    <div
+                        class="relative z-10 bg-white/15 backdrop-blur-sm border border-white/35 rounded-[2.2rem] p-10 shadow-2xl">
+                        <span class="material-symbols-outlined text-[170px] text-white/95 leading-none">school</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+         PANEL 4 · BIENESTAR
+         ═══════════════════════════════════════════════ -->
+        <section id="pantalla-4" class="h-panel bg-white relative overflow-hidden" data-screen-title="Bienestar">
+            <div class="h-full grid grid-cols-1 md:grid-cols-2">
+                <div class="bg-primary h-full relative overflow-hidden flex items-end justify-center">
+                    <div class="absolute top-16 -left-20 w-[380px] h-9 rounded-full bg-tertiary -rotate-[6deg]"></div>
+                    <div class="absolute top-20 -left-14 w-[260px] h-4 rounded-full bg-yellow-300 -rotate-[6deg]"></div>
+                    <div
+                        class="absolute top-[28%] right-[-12%] w-[500px] h-[500px] rounded-full border-[20px] border-gbi/80">
+                    </div>
+                    <div
+                        class="absolute top-[35%] right-[-10%] w-[460px] h-[460px] rounded-full border-[12px] border-yellow-300">
+                    </div>
+                    <div class="absolute top-[14%] right-[30%] w-5 h-[220px] rounded-full bg-secondary rotate-[12deg]">
+                    </div>
+                    <div
+                        class="relative z-10 w-[88%] max-w-[620px] h-[88%] rounded-t-[2rem] bg-slate-900/20 backdrop-blur-[1px] border border-white/30 flex items-center justify-center">
+                        <span
+                            class="material-symbols-outlined text-white text-[220px] opacity-95">sentiment_satisfied</span>
+                    </div>
+                </div>
+
+                <div class="bg-slate-100 h-full flex items-center justify-center px-8 md:px-14 lg:px-20 py-12">
+                    <div class="w-full max-w-[480px]">
+                        <h3 class="font-headline font-black text-slate-900 leading-none mb-6"
+                            style="font-size: clamp(2.2rem, 5vw, 4rem);">
+                            Bienestar
+                        </h3>
+                        <p class="text-slate-800 font-medium leading-relaxed"
+                            style="font-size: clamp(1.2rem, 2.2vw, 1.85rem); max-width: 45ch;">
+                            Cuando una persona se <span class="text-secondary font-black italic">siente bien</span>, trabaja mejor. Nuestro comité de bienestar piensa en grande para que trabajar en el CDE sea increíble.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+         PANEL 5 · PROPÓSITO
+         ═══════════════════════════════════════════════ -->
+        <section id="pantalla-5" class="h-panel relative flex items-center justify-center px-8 md:px-16 lg:px-24"
+            style="background:#e6aec8;" data-screen-title="A qué apuntamos">
+            <div class="w-full max-w-5xl">
+                <div class="text-[13px] font-black uppercase tracking-widest text-slate-800 mb-8 md:mb-10">PROPOSITO</div>
+                <h2 class="font-headline font-black text-slate-900 leading-[0.92] tracking-tight"
+                    style="font-size: clamp(3rem, 10.5vw, 8rem); max-width: 10ch;">
+                    A qué<br>le apuntamos
+                </h2>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+         PANEL 6 · OKR
+         ═══════════════════════════════════════════════ -->
+        <section id="pantalla-6" class="h-panel bg-white relative overflow-hidden" data-screen-title="OKR">
+            <div class="h-full min-h-0 grid grid-cols-1 md:grid-cols-2">
+                <div
+                    class="bg-slate-100 h-full min-h-0 overflow-hidden flex items-center justify-center px-6 md:px-12 lg:px-16 py-5 md:py-8 border-r border-slate-300/70">
+                    <div class="w-full max-w-[520px] min-h-0 overflow-hidden">
+                        <div
+                            class="text-[13px] font-black uppercase tracking-widest text-slate-800 mb-2 md:mb-3 leading-snug max-w-full">
+                            PROPOSITO {O}</div>
+                        <h3 class="font-headline font-black text-slate-900 mb-3 md:mb-5 flex flex-wrap items-baseline gap-x-[0.04em]"
+                            style="font-size: clamp(2.75rem, 7vw, 7rem); line-height: 0.92;">
+                            <span class="text-secondary shrink-0" style="letter-spacing: -0.02em;">O</span>
+                            <span class="tracking-tight">KR</span>
+                        </h3>
+                        <p
+                            class="text-slate-800 font-medium mb-4 md:mb-6 max-w-full text-pretty hyphens-auto"
+                            style="font-size: clamp(1.05rem, 1.85vw, 1.75rem); line-height: 1.4;">
+                            Contribuir activamente a que las estrategias de mercadeo y CX impulsen los objetivos de negocio y marca, haciendo mercadeo dirigido por los datos de principio a fin.
+                        </p>
+                        <div class="text-[11px] md:text-[13px] font-black uppercase tracking-wide text-slate-700 leading-snug">
+                            SOMOS BANQUEROS &nbsp; | &nbsp; SOMOS MARQUETEROS &nbsp; | &nbsp; SOMOS ANALÍTICOS
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gbi h-full min-h-0 relative overflow-hidden flex items-end justify-center">
+                    <div class="absolute top-[6%] left-[8%] w-[72%] h-[72%] rounded-full border-[18px] border-cyan-400">
+                    </div>
+                    <div
+                        class="absolute top-[10%] left-[20%] w-[68%] h-[68%] rounded-full border-[16px] border-yellow-300">
+                    </div>
+                    <div
+                        class="absolute top-[18%] left-[16%] w-[70%] h-[70%] rounded-full border-[14px] border-tertiary">
+                    </div>
+                    <div class="absolute top-[66%] left-[8%] w-[160px] h-8 rounded-full bg-cyan-400 rotate-[35deg]">
+                    </div>
+
+                    <div
+                        class="relative z-10 w-[86%] max-w-[640px] h-[88%] rounded-t-[2.4rem] bg-white/10 border border-white/30 backdrop-blur-[1px] flex items-center justify-center">
+                        <span class="material-symbols-outlined text-white opacity-95"
+                            style="font-size: clamp(7rem, 22vw, 14rem);">emoji_objects</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+         PANEL 7 · OBJETIVOS Y KPI'S
+         ═══════════════════════════════════════════════ -->
+        <section id="pantalla-7" class="h-panel bg-slate-100 relative overflow-hidden px-4 sm:px-6 md:px-8 lg:px-10"
+            data-screen-title="Objetivos y KPI's">
+            <div
+                class="h-full min-h-0 min-w-0 grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)] gap-4 md:gap-6 lg:gap-8 items-center md:items-center py-3 md:py-5 lg:py-6">
+                <div class="min-w-0 shrink-0 md:shrink">
+                    <div
+                        class="text-[12px] md:text-[14px] font-black uppercase tracking-widest text-slate-800 mb-2 md:mb-3 leading-snug max-w-full">
+                        OBJETIVOS Y KPI’s {KR}</div>
+                    <h2 class="font-headline font-black text-slate-900 flex flex-wrap items-baseline gap-x-[0.04em]"
+                        style="font-size: clamp(2.75rem, 7vw, 7rem); line-height: 0.92;">
+                        <span class="text-secondary shrink-0" style="letter-spacing: -0.02em;">O</span>
+                        <span class="tracking-tight">KR</span>
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 lg:gap-5 min-w-0 min-h-0">
+                    <article
+                        class="bg-slate-200/70 rounded-2xl p-4 sm:p-5 md:p-6 border border-slate-200 min-h-0 flex flex-col min-w-0 overflow-hidden">
+                        <span class="material-symbols-outlined text-[32px] sm:text-5xl text-secondary mb-2 sm:mb-3 shrink-0">pie_chart</span>
+                        <h3 class="font-headline font-black text-slate-900 text-2xl sm:text-3xl md:text-4xl tracking-tight mb-3 sm:mb-4 break-words">Atribución</h3>
+                        <div class="text-slate-800 min-w-0 min-h-0">
+                            <h4 class="font-black text-xl sm:text-2xl md:text-3xl leading-none tracking-tight mb-3 sm:mb-4">KPI’s</h4>
+                            <ol class="space-y-2 sm:space-y-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight break-words">
+                                <li>1. <span class="font-medium">Atribución</span></li>
+                                <li>2. <span class="font-medium">ROI</span></li>
+                            </ol>
+                        </div>
+                    </article>
+
+                    <article
+                        class="bg-slate-200/70 rounded-2xl p-4 sm:p-5 md:p-6 border border-slate-200 min-h-0 flex flex-col min-w-0 overflow-hidden">
+                        <span class="material-symbols-outlined text-[32px] sm:text-5xl text-gbi mb-2 sm:mb-3 shrink-0">trending_up</span>
+                        <h3 class="font-headline font-black text-slate-900 text-2xl sm:text-3xl md:text-4xl tracking-tight mb-3 sm:mb-4 break-words">Última milla</h3>
+                        <div class="text-slate-800 min-w-0 min-h-0">
+                            <h4 class="font-black text-xl sm:text-2xl md:text-3xl leading-none tracking-tight mb-3 sm:mb-4">KPI’s</h4>
+                            <ol class="space-y-2 sm:space-y-3 text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight break-words">
+                                <li>1. <span class="font-medium">Ultima Milla</span></li>
+                                <li>2. <span class="font-medium">Índice de la calidad</span></li>
+                            </ol>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section
+            id="pantalla-8"
+            class="h-panel bg-gradient-to-br from-slate-50 to-slate-100 relative overflow-hidden px-5 md:px-8 lg:px-10"
+            data-screen-title="Visión AI First">
+            <div class="max-w-4xl mx-auto h-full min-h-0 flex flex-col justify-center overflow-hidden gap-3 py-2 md:py-4">
+                <div class="shrink-0">
+                    <div class="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-fuchsia-700 mb-1">Nueva visual estratégica</div>
+                    <h2 class="font-headline font-black text-slate-900 tracking-tight leading-none"
+                        style="font-size: clamp(1.35rem, 3.2vw, 2.65rem);">AI First</h2>
+                    <p class="text-slate-600 text-xs md:text-sm mt-2 leading-snug max-w-3xl">AI First no significa &quot;todo es modelos complejos&quot;, sino que <strong>toda capacidad debe estar diseñada para ser aumentada, asistida o automatizada por IA desde el inicio</strong>.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-2 md:gap-3 min-h-0">
+                    <div class="bg-white/80 rounded-xl border border-fuchsia-100 p-3 md:p-4 shadow-sm min-h-0">
+                        <div class="flex gap-2 items-start">
+                            <span class="material-symbols-outlined text-fuchsia-600 text-[20px] md:text-[22px] flex-shrink-0">chat</span>
+                            <div class="min-w-0">
+                                <h3 class="font-black text-slate-900 text-xs md:text-sm mb-1 leading-tight">Lenguaje natural como interfaz por defecto</h3>
+                                <p class="text-[11px] md:text-xs text-slate-600 leading-snug">Los usuarios hablan, no clickean dashboards estáticos.</p>
+                            </div>
+                        </div>
+                    </div>
+<div class="bg-white/80 rounded-xl border border-fuchsia-100 p-3 md:p-4 shadow-sm min-h-0">
+                        <div class="flex gap-2 items-start">
+                            <span class="material-symbols-outlined text-fuchsia-600 text-[20px] md:text-[22px] flex-shrink-0">bolt</span>
+                            <div class="min-w-0">
+                                <h3 class="font-black text-slate-900 text-xs md:text-sm mb-1 leading-tight">Automatización de análisis repetitivos</h3>
+                                <p class="text-[11px] md:text-xs text-slate-600 leading-snug">IA ejecuta lo mecánico, humanos deciden.</p>
+                            </div>
+                        </div>
+                    </div>
+<div class="bg-white/80 rounded-xl border border-fuchsia-100 p-3 md:p-4 shadow-sm min-h-0">
+                        <div class="flex gap-2 items-start">
+                            <span class="material-symbols-outlined text-fuchsia-600 text-[20px] md:text-[22px] flex-shrink-0">psychology</span>
+                            <div class="min-w-0">
+                                <h3 class="font-black text-slate-900 text-xs md:text-sm mb-1 leading-tight">Humanos enfocados en decisión, contexto y criterio</h3>
+                                <p class="text-[11px] md:text-xs text-slate-600 leading-snug">No en computación.</p>
+                            </div>
+                        </div>
+                    </div>
+<div class="bg-white/80 rounded-xl border border-fuchsia-100 p-3 md:p-4 shadow-sm min-h-0">
+                        <div class="flex gap-2 items-start">
+                            <span class="material-symbols-outlined text-fuchsia-600 text-[20px] md:text-[22px] flex-shrink-0">hub</span>
+                            <div class="min-w-0">
+                                <h3 class="font-black text-slate-900 text-xs md:text-sm mb-1 leading-tight">Modelos y agentes integrados al flujo operativo</h3>
+                                <p class="text-[11px] md:text-xs text-slate-600 leading-snug">No como proyectos aislados.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<section id="pantalla-9" class="h-panel bg-gradient-to-br from-blue-50 to-blue-100 relative overflow-hidden px-5 md:px-8 lg:px-10"
+            data-screen-title="Marketing Analytic (RUN)">
+            <div class="max-w-4xl mx-auto h-full min-h-0 flex flex-col justify-center overflow-hidden py-2 md:py-4">
+                <div class="shrink-0 mb-2 md:mb-3">
+                    <div class="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-blue-700 mb-1">IA Copiloto y Asistiva</div>
+                    <h2 class="font-headline font-black text-slate-900 tracking-tight leading-none"
+                        style="font-size: clamp(1.35rem, 3.2vw, 2.65rem);">Marketing Analytic</h2>
+                    <p class="text-slate-600 text-xs md:text-sm mt-1.5 md:mt-2 leading-snug max-w-3xl">La IA explica y alerta. Objetivo: operar marketing hoy, con decisiones rápidas y mínima fricción cognitiva.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-2 md:gap-3 min-h-0 shrink">
+                    
+                    <div class="bg-white rounded-xl border border-blue-200 p-3 md:p-4 shadow-sm min-h-0 flex flex-col">
+                        <h3 class="font-black text-slate-900 mb-1.5 text-[10px] md:text-[11px] uppercase tracking-widest leading-tight text-blue-700">Core · BI Generativo Operativo</h3>
+                        <ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug">
+                            <li>Narrativas automáticas sobre KPIs, campañas y journeys.</li><li>NLG, preguntas en lenguaje natural y alertas con explicación.</li><li>Convierte datos en señales, no en dashboards.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl border border-blue-200 p-3 md:p-4 shadow-sm min-h-0 flex flex-col">
+                        <h3 class="font-black text-slate-900 mb-1.5 text-[10px] md:text-[11px] uppercase tracking-widest leading-tight text-blue-700">Diagnóstico Aumentado</h3>
+                        <ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug">
+                            <li>Detección automática de anomalías y descomposición de métricas.</li><li>Root cause analysis asistido y comparativos inteligentes.</li><li>La IA propone hipótesis iniciales; el analista valida y decide.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl border border-blue-200 p-3 md:p-4 shadow-sm min-h-0 flex flex-col">
+                        <h3 class="font-black text-slate-900 mb-1.5 text-[10px] md:text-[11px] uppercase tracking-widest leading-tight text-blue-700">Experimentación Ligera</h3>
+                        <ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug">
+                            <li>Pruebas A/B con hipótesis, segmentos y variables sugeridas por IA.</li><li>Priorización automática de experimentos.</li><li>Lectura asistida de resultados y siguiente mejor experimento.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl border border-blue-200 p-3 md:p-4 shadow-sm min-h-0 flex flex-col">
+                        <h3 class="font-black text-slate-900 mb-1.5 text-[10px] md:text-[11px] uppercase tracking-widest leading-tight text-blue-700">Customer &amp; CX Signals</h3>
+                        <ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug">
+                            <li>NLP y análisis de sentimiento sobre NPS, comentarios y fricciones.</li><li>Detección de momentos de dolor y clustering automático de feedback.</li><li>Escucha activa del cliente a escala.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<section id="pantalla-10" class="h-panel bg-gradient-to-br from-teal-50 to-teal-100 relative overflow-hidden px-5 md:px-8 lg:px-10"
+            data-screen-title="Analytics Hub (CHANGE)">
+            <div class="max-w-4xl mx-auto h-full min-h-0 flex flex-col justify-center overflow-hidden py-2 md:py-4">
+                <div class="shrink-0 mb-2 md:mb-3">
+                    <div class="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-teal-700 mb-1">IA Analítica y Predictiva</div>
+                    <h2 class="font-headline font-black text-slate-900 tracking-tight leading-none"
+                        style="font-size: clamp(1.35rem, 3.2vw, 2.65rem);">Analytics Hub</h2>
+                    <p class="text-slate-600 text-xs md:text-sm mt-1.5 md:mt-2 leading-snug max-w-3xl">La IA aprende y predice. Objetivo: crear capacidades analíticas nuevas y reutilizables para todo marketing.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-2 md:gap-3 min-h-0 shrink">
+                    
+                    <div class="bg-white rounded-xl border border-teal-200 p-3 md:p-4 shadow-sm min-h-0 flex flex-col">
+                        <h3 class="font-black text-slate-900 mb-1.5 text-[10px] md:text-[11px] uppercase tracking-widest leading-tight text-teal-700">Core · Ciencia de Datos</h3>
+                        <ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug">
+                            <li>Modelos de propensión, segmentación predictiva y atribución avanzada.</li><li>Modelos causales para incrementalidad e impacto.</li><li>Diseñados para ser consumidos por otros sistemas, no por PDFs o notebooks aislados.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl border border-teal-200 p-3 md:p-4 shadow-sm min-h-0 flex flex-col">
+                        <h3 class="font-black text-slate-900 mb-1.5 text-[10px] md:text-[11px] uppercase tracking-widest leading-tight text-teal-700">Base · Feature Store</h3>
+                        <ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug">
+                            <li>Creación, versionado y reutilización de variables para IA.</li><li>Definiciones estándar de cliente, canal y campaña.</li><li>Es el lenguaje común de los modelos.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl border border-teal-200 p-3 md:p-4 shadow-sm min-h-0 flex flex-col">
+                        <h3 class="font-black text-slate-900 mb-1.5 text-[10px] md:text-[11px] uppercase tracking-widest leading-tight text-teal-700">Infra · Ingeniería Analítica</h3>
+                        <ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug">
+                            <li>Pipelines para alimentar modelos, BI Generativo y operación casi en tiempo real.</li><li>Calidad de datos automatizada, observabilidad y data contracts.</li><li>Infraestructura lista para escalar IA con gobierno.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl border border-teal-200 p-3 md:p-4 shadow-sm min-h-0 flex flex-col">
+                        <h3 class="font-black text-slate-900 mb-1.5 text-[10px] md:text-[11px] uppercase tracking-widest leading-tight text-teal-700">Escala · BI Generativo Gobernado</h3>
+                        <ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug">
+                            <li>En Marketing Analytic se consume; en Analytics Hub se diseña la capacidad.</li><li>Prompts estándar, glosarios semánticos y gobierno de respuestas.</li><li>Seguridad y consistencia para toda la organización.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<section id="pantalla-11" class="h-panel bg-gradient-to-br from-orange-50 to-orange-100 relative overflow-hidden px-5 md:px-8 lg:px-10"
+            data-screen-title="Evolución (GROW)">
+            <div class="max-w-4xl mx-auto h-full min-h-0 flex flex-col justify-center overflow-hidden py-2 md:py-4">
+                <div class="shrink-0 mb-2 md:mb-3">
+                    <div class="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-orange-700 mb-1">IA Agentiva y Productiva</div>
+                    <h2 class="font-headline font-black text-slate-900 tracking-tight leading-none"
+                        style="font-size: clamp(1.35rem, 3.2vw, 2.65rem);">Evolución</h2>
+                    <p class="text-slate-600 text-xs md:text-sm mt-1.5 md:mt-2 leading-snug max-w-3xl">La IA decide y escala. Objetivo: pasar de insights a decisiones automatizadas y crecimiento sostenible.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-2 md:gap-3 min-h-0 shrink">
+                    
+                    <div class="bg-white rounded-xl border border-orange-200 p-3 md:p-4 shadow-sm min-h-0 flex flex-col">
+                        <h3 class="font-black text-slate-900 mb-1.5 text-[10px] md:text-[11px] uppercase tracking-widest leading-tight text-orange-700">Core · IA / MLOps</h3>
+                        <ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug">
+                            <li>Despliegue, monitoreo y reentrenamiento automático de modelos.</li><li>Versionado, drift detection y retraining pipelines.</li><li>Los modelos viven en producción, no en PowerPoint.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl border border-orange-200 p-3 md:p-4 shadow-sm min-h-0 flex flex-col">
+                        <h3 class="font-black text-slate-900 mb-1.5 text-[10px] md:text-[11px] uppercase tracking-widest leading-tight text-orange-700">Decisión · Agentes de IA</h3>
+                        <ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug">
+                            <li>Agentes que recomiendan o toman decisiones de presupuesto, targeting y next best action.</li><li>Orquestación de reglas, modelos y contexto.</li><li>Human-in-the-loop cuando aplica.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl border border-orange-200 p-3 md:p-4 shadow-sm min-h-0 flex flex-col">
+                        <h3 class="font-black text-slate-900 mb-1.5 text-[10px] md:text-[11px] uppercase tracking-widest leading-tight text-orange-700">Activación · Martech Inteligente</h3>
+                        <ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug">
+                            <li>CDP con scoring predictivo y automatización de journeys con IA.</li><li>Personalización en tiempo real y activación embebida.</li><li>La IA vive dentro de la plataforma de ejecución.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl border border-orange-200 p-3 md:p-4 shadow-sm min-h-0 flex flex-col">
+                        <h3 class="font-black text-slate-900 mb-1.5 text-[10px] md:text-[11px] uppercase tracking-widest leading-tight text-orange-700">Escala · Estándares y Frameworks</h3>
+                        <ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug">
+                            <li>Templates de modelos, patrones de activación y guías AI First.</li><li>Industrialización de la IA para reutilización transversal.</li><li>Base para crecimiento sostenido y gobernado.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<section id="pantalla-12" class="h-panel bg-white relative overflow-hidden px-5 md:px-8 lg:px-10"
+            data-screen-title="Resumen 3 Capas">
+            <div class="max-w-6xl mx-auto h-full min-h-0 flex flex-col justify-center overflow-hidden gap-3 py-2 md:py-4">
+                <div class="shrink-0 text-center mb-1">
+                    <h2 class="font-headline font-black text-slate-900 tracking-tight leading-none"
+                        style="font-size: clamp(1.25rem, 2.8vw, 2.25rem);">Las 3 Capas de AI First</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-3 min-h-0">
+                    <div class="rounded-xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 p-3 md:p-4 shadow-md min-h-0">
+                        <div class="flex items-start gap-2 mb-2">
+                            <span class="material-symbols-outlined text-blue-700 text-[22px] md:text-[26px] shrink-0">directions_run</span>
+                            <div class="min-w-0">
+                                <h3 class="font-headline font-black text-blue-900 text-sm md:text-base tracking-tight leading-tight">Marketing Analytic</h3>
+                                <p class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-blue-700 mt-0.5">RUN</p>
+                            </div>
+                        </div>
+                        <p class="text-[11px] md:text-xs text-slate-700 leading-snug">
+                            <strong>Copiloto operativo</strong><br />
+                            BI Generativo, diagnóstico automático, experimentación asistida y CX signals.
+                        </p>
+                    </div>
+<div class="rounded-xl border-2 border-teal-200 bg-gradient-to-br from-teal-50 to-teal-100 p-3 md:p-4 shadow-md min-h-0">
+                        <div class="flex items-start gap-2 mb-2">
+                            <span class="material-symbols-outlined text-teal-700 text-[22px] md:text-[26px] shrink-0">construction</span>
+                            <div class="min-w-0">
+                                <h3 class="font-headline font-black text-teal-900 text-sm md:text-base tracking-tight leading-tight">Analytics Hub</h3>
+                                <p class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-teal-700 mt-0.5">CHANGE</p>
+                            </div>
+                        </div>
+                        <p class="text-[11px] md:text-xs text-slate-700 leading-snug">
+                            <strong>Motor analítico</strong><br />
+                            Ciencia de Datos, Feature Store, Ingeniería Analítica y BI Generativo gobernado.
+                        </p>
+                    </div>
+<div class="rounded-xl border-2 border-orange-200 bg-gradient-to-br from-orange-50 to-orange-100 p-3 md:p-4 shadow-md min-h-0">
+                        <div class="flex items-start gap-2 mb-2">
+                            <span class="material-symbols-outlined text-orange-700 text-[22px] md:text-[26px] shrink-0">trending_up</span>
+                            <div class="min-w-0">
+                                <h3 class="font-headline font-black text-orange-900 text-sm md:text-base tracking-tight leading-tight">Evolución</h3>
+                                <p class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-orange-700 mt-0.5">GROW</p>
+                            </div>
+                        </div>
+                        <p class="text-[11px] md:text-xs text-slate-700 leading-snug">
+                            <strong>Sistema autónomo</strong><br />
+                            IA / MLOps, Agentes de IA, Martech inteligente y estándares reutilizables.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<section
+            id="pantalla-13"
+            class="h-panel bg-gradient-to-br from-indigo-50 to-violet-100 relative overflow-hidden px-5 md:px-8 lg:px-10"
+            data-screen-title="Gobernanza de IA">
+            <div class="max-w-6xl mx-auto h-full min-h-0 flex flex-col justify-center overflow-hidden gap-2 md:gap-3 py-2 md:py-4">
+                <div class="shrink-0">
+                    <div class="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-indigo-700 mb-1">CAPÍTULO TRANSVERSAL</div>
+                    <h2 class="font-headline font-black text-slate-900 tracking-tight leading-none"
+                        style="font-size: clamp(1.35rem, 3.2vw, 2.65rem);">Gobernanza de IA</h2>
+                    <p class="text-slate-600 text-xs md:text-sm mt-2 leading-snug max-w-4xl">Si delegamos responsabilidades a la IA requerimos un marco de gobernanza tan robusto como la tecnología misma.</p>
+                </div>
+                <div class="flex min-h-0 min-w-0 flex-col gap-2 md:gap-3">
+                    <div class="grid min-h-0 min-w-0 grid-cols-1 gap-2 md:grid-cols-2 md:gap-3">
+                        <div class="bg-white rounded-xl border border-indigo-200 p-3 md:p-4 shadow-sm min-h-0 min-w-0 flex flex-col overflow-hidden">
+                        <h3 class="font-black text-slate-900 mb-1.5 text-[10px] md:text-[11px] uppercase tracking-widest text-indigo-700 leading-tight shrink-0">Pilares de gobernanza</h3>
+                        <div class="min-h-0 min-w-0 overflow-y-auto overflow-x-hidden"><ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug break-words [overflow-wrap:anywhere]"><li>Casos de uso</li><li>Priorización</li><li>Riesgo</li><li>Validación</li><li>Trazabilidad</li></ul></div>
+                    </div>
+<div class="bg-white rounded-xl border border-indigo-200 p-3 md:p-4 shadow-sm min-h-0 min-w-0 flex flex-col overflow-hidden">
+                        <h3 class="font-black text-slate-900 mb-1.5 text-[10px] md:text-[11px] uppercase tracking-widest text-indigo-700 leading-tight shrink-0">Librería de activos</h3>
+                        <div class="min-h-0 min-w-0 overflow-y-auto overflow-x-hidden"><ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug break-words [overflow-wrap:anywhere]"><li>Prompts</li><li>Agentes</li><li>Definiciones semánticas</li><li>Playbooks</li><li>Conectores</li></ul></div>
+                    </div>
+                    </div>
+                    <div class="flex min-h-0 min-w-0 flex-col gap-2 md:gap-3"><div class="bg-white rounded-xl border border-indigo-200 p-3 md:p-4 shadow-sm min-h-0 min-w-0 flex flex-col overflow-hidden">
+                        <h3 class="font-black text-slate-900 mb-1.5 text-[10px] md:text-[11px] uppercase tracking-widest text-indigo-700 leading-tight shrink-0">Capacidades por frente</h3>
+                        <div class="min-h-0 min-w-0 overflow-x-hidden overflow-y-auto grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-3 lg:grid-cols-4 lg:gap-x-3 lg:gap-y-2"><div class="min-w-0 md:mb-0"><p class="text-[11px] md:text-xs font-bold text-slate-800 mb-1 leading-tight break-words [overflow-wrap:anywhere]">Inteligencia Digital</p><ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug break-words [overflow-wrap:anywhere]"><li>Señal</li><li>Métricas</li><li>Insighting</li><li>Audiencias</li><li>VoC</li><li>Copilotos de negocio</li></ul></div><div class="min-w-0 md:mb-0"><p class="text-[11px] md:text-xs font-bold text-slate-800 mb-1 leading-tight break-words [overflow-wrap:anywhere]">Data Engineering</p><ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug break-words [overflow-wrap:anywhere]"><li>Data products</li><li>Pipelines</li><li>Observabilidad</li></ul></div><div class="min-w-0 md:mb-0"><p class="text-[11px] md:text-xs font-bold text-slate-800 mb-1 leading-tight break-words [overflow-wrap:anywhere]">Data Science</p><ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug break-words [overflow-wrap:anywhere]"><li>Modelos avanzados</li><li>Optimización</li><li>Causalidad</li><li>Propensión</li></ul></div><div class="min-w-0 md:mb-0"><p class="text-[11px] md:text-xs font-bold text-slate-800 mb-1 leading-tight break-words [overflow-wrap:anywhere]">Growth</p><ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug break-words [overflow-wrap:anywhere]"><li>Experimentación y activación</li></ul></div></div>
+                    </div>
+<div class="bg-white rounded-xl border border-indigo-200 p-3 md:p-4 shadow-sm min-h-0 min-w-0 flex flex-col overflow-hidden">
+                        <h3 class="font-black text-slate-900 mb-1.5 text-[10px] md:text-[11px] uppercase tracking-widest text-indigo-700 leading-tight shrink-0">Principio transversal</h3>
+                        <div class="min-h-0 min-w-0 overflow-y-auto overflow-x-hidden"><ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug break-words [overflow-wrap:anywhere]"><li>Human-in-the-loop para decisiones sensibles.</li></ul></div>
+                    </div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+         PANEL 14 · BI GENERATIVO (LÍNEA DE CONOCIMIENTO)
+         ═══════════════════════════════════════════════ -->
+        <section id="pantalla-14" class="h-panel bg-slate-50 relative overflow-hidden px-5 md:px-8 lg:px-10"
+            data-screen-title="BI Generativo">
+            <div
+                class="max-w-6xl mx-auto h-full min-h-0 flex flex-col justify-center overflow-hidden gap-3 py-2 md:py-4">
+                <div class="shrink-0">
+                    <div class="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-purple-700 mb-1">LÍNEA DE
+                        CONOCIMIENTO</div>
+                    <h2 class="font-headline font-black text-slate-900 tracking-tight leading-none"
+                        style="font-size: clamp(1.35rem, 3.2vw, 2.65rem);">BI Generativo</h2>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 min-h-0 items-stretch"><div class="bg-white rounded-xl border border-purple-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">1. Semántica desde Figma + sugerencia de eventos</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">Modelos de IA extraen semántica de Figma y sugieren eventos basados en taxonomía histórica.</p>
+                    </div>
+<div class="bg-white rounded-xl border border-purple-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">2. Integración nativa a repositorios</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">Generación automática de snippets de código.</p>
+                    </div>
+<div class="bg-white rounded-xl border border-purple-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">3. Agentes autónomos de auditoría</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">Agentes escanean miles de páginas diariamente, simulan tráfico y validan eventos.</p>
+                    </div>
+<div class="bg-white rounded-xl border border-purple-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">4. Visión computacional + auto-reparación</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">Detección automática de cambios y auto-reparación de scripts.</p>
+                    </div>
+<div class="bg-white rounded-xl border border-purple-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">5. Monitoreo inteligente de KPIs</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">Agentes monitorean automáticamente indicadores clave, identifican tendencias ocultas y disparan investigación profunda.</p>
+                    </div>
+<div class="bg-white rounded-xl border border-purple-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">6. Preguntar a los datos (Dashboardless)</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">Interfaz conversacional para consultar datos sin depender de dashboards estáticos.</p>
+                    </div>
+<div class="bg-white rounded-xl border border-purple-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">7. Segmentación en lenguaje natural + clustering dinámico</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">Creación de audiencias con lenguaje natural y detección de segmentos ocultos por comportamientos sincrónicos y señales afines.</p>
+                    </div>
+<div class="bg-white rounded-xl border border-purple-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">8. Escucha social y autogestión en Insights Hub</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug"></p>
+                    </div></div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+         PANEL 15 · GROWTH (LÍNEA DE CONOCIMIENTO)
+         ═══════════════════════════════════════════════ -->
+        <section id="pantalla-15" class="h-panel bg-white relative overflow-hidden px-5 md:px-8 lg:px-10" data-screen-title="Growth">
+            <div
+                class="max-w-6xl mx-auto h-full min-h-0 flex flex-col justify-center overflow-hidden gap-3 py-2 md:py-4">
+                <div class="shrink-0">
+                    <div class="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-amber-700 mb-1">LÍNEA DE
+                        CONOCIMIENTO</div>
+                    <h2 class="font-headline font-black text-slate-900 tracking-tight leading-none"
+                        style="font-size: clamp(1.35rem, 3.2vw, 2.65rem);">Growth</h2>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 min-h-0 items-stretch"><div class="bg-slate-50 rounded-xl border border-amber-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">1. IA para hipótesis, diseño y análisis de experimentos</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">IA para generación de hipótesis, estructuración de experimentos (diseño, variantes, criterios), análisis estadístico de resultados y recomendaciones.</p>
+                    </div>
+<div class="bg-slate-50 rounded-xl border border-amber-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">2. Estimación de impacto ex-ante</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">Modelos que estimen impacto esperado de un experimento previo a ejecutarlo.</p>
+                    </div>
+<div class="bg-slate-50 rounded-xl border border-amber-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">3. Rol AT como modelo de agentes</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">Transformar el rol AT hacia un modelo de agentes que acompañen el flujo completo de estrategias de mercadeo.</p>
+                    </div>
+<div class="bg-slate-50 rounded-xl border border-amber-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">4. Exploración automática de comportamiento real</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">Exploración automática de comportamiento real de usuarios para generar insights accionables.</p>
+                    </div>
+<div class="bg-slate-50 rounded-xl border border-amber-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">5. Dashboardless para Growth</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">Dashboards menos estáticos, con respuestas generadas por IA.</p>
+                    </div>
+<div class="bg-slate-50 rounded-xl border border-amber-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">6. Evaluación de NSM con usuarios sintéticos</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">IA para evaluar NSM y medir efectividad de experimentos con usuarios sintéticos.</p>
+                    </div></div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+         PANEL 16 · INGENIERÍA DE DATOS (LÍNEA DE CONOCIMIENTO)
+         ═══════════════════════════════════════════════ -->
+        <section id="pantalla-16" class="h-panel bg-slate-50 relative overflow-hidden px-5 md:px-8 lg:px-10"
+            data-screen-title="Ingeniería de datos">
+            <div
+                class="max-w-6xl mx-auto h-full min-h-0 flex flex-col justify-center overflow-hidden gap-2 md:gap-3 py-2 md:py-4">
+                <div class="shrink-0">
+                    <div class="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-cyan-700 mb-1">LÍNEA DE
+                        CONOCIMIENTO</div>
+                    <h2 class="font-headline font-black text-slate-900 tracking-tight leading-none"
+                        style="font-size: clamp(1.35rem, 3.2vw, 2.65rem);">Ingeniería de datos</h2>
+                    <p class="text-slate-600 text-xs md:text-sm mt-1.5 max-w-4xl leading-snug">Si bien ya incorporamos IA, el objetivo es dar el siguiente salto para dejar de ser una “fábrica de ETLs” y convertirnos en un equipo de habilitación de IA.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 min-h-0 items-stretch"><div class="bg-white rounded-xl border border-cyan-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">1. Automatización del Tagging + Auditoría</h3>
+                        <ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug"><li>Implementar agentes que lean el Plan de Medición (loop, pdf) y generen automáticamente el JSON para GTM o el código `analytics.track()` para Segment, y posteriormente realicen la implementación en la herramienta.</li><li>Agente que navegue el sitio y verifique que los eventos disparen según el estándar definido.</li></ul>
+                        <p class="text-[10px] md:text-xs font-bold text-cyan-800 mt-2 leading-snug">Impacto: Reducción del 70% - 80% de carga. Los 2 analytics developers pasan de implementar a validar, como ya ocurre con canales (app mi Bancolombia, svp).</p>
+                    </div>
+<div class="bg-white rounded-xl border border-cyan-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">2. Democratización de Audiencias (lenguaje natural + generativas)</h3>
+                        <ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug"><li>Interfaz de lenguaje natural para que analistas de Mercadeo, analistas de Clervin u otros generadores de audiencias describan su necesidad y un LLM la traduzca a SQL en un data warehouse, generando su audiencia de manera rápida, eficiente y segura.</li><li>Modelos de propensión y clustering que propongan segmentos basados en probabilidad de compra o riesgo de fuga.</li></ul>
+                        <p class="text-[10px] md:text-xs font-bold text-cyan-800 mt-2 leading-snug">Impacto: Reducción del 20% - 30% del tiempo de un ingeniero de datos.</p>
+                    </div>
+<div class="bg-white rounded-xl border border-cyan-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">3. Gestor conocimiento Analítica Digital (Data Team Brain)</h3>
+                        <ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug"><li>Implementación de un Hub de conocimiento basado en IA que ingeste grabaciones de sesiones, archivos SQL dispersos en OneDrive, planes de medición, resultados de ejercicios y documentación de herramientas.</li><li>Uso de técnicas de RAG para que cualquier miembro del equipo consulte dudas técnicas o de negocio en lenguaje natural.</li></ul>
+                        <p class="text-[10px] md:text-xs font-bold text-cyan-800 mt-2 leading-snug">Impacto: Reducción del 60% en tiempo de búsqueda; menos interrupciones, menor dependencia de otras personas y menos reprocesos.</p>
+                    </div>
+<div class="bg-white rounded-xl border border-cyan-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">4. Eficiencia Operativa de Ingeniería</h3>
+                        <ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug"><li>Auto-documentación: flujo donde el LLM lea Git y genere diccionarios de datos automáticamente (-15% de tiempo).</li><li>Datos sintéticos: IA para crear sets de prueba y estresar modelos antes de producción (-20% ciclo QA).</li><li>Optimización en BigQuery: IA para identificar y reescribir consultas ineficientes, y apoyar definición e implementación de esquemas de datos costoeficientes.</li></ul>
+                        
+                    </div></div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+            PANEL 17 · CIENCIA DE DATOS (LÍNEA DE CONOCIMIENTO)
+         ═══════════════════════════════════════════════ -->
+        <section id="pantalla-17" class="h-panel bg-white relative overflow-hidden px-5 md:px-8 lg:px-10"
+            data-screen-title="Ciencia de datos">
+            <div
+                class="max-w-6xl mx-auto h-full min-h-0 flex flex-col justify-center overflow-hidden gap-3 py-2 md:py-4">
+                <div class="shrink-0">
+                    <div class="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-rose-700 mb-1">LÍNEA DE
+                        CONOCIMIENTO</div>
+                    <h2 class="font-headline font-black text-slate-900 tracking-tight leading-none"
+                        style="font-size: clamp(1.2rem, 2.8vw, 2.35rem);">Ciencia de datos · Propuestas IA First</h2>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 min-h-0 items-stretch"><div class="bg-slate-50 rounded-xl border border-rose-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">Modelos de propensión y abandono</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">Scoring continuo para priorizar acciones de adquisición, cross-sell y retención.</p>
+                    </div>
+<div class="bg-slate-50 rounded-xl border border-rose-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">Medición incremental y causal</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">Framework de atribución y experimentación para separar correlación de impacto real.</p>
+                    </div>
+<div class="bg-slate-50 rounded-xl border border-rose-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">Recomendador de decisiones</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">Sugerencias de palancas de negocio con explicación del porqué y escenario esperado.</p>
+                    </div>
+<div class="bg-slate-50 rounded-xl border border-rose-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">MLOps operativo</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">Versionado, monitoreo de drift y retraining con criterios de calidad para producción.</p>
+                    </div></div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+            PANEL 18 · DIAGRAMA
+         ═══════════════════════════════════════════════ -->
+
+        <!-- Main Content -->
+        <main id="pantalla-18" class="h-panel relative flex flex-col bg-slate-50/50 min-w-0" data-screen-title="Diagrama">
+
+            <!-- Título + acción: una sola franja en móvil evita solape left/right -->
+            <div
+                class="diagram-header-row shrink-0 z-20 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between pt-1 sm:pt-0 px-3 sm:px-8 pb-2 sm:pb-0 animate-fade-in pointer-events-none sm:absolute sm:inset-x-0 sm:top-0">
+                <div class="min-w-0 max-w-full sm:max-w-[55%] pointer-events-auto">
+                    <h2 class="text-lg sm:text-2xl font-black text-slate-900 tracking-tight font-headline truncate">
+                        Estrategia CDE</h2>
+                    <p class="text-[10px] sm:text-sm text-slate-500 font-bold uppercase tracking-widest truncate">
+                        Analítica Mercadeo 2026</p>
+                </div>
+                <div class="pointer-events-auto self-start sm:self-auto shrink-0">
+                    <a href="flujo_ciclico.html"
+                        class="inline-flex items-center gap-2 rounded-2xl border border-tertiary/20 bg-white/90 backdrop-blur-md px-3 py-2 sm:px-4 sm:py-3 text-[10px] sm:text-xs font-black uppercase tracking-widest text-tertiary shadow-sm transition-all hover:-translate-y-0.5 hover:bg-tertiary/5 hover:shadow-md whitespace-nowrap">
+                                            <span class="material-symbols-outlined text-[18px]">cycle</span>
+                    Flujo Cíclico
+                    </a>
+                </div>
+            </div>
+
+            <!-- Scrollable Centered Graph -->
+            <div
+                class="flex-grow overflow-auto overflow-x-hidden relative min-h-0 min-w-0 px-3 pb-3 pt-2 sm:px-4 sm:pb-4 sm:pt-16 md:px-8 md:pb-8 md:pt-20 lg:pt-24">
+                <!-- Wraps the Pillar and the Layers -->
+                <div
+                    class="max-w-[950px] w-full min-w-0 mx-auto grid grid-cols-[52px_1fr] sm:grid-cols-[60px_1fr] md:grid-cols-[80px_1fr] gap-3 sm:gap-6 md:gap-8 relative pb-12 pt-2 sm:pt-4">
+
+                    <!-- TRANSLATOR PILLAR -->
+                    <div id="translatorPillar" class="relative flex pb-[10%] pt-[20%] transition-all duration-300">
+                        <div onclick="showInfo('translator')"
+                            class="w-full h-[95%] flex flex-col items-center group cursor-pointer z-20 relative">
+                            <!-- Vertical Line running through the stages -->
+                            <div
+                                class="absolute left-1/2 top-0 bottom-0 w-2 -ml-1 bg-gradient-to-b from-fuchsia-300 via-fuchsia-100 to-fuchsia-300 rounded-full opacity-60 shadow-inner border border-white/50 group-hover:from-fuchsia-400 group-hover:to-fuchsia-400 transition-colors">
+                            </div>
+
+                            <!-- Floating Pill -->
+                            <div
+                                class="role-translator interactive-node rounded-full py-8 px-2 flex flex-col items-center gap-4 shadow-lg border-2 border-fuchsia-300 relative bg-fuchsia-50 hover:bg-fuchsia-100 transition-all hover:scale-105 duration-300 w-12 md:w-16 sticky top-[30vh]">
+                                <span
+                                    class="material-symbols-outlined text-[20px] md:text-[24px] text-fuchsia-600 bg-fuchsia-200/50 p-2 rounded-full mb-1">record_voice_over</span>
+                                <span class="text-lg mb-1 drop-shadow-sm">🧠</span>
+                                <div class="font-black uppercase tracking-[0.2em] text-[10px] md:text-[11px] whitespace-nowrap -rotate-180 text-fuchsia-800"
+                                    style="writing-mode: vertical-rl;">Analytics Translator</div>
+                                <div class="font-bold uppercase tracking-widest text-[8px] md:text-[9px] text-fuchsia-600/90 whitespace-nowrap mt-2 -rotate-180 bg-fuchsia-200/40 px-2 py-1 rounded-sm"
+                                    style="writing-mode: vertical-rl;">(Transversal)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Layers Container -->
+                    <div class="flex flex-col gap-6 relative">
+                        <!-- View Switcher Toolbar -->
+                        <div id="viewSwitcher" class="flex justify-center mb-4 mt-0 z-20 relative min-w-0 px-0">
+                            <div
+                                class="grid w-full max-w-full grid-cols-3 gap-1 items-stretch rounded-2xl border border-slate-200 bg-white/80 p-1.5 shadow-md backdrop-blur-md md:inline-flex md:w-auto md:max-w-full md:flex-row md:flex-wrap md:justify-center md:gap-1 md:items-center">
+                                <button type="button" onclick="setView(1)" id="btn-view-1"
+                                    class="view-btn active-view-btn flex min-h-[44px] w-full items-center justify-center gap-1 rounded-xl px-1.5 py-2 text-[9px] font-bold uppercase tracking-wider transition-all duration-200 sm:gap-2 sm:px-4 sm:text-xs md:min-h-0 md:w-auto">
+                                                                        <span class="material-symbols-outlined text-[14px] sm:text-[16px]">science</span>
+                                    <span class="hidden xs:inline">Nivel 1 &middot;</span>
+                                    Capacidades
+                                </button>
+                                <button onclick="setView(2)" id="btn-view-2"
+                                    class="view-btn px-2 sm:px-4 py-2 rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1 sm:gap-2">
+                                                                        <span class="material-symbols-outlined text-[14px] sm:text-[16px]">account_tree</span>
+                                    <span class="hidden xs:inline">Nivel 2 &middot;</span>
+                                    Roles
+                                </button>
+                                <button onclick="setView(3)" id="btn-view-3"
+                                    class="view-btn px-2 sm:px-4 py-2 rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1 sm:gap-2">
+                                                                        <span class="material-symbols-outlined text-[14px] sm:text-[16px]">bolt</span>
+                                    <span class="hidden xs:inline">Nivel 3 &middot;</span>
+                                    Artefactos
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Helper Text -->
+                        <div class="flex justify-center -mt-2 mb-2 animate-fade-in pointer-events-none z-20">
+                            <span
+                                class="text-[10px] font-bold uppercase tracking-widest text-slate-500 border border-slate-200 bg-white/80 backdrop-blur rounded-full px-3 py-1 shadow-sm inline-flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[14px]">touch_app</span> Haz clic en los nodos para ver detalles
+                            </span>
+                        </div>
+
+                        <!-- Watermark Background -->
+                        <div
+                            class="absolute inset-0 bg-white/40 backdrop-blur-md rounded-[3rem] border border-white/60 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] -z-10 overflow-hidden">
+                            <div
+                                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[120px] font-black text-slate-900/[0.02] -rotate-90 origin-center whitespace-nowrap tracking-[0.2em] font-headline select-none pointer-events-none">
+                                ECOSISTEMA
+                            </div>
+                        </div>
+
+                        <!-- 1. Layer RUN -->
+                        <div
+                            class="layer-run rounded-[2rem] p-4 md:p-10 relative bg-white/80 backdrop-blur-sm border border-slate-200/50 shadow-sm mx-auto w-full transition-transform duration-500">
+                            <h3 onclick="showInfo('layer-run')"
+                                class="text-2xl font-black font-headline text-primary mb-6 text-center flex items-center justify-center gap-3 interactive-node cursor-pointer border border-transparent hover:border-primary/20 bg-transparent hover:bg-primary/5 p-4 rounded-2xl transition-all w-max mx-auto px-8">
+                                <span class="material-symbols-outlined text-[32px]">rocket_launch</span>
+                                Marketing Analytic <span class="text-slate-400 font-medium">(Run)</span>
+                            </h3>
+
+                            <!-- RUN Inner Views (data-view) -->
+                            <!-- VIEW 2: Organización / Ciclo -->
+                            <div data-view="2" style="display:none"
+                                class="view-content grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+                                <!-- Célula 1 -->
+                                <div
+                                    class="bg-white rounded-2xl p-5 border border-slate-200 shadow-md flex flex-col gap-4 relative z-10 w-full">
+                                    <h4
+                                        class="text-xs font-black text-center text-slate-800 uppercase tracking-widest mb-1 border-b border-slate-100 pb-3">
+                                        Célula 1</h4>
+                                    <div
+                                        class="role-gbi rounded-xl px-4 py-2.5 flex items-center justify-between shadow-sm">
+                                        <span
+                                            class="text-[10px] font-extrabold uppercase tracking-widest text-left pr-1">BI
+                                            Generativo</span>
+                                        <span class="text-sm">🧠</span>
+                                    </div>
+                                    <div
+                                        class="role-ci rounded-xl px-4 py-2.5 flex items-center justify-between shadow-sm">
+                                        <span
+                                            class="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest text-left leading-tight pr-1">Analista<br />Consumer
+                                            Insights</span>
+                                        <span class="text-sm">🧠</span>
+                                    </div>
+                                    <div
+                                        class="role-cx rounded-xl px-4 py-2.5 flex items-center justify-between shadow-sm">
+                                        <span
+                                            class="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest text-left pr-1">Analista
+                                            CX</span>
+                                        <span class="text-sm">🧠</span>
+                                    </div>
+                                </div>
+                                <!-- Célula 2 -->
+                                <div
+                                    class="bg-white rounded-2xl p-5 border border-slate-200 shadow-md flex flex-col gap-4 relative z-10 w-full">
+                                    <h4
+                                        class="text-xs font-black text-center text-slate-800 uppercase tracking-widest mb-1 border-b border-slate-100 pb-3">
+                                        Célula 2</h4>
+                                    <div
+                                        class="role-gbi rounded-xl px-4 py-2.5 flex items-center justify-between shadow-sm">
+                                        <span
+                                            class="text-[10px] font-extrabold uppercase tracking-widest text-left pr-1">BI
+                                            Generativo</span>
+                                        <span class="text-sm">🧠</span>
+                                    </div>
+                                    <div
+                                        class="role-ci rounded-xl px-4 py-2.5 flex items-center justify-between shadow-sm">
+                                        <span
+                                            class="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest text-left leading-tight pr-1">Analista<br />Consumer
+                                            Insights</span>
+                                        <span class="text-sm">🧠</span>
+                                    </div>
+                                    <div
+                                        class="role-cx rounded-xl px-4 py-2.5 flex items-center justify-between shadow-sm">
+                                        <span
+                                            class="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest text-left pr-1">Analista
+                                            CX</span>
+                                        <span class="text-sm">🧠</span>
+                                    </div>
+                                </div>
+                                <!-- Célula 3 -->
+                                <div
+                                    class="bg-white rounded-2xl p-5 border border-slate-200 shadow-md flex flex-col gap-4 relative z-10 w-full">
+                                    <h4
+                                        class="text-xs font-black text-center text-slate-800 uppercase tracking-widest mb-1 border-b border-slate-100 pb-3">
+                                        Célula 3</h4>
+                                    <div
+                                        class="role-gbi rounded-xl px-4 py-2.5 flex items-center justify-between shadow-sm">
+                                        <span
+                                            class="text-[10px] font-extrabold uppercase tracking-widest text-left pr-1">BI
+                                            Generativo</span>
+                                        <span class="text-sm">🧠</span>
+                                    </div>
+                                    <div
+                                        class="role-ci rounded-xl px-4 py-2.5 flex items-center justify-between shadow-sm">
+                                        <span
+                                            class="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest text-left leading-tight pr-1">Analista<br />Consumer
+                                            Insights</span>
+                                        <span class="text-sm">🧠</span>
+                                    </div>
+                                    <div
+                                        class="role-cx rounded-xl px-4 py-2.5 flex items-center justify-between shadow-sm">
+                                        <span
+                                            class="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest text-left pr-1">Analista
+                                            CX</span>
+                                        <span class="text-sm">🧠</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- VIEW 1: Capacidades -->
+                            <div data-view="1" class="view-content grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+                                <!-- Generative BI -->
+                                <div
+                                    class="bg-purple-50 rounded-2xl p-5 border border-purple-200 shadow-md flex flex-col gap-3 relative z-10">
+                                    <div class="flex items-center gap-2 border-b border-purple-100 pb-3 mb-1">
+                                        <span
+                                            class="material-symbols-outlined text-purple-500 text-[20px]">auto_awesome</span>
+                                        <h4 class="text-xs font-black text-purple-800 uppercase tracking-widest">BI
+                                            Generativo</h4>
+                                    </div>
+                                    <p class="text-[11px] text-purple-700 leading-relaxed">Narrativas y visualizaciones
+                                        generadas por IA sobre datos operativos de la célula.</p>
+                                    <div class="flex flex-wrap gap-1 mt-1">
+                                        <span
+                                            class="text-[10px] bg-purple-100 text-purple-700 font-bold px-2 py-0.5 rounded-full">Data
+                                            Storytelling</span>
+                                        <span
+                                            class="text-[10px] bg-purple-100 text-purple-700 font-bold px-2 py-0.5 rounded-full">Visualization</span>
+                                        <span
+                                            class="text-[10px] bg-purple-100 text-purple-700 font-bold px-2 py-0.5 rounded-full">Análisis
+                                            Descriptivos</span>
+                                    </div>
+                                </div>
+                                <!-- Consumer Insights -->
+                                <div
+                                    class="bg-blue-50 rounded-2xl p-5 border border-blue-200 shadow-md flex flex-col gap-3 relative z-10">
+                                    <div class="flex items-center gap-2 border-b border-blue-100 pb-3 mb-1">
+                                        <span
+                                            class="material-symbols-outlined text-blue-500 text-[20px]">search_insights</span>
+                                        <h4 class="text-xs font-black text-blue-800 uppercase tracking-widest">Consumer
+                                            Insights</h4>
+                                    </div>
+                                    <p class="text-[11px] text-blue-700 leading-relaxed">Análisis de comportamiento del
+                                        consumidor para estrategias de targeting y crecimiento.</p>
+                                    <div class="flex flex-wrap gap-1 mt-1">
+                                        <span
+                                            class="text-[10px] bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded-full">Análisis
+                                            de comportamiento</span>
+                                        <span
+                                            class="text-[10px] bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded-full">Insights
+                                            accionables</span>
+                                        <span
+                                            class="text-[10px] bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded-full">Hipótesis
+                                            para experimentación</span>
+                                    </div>
+                                </div>
+                                <!-- CX -->
+                                <div
+                                    class="bg-teal-50 rounded-2xl p-5 border border-teal-200 shadow-md flex flex-col gap-3 relative z-10">
+                                    <div class="flex items-center gap-2 border-b border-teal-100 pb-3 mb-1">
+                                        <span
+                                            class="material-symbols-outlined text-teal-500 text-[20px]">psychology_alt</span>
+                                        <h4 class="text-xs font-black text-teal-800 uppercase tracking-widest">CX</h4>
+                                    </div>
+                                    <p class="text-[11px] text-teal-700 leading-relaxed">Monitoreo continuo de señales
+                                        de
+                                        experiencia para detectar fricciones y priorizar quick wins en la célula.</p>
+                                    <div class="flex flex-wrap gap-1 mt-1">
+                                        <span
+                                            class="text-[10px] bg-teal-100 text-teal-700 font-bold px-2 py-0.5 rounded-full">Señales
+                                            de fricción</span>
+                                        <span
+                                            class="text-[10px] bg-teal-100 text-teal-700 font-bold px-2 py-0.5 rounded-full">Alertas
+                                            NPS / ICX</span>
+                                        <span
+                                            class="text-[10px] bg-teal-100 text-teal-700 font-bold px-2 py-0.5 rounded-full">Hipótesis
+                                            de mejora</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- VIEW 3: Artefactos & Activación -->
+                            <div data-view="3" style="display:none" class="view-content">
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <div
+                                        class="bg-white rounded-2xl p-4 border border-primary/20 shadow-sm flex flex-col items-center gap-2 text-center hover:shadow-lg hover:-translate-y-1 transition-all">
+                                        <span
+                                            class="material-symbols-outlined text-[28px] text-primary bg-primary/10 p-3 rounded-xl">insights</span>
+                                        <span
+                                            class="text-xs font-black uppercase tracking-wider text-slate-800">Insights
+                                            accionables</span>
+                                        <span class="text-[10px] text-slate-500">Decisiones basadas en datos</span>
+                                    </div>
+                                    <div
+                                        class="bg-white rounded-2xl p-4 border border-purple-200 shadow-sm flex flex-col items-center gap-2 text-center hover:shadow-lg hover:-translate-y-1 transition-all">
+                                        <span
+                                            class="material-symbols-outlined text-[28px] text-purple-600 bg-purple-50 p-3 rounded-xl">chat</span>
+                                        <span
+                                            class="text-xs font-black uppercase tracking-wider text-slate-800">Respuestas
+                                            IA</span>
+                                        <span class="text-[10px] text-slate-500">Consumo en lenguaje natural</span>
+                                    </div>
+                                    <div
+                                        class="bg-white rounded-2xl p-4 border border-teal-200 shadow-sm flex flex-col items-center gap-2 text-center hover:shadow-lg hover:-translate-y-1 transition-all">
+                                        <span
+                                            class="material-symbols-outlined text-[28px] text-teal-600 bg-teal-50 p-3 rounded-xl">people</span>
+                                        <span
+                                            class="text-xs font-black uppercase tracking-wider text-slate-800">Audiencias
+                                            activadas</span>
+                                        <span class="text-[10px] text-slate-500">Segmentos para campañas</span>
+                                    </div>
+                                    <div
+                                        class="bg-white rounded-2xl p-4 border border-orange-200 shadow-sm flex flex-col items-center gap-2 text-center hover:shadow-lg hover:-translate-y-1 transition-all">
+                                        <span
+                                            class="material-symbols-outlined text-[28px] text-orange-600 bg-orange-50 p-3 rounded-xl">bar_chart_4_bars</span>
+                                        <span
+                                            class="text-xs font-black uppercase tracking-wider text-slate-800">Atribución</span>
+                                        <span class="text-[10px] text-slate-500">Contribución por canal</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Run -> Change connection (3 Arrows) -->
+                        <div class="hidden md:grid grid-cols-3 gap-6 h-10 -my-9 z-20 relative pointer-events-none">
+                            <!-- Arrow 1 (Célula 1) -->
+                            <div class="flex justify-center items-center mt-2">
+                                <div
+                                    class="w-12 h-12 bg-white rounded-full border border-slate-200 shadow-[0_8px_15px_-3px_rgba(0,0,0,0.1)] flex items-center justify-center text-slate-400">
+                                    <span class="material-symbols-outlined text-xl">south_east</span>
+                                </div>
+                            </div>
+                            <!-- Arrow 2 (Célula 2) -->
+                            <div class="flex justify-center items-center">
+                                <div
+                                    class="w-12 h-12 bg-white rounded-full border border-slate-200 shadow-[0_8px_15px_-3px_rgba(0,0,0,0.1)] flex items-center justify-center text-slate-400">
+                                    <span class="material-symbols-outlined text-xl">south</span>
+                                </div>
+                            </div>
+                            <!-- Arrow 3 (Célula 3) -->
+                            <div class="flex justify-center items-center mt-2">
+                                <div
+                                    class="w-12 h-12 bg-white rounded-full border border-slate-200 shadow-[0_8px_15px_-3px_rgba(0,0,0,0.1)] flex items-center justify-center text-slate-400">
+                                    <span class="material-symbols-outlined text-xl">south_west</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Layer CHANGE -->
+                        <div
+                            class="layer-change rounded-[2rem] p-4 md:p-10 relative bg-white/80 backdrop-blur-sm border border-slate-200/50 shadow-sm mx-auto w-full mt-6">
+                            <h3 onclick="showInfo('layer-change')"
+                                class="text-2xl font-black font-headline text-secondary mb-6 text-center flex items-center justify-center gap-3 interactive-node cursor-pointer border border-transparent hover:border-secondary/20 bg-transparent hover:bg-secondary/5 p-4 rounded-2xl transition-all w-max mx-auto px-8">
+                                <span class="material-symbols-outlined text-[32px]">hub</span>
+                                Analytics Hub <span class="text-slate-400 font-medium">(Change)</span>
+                            </h3>
+
+                            <!-- CHANGE Inner Views (data-view) -->
+                            <!-- VIEW 2: Organización -->
+                            <div data-view="2" style="display:none" class="view-content flex flex-col gap-4">
+                                <div
+                                    class="role-cientificos rounded-xl py-4 px-6 shadow-sm flex items-center justify-between">
+                                    <span class="text-sm font-bold uppercase tracking-widest">Científicos de
+                                        datos</span>
+                                    <div class="flex items-center gap-2"><span class="text-lg">🤖</span></div>
+                                </div>
+                                <div class="role-ci rounded-xl py-4 px-6 shadow-sm flex items-center justify-between">
+                                    <span class="text-sm font-bold uppercase tracking-widest">Analista Consumer
+                                        Insights</span>
+                                    <div class="flex items-center gap-2"><span class="text-lg">🧠</span></div>
+                                </div>
+                                <div class="role-cx rounded-xl py-4 px-6 shadow-sm flex items-center justify-between">
+                                    <span class="text-sm font-bold uppercase tracking-widest">Analista CX</span>
+                                    <div class="flex items-center gap-2"><span class="text-lg">🧠</span></div>
+                                </div>
+                                <div onclick="showInfo('analytics-engineer')"
+                                    class="role-ingenieros rounded-xl py-4 px-6 shadow-sm flex items-center justify-between interactive-node cursor-pointer">
+                                    <span class="text-sm font-bold uppercase tracking-widest">Analytics Engineers</span>
+                                    <div class="flex items-center gap-2"><span class="text-lg">🤖</span></div>
+                                </div>
+                                <div
+                                    class="role-gbi-hub rounded-xl py-4 px-6 shadow-sm flex items-center justify-between">
+                                    <span class="text-sm font-bold uppercase tracking-widest">BI Generativo</span>
+                                    <div class="flex items-center gap-2"><span class="text-lg">🧠</span></div>
+                                </div>
+                            </div>
+
+                            <!-- VIEW 1: Capacidades -->
+                            <div data-view="1"
+                                class="view-content grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                                <div
+                                    class="bg-rose-50 rounded-2xl p-4 border border-rose-200 shadow-sm flex flex-col gap-2">
+                                    <div class="flex items-center gap-2 border-b border-rose-100 pb-2">
+                                        <span class="material-symbols-outlined text-rose-500 text-[18px]">science</span>
+                                        <h4 class="text-[11px] font-black text-rose-800 uppercase tracking-widest">
+                                            Ciencia
+                                            de Datos</h4>
+                                    </div>
+                                    <div class="flex flex-wrap gap-1 mt-1">
+                                        <span
+                                            class="text-[10px] bg-rose-100 text-rose-700 font-bold px-2 py-0.5 rounded-full">Atribución</span>
+                                        <span
+                                            class="text-[10px] bg-rose-100 text-rose-700 font-bold px-2 py-0.5 rounded-full">Audiencias</span>
+                                        <span
+                                            class="text-[10px] bg-rose-100 text-rose-700 font-bold px-2 py-0.5 rounded-full">Metas
+                                            / OKR</span>
+                                        <span
+                                            class="text-[10px] bg-rose-100 text-rose-700 font-bold px-2 py-0.5 rounded-full">Modelado
+                                            causal</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="bg-blue-50 rounded-2xl p-4 border border-blue-200 shadow-sm flex flex-col gap-2">
+                                    <div class="flex items-center gap-2 border-b border-blue-100 pb-2">
+                                        <span
+                                            class="material-symbols-outlined text-blue-500 text-[18px]">manage_search</span>
+                                        <h4 class="text-[11px] font-black text-blue-800 uppercase tracking-widest">
+                                            Consumer
+                                            Insights</h4>
+                                    </div>
+                                    <div class="flex flex-wrap gap-1 mt-1">
+                                        <span
+                                            class="text-[10px] bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded-full">Investigación
+                                            profunda</span>
+                                        <span
+                                            class="text-[10px] bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded-full">Diseño
+                                            metodológico</span>
+                                        <span
+                                            class="text-[10px] bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded-full">Insights
+                                            transversales</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="bg-teal-50 rounded-2xl p-4 border border-teal-200 shadow-sm flex flex-col gap-2">
+                                    <div class="flex items-center gap-2 border-b border-teal-100 pb-2">
+                                        <span
+                                            class="material-symbols-outlined text-teal-600 text-[18px]">psychology_alt</span>
+                                        <h4 class="text-[11px] font-black text-teal-800 uppercase tracking-widest">CX
+                                        </h4>
+                                    </div>
+                                    <div class="flex flex-wrap gap-1 mt-1">
+                                        <span
+                                            class="text-[10px] bg-teal-100 text-teal-700 font-bold px-2 py-0.5 rounded-full">Journey
+                                            analytics</span>
+                                        <span
+                                            class="text-[10px] bg-teal-100 text-teal-700 font-bold px-2 py-0.5 rounded-full">Root
+                                            cause</span>
+                                        <span
+                                            class="text-[10px] bg-teal-100 text-teal-700 font-bold px-2 py-0.5 rounded-full">Diseño
+                                            estructural</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="bg-purple-50 rounded-2xl p-4 border border-purple-200 shadow-sm flex flex-col gap-2">
+                                    <div class="flex items-center gap-2 border-b border-purple-100 pb-2">
+                                        <span
+                                            class="material-symbols-outlined text-purple-500 text-[18px]">auto_awesome</span>
+                                        <h4 class="text-[11px] font-black text-purple-800 uppercase tracking-widest">BI
+                                            Generativo</h4>
+                                    </div>
+                                    <div class="flex flex-wrap gap-1 mt-1">
+                                        <span
+                                            class="text-[10px] bg-purple-100 text-purple-700 font-bold px-2 py-0.5 rounded-full">Prompts
+                                            estándar</span>
+                                        <span
+                                            class="text-[10px] bg-purple-100 text-purple-700 font-bold px-2 py-0.5 rounded-full">Glosario
+                                            semántico</span>
+                                        <span
+                                            class="text-[10px] bg-purple-100 text-purple-700 font-bold px-2 py-0.5 rounded-full">Gobierno
+                                            de respuestas IA</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="bg-cyan-50 rounded-2xl p-4 border border-cyan-200 shadow-sm flex flex-col gap-2">
+                                    <div class="flex items-center gap-2 border-b border-cyan-100 pb-2">
+                                        <span class="material-symbols-outlined text-cyan-600 text-[18px]">storage</span>
+                                        <h4 class="text-[11px] font-black text-cyan-800 uppercase tracking-widest">
+                                            Ingeniería
+                                            Analítica</h4>
+                                    </div>
+                                    <div class="flex flex-wrap gap-1 mt-1">
+                                        <span
+                                            class="text-[10px] bg-cyan-100 text-cyan-700 font-bold px-2 py-0.5 rounded-full">Pipelines</span>
+                                        <span
+                                            class="text-[10px] bg-cyan-100 text-cyan-700 font-bold px-2 py-0.5 rounded-full">Data
+                                            Quality</span>
+                                        <span
+                                            class="text-[10px] bg-cyan-100 text-cyan-700 font-bold px-2 py-0.5 rounded-full">Calendarización</span>
+                                        <span
+                                            class="text-[10px] bg-cyan-100 text-cyan-700 font-bold px-2 py-0.5 rounded-full">Modelado
+                                            y almacenamiento</span>
+                                        <span
+                                            class="text-[10px] bg-cyan-100 text-cyan-700 font-bold px-2 py-0.5 rounded-full">Enmascaramiento</span>
+                                        <span
+                                            class="text-[10px] bg-cyan-100 text-cyan-700 font-bold px-2 py-0.5 rounded-full">Tagging</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="bg-amber-50 rounded-2xl p-4 border border-amber-200 shadow-sm flex flex-col gap-2">
+                                    <div class="flex items-center gap-2 border-b border-amber-100 pb-2">
+                                        <span class="material-symbols-outlined text-amber-600 text-[18px]">labs</span>
+                                        <h4 class="text-[11px] font-black text-amber-800 uppercase tracking-widest">Grow
+                                            Marketing</h4>
+                                    </div>
+                                    <div class="flex flex-wrap gap-1 mt-1">
+                                        <span
+                                            class="text-[10px] bg-amber-100 text-amber-700 font-bold px-2 py-0.5 rounded-full">Experimentación
+                                            A/B</span>
+                                        <span
+                                            class="text-[10px] bg-amber-100 text-amber-700 font-bold px-2 py-0.5 rounded-full">Laboratorio
+                                            CX (Eye Tracking)</span>
+                                        <span
+                                            class="text-[10px] bg-amber-100 text-amber-700 font-bold px-2 py-0.5 rounded-full">Usuarios
+                                            sintéticos</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- VIEW 3: Artefactos & Activación -->
+                            <div data-view="3" style="display:none" class="view-content">
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <div
+                                        class="bg-white rounded-2xl p-4 border border-rose-200 shadow-sm flex flex-col items-center gap-2 text-center hover:shadow-lg hover:-translate-y-1 transition-all">
+                                        <span
+                                            class="material-symbols-outlined text-[28px] text-rose-600 bg-rose-50 p-3 rounded-xl">model_training</span>
+                                        <span class="text-xs font-black uppercase tracking-wider text-slate-800">Modelos
+                                            ML</span>
+                                        <span class="text-[10px] text-slate-500">Atribución / Propensión</span>
+                                    </div>
+                                    <div
+                                        class="bg-white rounded-2xl p-4 border border-purple-200 shadow-sm flex flex-col items-center gap-2 text-center hover:shadow-lg hover:-translate-y-1 transition-all">
+                                        <span
+                                            class="material-symbols-outlined text-[28px] text-purple-600 bg-purple-50 p-3 rounded-xl">auto_fix_high</span>
+                                        <span
+                                            class="text-xs font-black uppercase tracking-wider text-slate-800">Capacidades
+                                            IA</span>
+                                        <span class="text-[10px] text-slate-500">Agentes y asistentes</span>
+                                    </div>
+                                    <div
+                                        class="bg-white rounded-2xl p-4 border border-cyan-200 shadow-sm flex flex-col items-center gap-2 text-center hover:shadow-lg hover:-translate-y-1 transition-all">
+                                        <span
+                                            class="material-symbols-outlined text-[28px] text-cyan-600 bg-cyan-50 p-3 rounded-xl">account_tree</span>
+                                        <span
+                                            class="text-xs font-black uppercase tracking-wider text-slate-800">Pipelines
+                                            de datos</span>
+                                        <span class="text-[10px] text-slate-500">ETL / Transformación</span>
+                                    </div>
+                                    <div
+                                        class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex flex-col items-center gap-2 text-center hover:shadow-lg hover:-translate-y-1 transition-all">
+                                        <span
+                                            class="material-symbols-outlined text-[28px] text-slate-600 bg-slate-50 p-3 rounded-xl">table_view</span>
+                                        <span
+                                            class="text-xs font-black uppercase tracking-wider text-slate-800">Datasets
+                                            &
+                                            Features</span>
+                                        <span class="text-[10px] text-slate-500">Feature store / Catálogo</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Change -> Grow -->
+                        <div class="h-10 flex justify-center -my-9 z-20 pointer-events-none relative">
+                            <div
+                                class="w-14 h-14 bg-white rounded-full border border-slate-200 shadow-[0_8px_15px_-3px_rgba(0,0,0,0.1)] flex items-center justify-center text-slate-400 absolute top-0">
+                                <span class="material-symbols-outlined text-xl">south</span>
+                            </div>
+                        </div>
+
+                        <!-- 3. Layer GROWTH -->
+                        <div
+                            class="layer-grow rounded-[2rem] p-8 md:p-10 relative bg-white/80 backdrop-blur-sm border border-slate-200/50 shadow-sm mx-auto w-full mt-6">
+                            <h3 onclick="showInfo('layer-grow')"
+                                class="text-2xl font-black font-headline text-tertiary mb-6 text-center flex items-center justify-center gap-3 interactive-node cursor-pointer border border-transparent hover:border-tertiary/20 bg-transparent hover:bg-tertiary/5 p-4 rounded-2xl transition-all w-max mx-auto px-8">
+                                <span class="material-symbols-outlined text-[32px]">trending_up</span>
+                                Evolución <span class="text-slate-400 font-medium">(Grow)</span>
+                            </h3>
+
+                            <!-- GROWTH Inner Views (data-view) -->
+                            <!-- VIEW 2: Organización -->
+                            <div data-view="2" style="display:none" class="view-content flex flex-col gap-4">
+                                <div
+                                    class="role-cientificos rounded-xl py-4 px-6 shadow-sm flex items-center justify-between">
+                                    <span class="text-sm font-bold uppercase tracking-widest">Científicos de
+                                        datos</span>
+                                    <div class="flex items-center gap-2"><span class="text-lg">🤖</span></div>
+                                </div>
+                                <div onclick="showInfo('analytics-engineer')"
+                                    class="role-ingenieros rounded-xl py-4 px-6 shadow-sm flex items-center justify-between interactive-node cursor-pointer">
+                                    <span class="text-sm font-bold uppercase tracking-widest">Analytics Engineers</span>
+                                    <div class="flex items-center gap-2"><span class="text-lg">🤖</span></div>
+                                </div>
+                            </div>
+
+                            <!-- VIEW 1: Capacidades -->
+                            <div data-view="1" class="view-content grid grid-cols-3 gap-4">
+                                <div
+                                    class="bg-amber-50 rounded-2xl p-4 border border-amber-200 shadow-sm flex flex-col gap-2">
+                                    <div class="flex items-center gap-2 border-b border-amber-100 pb-2">
+                                        <span
+                                            class="material-symbols-outlined text-amber-600 text-[18px]">campaign</span>
+                                        <h4 class="text-[11px] font-black text-amber-800 uppercase tracking-widest">
+                                            Martech
+                                        </h4>
+                                    </div>
+                                    <div class="flex flex-wrap gap-1 mt-1">
+                                        <span
+                                            class="text-[10px] bg-amber-100 text-amber-700 font-bold px-2 py-0.5 rounded-full">CDP</span>
+                                        <span
+                                            class="text-[10px] bg-amber-100 text-amber-700 font-bold px-2 py-0.5 rounded-full">Automation</span>
+                                        <span
+                                            class="text-[10px] bg-amber-100 text-amber-700 font-bold px-2 py-0.5 rounded-full">Activación</span>
+                                        <span
+                                            class="text-[10px] bg-amber-100 text-amber-700 font-bold px-2 py-0.5 rounded-full">AdTech</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="bg-sky-50 rounded-2xl p-4 border border-sky-200 shadow-sm flex flex-col gap-2">
+                                    <div class="flex items-center gap-2 border-b border-sky-100 pb-2">
+                                        <span
+                                            class="material-symbols-outlined text-sky-500 text-[18px]">model_training</span>
+                                        <h4 class="text-[11px] font-black text-sky-800 uppercase tracking-widest">IA /
+                                            MLOps
+                                        </h4>
+                                    </div>
+                                    <div class="flex flex-wrap gap-1 mt-1">
+                                        <span
+                                            class="text-[10px] bg-sky-100 text-sky-700 font-bold px-2 py-0.5 rounded-full">Modelos
+                                            productivos</span>
+                                        <span
+                                            class="text-[10px] bg-sky-100 text-sky-700 font-bold px-2 py-0.5 rounded-full">Reentrenamiento</span>
+                                        <span
+                                            class="text-[10px] bg-sky-100 text-sky-700 font-bold px-2 py-0.5 rounded-full">Monitoreo</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="bg-cyan-50 rounded-2xl p-4 border border-cyan-200 shadow-sm flex flex-col gap-2">
+                                    <div class="flex items-center gap-2 border-b border-cyan-100 pb-2">
+                                        <span class="material-symbols-outlined text-cyan-600 text-[18px]">hub</span>
+                                        <h4 class="text-[11px] font-black text-cyan-800 uppercase tracking-widest">
+                                            Plataforma
+                                            de Datos</h4>
+                                    </div>
+                                    <div class="flex flex-wrap gap-1 mt-1">
+                                        <span
+                                            class="text-[10px] bg-cyan-100 text-cyan-700 font-bold px-2 py-0.5 rounded-full">Arquitectura</span>
+                                        <span
+                                            class="text-[10px] bg-cyan-100 text-cyan-700 font-bold px-2 py-0.5 rounded-full">Estándares</span>
+                                        <span
+                                            class="text-[10px] bg-cyan-100 text-cyan-700 font-bold px-2 py-0.5 rounded-full">Frameworks</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- VIEW 3: Artefactos & Activación -->
+                            <div data-view="3" style="display:none" class="view-content">
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <div
+                                        class="bg-white rounded-2xl p-4 border border-rose-200 shadow-sm flex flex-col items-center gap-2 text-center hover:shadow-lg hover:-translate-y-1 transition-all">
+                                        <span
+                                            class="material-symbols-outlined text-[28px] text-rose-600 bg-rose-50 p-3 rounded-xl">deployed_code</span>
+                                        <span class="text-xs font-black uppercase tracking-wider text-slate-800">Modelos
+                                            en producción</span>
+                                        <span class="text-[10px] text-slate-500">Productización y versionado</span>
+                                    </div>
+                                    <div
+                                        class="bg-white rounded-2xl p-4 border border-cyan-200 shadow-sm flex flex-col items-center gap-2 text-center hover:shadow-lg hover:-translate-y-1 transition-all">
+                                        <span
+                                            class="material-symbols-outlined text-[28px] text-cyan-600 bg-cyan-50 p-3 rounded-xl">dataset</span>
+                                        <span class="text-xs font-black uppercase tracking-wider text-slate-800">Tablas
+                                            & Datasets</span>
+                                        <span class="text-[10px] text-slate-500">Datos curados y disponibles</span>
+                                    </div>
+                                    <div
+                                        class="bg-white rounded-2xl p-4 border border-amber-200 shadow-sm flex flex-col items-center gap-2 text-center hover:shadow-lg hover:-translate-y-1 transition-all">
+                                        <span
+                                            class="material-symbols-outlined text-[28px] text-amber-600 bg-amber-50 p-3 rounded-xl">library_books</span>
+                                        <span class="text-xs font-black uppercase tracking-wider text-slate-800">Bases
+                                            de conocimiento</span>
+                                        <span class="text-[10px] text-slate-500">Contexto para agentes IA</span>
+                                    </div>
+                                    <div
+                                        class="bg-white rounded-2xl p-4 border border-purple-200 shadow-sm flex flex-col items-center gap-2 text-center hover:shadow-lg hover:-translate-y-1 transition-all">
+                                        <span
+                                            class="material-symbols-outlined text-[28px] text-purple-600 bg-purple-50 p-3 rounded-xl">smart_toy</span>
+                                        <span class="text-xs font-black uppercase tracking-wider text-slate-800">Agentes
+                                            Low-Code</span>
+                                        <span class="text-[10px] text-slate-500">IA accesible sin ingeniería</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- Closes Right Column Layers Container -->
+            </div> <!-- Closes Grid -->
+    </div>
+
+    <!-- Legend -->
+    <div id="iconLegend"
+        class="hidden md:flex absolute bottom-8 left-8 z-10 animate-fade-in pointer-events-none flex-col gap-2 bg-white/70 backdrop-blur-md border border-slate-200 p-4 rounded-2xl shadow-sm transition-all duration-300">
+        <h4
+            class="text-[9px] font-black uppercase tracking-widest text-slate-500 border-b border-slate-200/50 pb-2 mb-1">
+            Clasificación</h4>
+        <div class="flex flex-col gap-2 text-[11px] font-extrabold text-slate-600 uppercase tracking-wider">
+                        <div class="flex items-center gap-3"><span class="text-lg">🧠</span> Consumidor</div>
+            <div class="flex items-center gap-3"><span class="text-lg">🤖</span> Híbrido</div>
+            <div class="flex items-center gap-3"><span class="text-lg">⚙️</span> Productor</div>
+        </div>
+    </div>
+    </main>
+
+    </div><!-- /h-scroll-wrap -->
+
+    <!-- Slide Over Backdrop & Drawer -->
+    <div id="backdrop" onclick="closePanel()"
+        class="fixed inset-0 bg-slate-900/30 backdrop-blur-sm z-40 opacity-0 pointer-events-none transition-opacity duration-300">
+    </div>
+    <aside id="slidePanel"
+        class="fixed top-0 right-0 w-full max-w-[420px] h-screen bg-white/95 backdrop-blur-3xl shadow-[0_0_50px_rgba(0,0,0,0.15)] border-l border-white/40 z-50 transform translate-x-full transition-transform duration-400 ease-out overflow-y-auto">
+        <div class="p-8">
+            <button onclick="closePanel()"
+                class="absolute top-6 right-6 w-10 h-10 bg-slate-100/80 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-200 hover:text-slate-900 transition-colors">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+            <div id="panelContent" class="mt-8 flex flex-col gap-6 w-full animate-fade-in">
+                <!-- Data injected here dynamically -->
+            </div>
+        </div>
+    </aside>
+
+    <!-- Content Templates -->
+    <template id="tmpl-gbi">
+        <div class="glass-panel p-6 rounded-[1.5rem] relative overflow-hidden shadow-lg border-2 border-slate-100">
+            <div class="absolute top-0 left-0 w-1.5 h-full bg-gbi"></div>
+            <div class="flex items-center gap-3 mb-6 text-purple-700 border-b border-purple-100 pb-4">
+                <span class="material-symbols-outlined text-[28px] p-2 bg-purple-100 rounded-xl">auto_awesome</span>
+                <h4 class="font-bold text-lg font-headline tracking-wide uppercase">BI Generativo</h4>
+            </div>
+            <ul class="text-sm text-slate-700 space-y-4 font-medium px-2">
+                <li class="flex flex-col gap-1">
+                    <span class="flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-purple-500"></div> Data Storytelling
+                    </span>
+                    <span class="text-xs text-slate-500 font-normal pl-3">Narrativas generadas por IA sobre dashboards
+                        operativos.</span>
+                </li>
+                <li class="flex flex-col gap-1">
+                    <span class="flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-purple-500"></div> Data Visualization
+                    </span>
+                    <span class="text-xs text-slate-500 font-normal pl-3">Presentación de KPIS mediante visuales limpios
+                        en la célula.</span>
+                </li>
+                <li class="flex flex-col gap-1">
+                    <span class="flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-purple-500"></div> Análisis Descriptivos
+                    </span>
+                    <span class="text-xs text-slate-500 font-normal pl-3">Deducir qué pasó y cuándo pasó de manera
+                        rápida para el backlog de ejecución.</span>
+                </li>
+            </ul>
+        </div>
+    </template>
+
+    <template id="tmpl-cientificos-change">
+        <div class="glass-panel p-6 rounded-[1.5rem] relative overflow-hidden shadow-lg border-2 border-slate-100">
+            <div class="absolute top-0 left-0 w-1.5 h-full bg-rose-500"></div>
+            <div class="flex items-center gap-3 mb-6 text-rose-700 border-b border-rose-100 pb-4">
+                <span class="material-symbols-outlined text-[28px] p-2 bg-rose-100 rounded-xl">science</span>
+                <h4 class="font-bold text-lg font-headline tracking-wide uppercase">Científicos de Datos</h4>
+            </div>
+            <ul class="text-sm text-slate-700 space-y-4 font-medium px-2">
+                <li class="flex flex-col gap-1">
+                    <span class="flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-rose-500"></div> Atribución
+                    </span>
+                    <span class="text-xs text-slate-500 font-normal pl-3">Modelos avanzados para estimar el peso real y
+                        el
+                        impacto incremental de cada canal, utilizando inferencia causal, experimentos controlados y
+                        seudo‑experimentos para aislar efectos y reducir sesgos.</span>
+                </li>
+                <li class="flex flex-col gap-1">
+                    <span class="flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-rose-500"></div> Audiencias
+                    </span>
+                    <span class="text-xs text-slate-500 font-normal pl-3">Modelos de segmentación predictiva orientados
+                        a
+                        micro‑targeting algorítmico, basados en propensión de comportamiento para priorizar clientes
+                        según probabilidad de respuesta o conversión.</span>
+                </li>
+                <li class="flex flex-col gap-1">
+                    <span class="flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-rose-500"></div> Metas / OKR
+                    </span>
+                    <span class="text-xs text-slate-500 font-normal pl-3">Traducción de objetivos de negocio en scores
+                        de
+                        propensión y modelos de proyección, que permiten anticipar si las metas se cumplirán o no
+                        bajo distintos escenarios de ejecución.</span>
+                </li>
+            </ul>
+        </div>
+    </template>
+
+
+    <template id="tmpl-ci-run">
+        <div class="glass-panel p-6 rounded-[1.5rem] relative overflow-hidden shadow-lg border-2 border-slate-100">
+            <div class="absolute top-0 left-0 w-1.5 h-full bg-primary"></div>
+            <div class="flex flex-col gap-3 mb-5">
+                <div class="flex items-center justify-between text-primary">
+                    <div class="flex items-center gap-3">
+                        <span
+                            class="material-symbols-outlined text-[24px] p-2 bg-primary/10 rounded-xl">search_insights</span>
+                        <h4 class="font-bold text-lg font-headline tracking-wide uppercase text-left leading-tight">
+                            Analista Consumer Insights<br /><span class="text-[10px] sm:text-xs text-primary/70">(en
+                                Célula)</span></h4>
+                    </div>
+                </div>
+                <span
+                    class="text-[10px] uppercase font-black tracking-widest bg-primary/10 text-primary self-start px-3 py-1 rounded-full border border-primary/20">Capa
+                    RUN</span>
+            </div>
+
+            <div class="space-y-6 text-sm">
+                <div>
+                    <span class="font-bold text-slate-800 block mb-2 uppercase text-xs tracking-wider">Rol
+                        principal</span>
+                    <p class="text-slate-600 leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-200">Dar
+                        sentido estratégico continuo al backlog de la célula.</p>
+                </div>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="bg-green-50/50 p-4 rounded-xl border border-green-100">
+                        <span
+                            class="font-bold text-green-700 flex items-center gap-2 mb-2 uppercase text-xs tracking-widest"><span
+                                class="material-symbols-outlined text-[16px]">check_circle</span> SÍ hace</span>
+                        <ul class="text-slate-700 space-y-2 list-disc pl-5 marker:text-green-500">
+                            <li>Interpretar señales operativas</li>
+                            <li>Conectar con contexto exterior de manera rápida</li>
+                            <li>Aportar hipótesis para A/B Testing</li>
+                            <li>Ayudar al Translator a destilar oportunidades</li>
+                        </ul>
+                    </div>
+                    <div class="bg-red-50/50 p-4 rounded-xl border border-red-100">
+                        <span
+                            class="font-bold text-red-700 flex items-center gap-2 mb-2 uppercase text-xs tracking-widest"><span
+                                class="material-symbols-outlined text-[16px]">cancel</span> NO hace</span>
+                        <ul class="text-slate-600 space-y-2 list-disc pl-5 marker:text-red-400">
+                            <li>Estudios largos</li>
+                            <li>Investigación pesada</li>
+                            <li>Diseño metodológico complejo</li>
+                        </ul>
+                    </div>
+                </div>
+                <div
+                    class="bg-indigo-50 p-4 rounded-xl border border-indigo-200 shadow-[inset_0_2px_10px_rgba(0,0,0,0.02)]">
+                    <span
+                        class="font-bold text-indigo-900 block mb-3 uppercase text-xs tracking-widest flex items-center gap-2"><span
+                            class="material-symbols-outlined text-[16px]">forum</span> Voice of CI:</span>
+                    <p class="text-slate-700 italic font-medium leading-relaxed">"Este cambio de conversión puede tener
+                        que ver con expectativas del consumidor que mapeamos en Q1."</p>
+                    <hr class="border-indigo-100 my-2">
+                    <p class="text-slate-700 italic font-medium leading-relaxed">"Esto ya lo vimos en otro mercado por
+                        estacionalidad."</p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tmpl-cx-run">
+        <div class="glass-panel p-6 rounded-[1.5rem] relative overflow-hidden shadow-lg border-2 border-slate-100">
+            <div class="absolute top-0 left-0 w-1.5 h-full bg-teal-600"></div>
+            <div class="flex flex-col gap-3 mb-5">
+                <div class="flex items-center justify-between text-teal-700">
+                    <div class="flex items-center gap-3">
+                        <span
+                            class="material-symbols-outlined text-[24px] p-2 bg-teal-100 rounded-xl">sentiment_satisfied</span>
+                        <h4 class="font-bold text-lg font-headline tracking-wide uppercase text-left leading-tight">
+                            Analista CX<br /><span class="text-[10px] sm:text-xs text-teal-700/70">(en Célula)</span>
+                        </h4>
+                    </div>
+                </div>
+                <span
+                    class="text-[10px] uppercase font-black tracking-widest bg-teal-100 text-teal-700 self-start px-3 py-1 rounded-full border border-teal-200">Capa
+                    RUN</span>
+            </div>
+
+            <div class="space-y-6 text-sm">
+                <div>
+                    <span class="font-bold text-slate-800 block mb-2 uppercase text-xs tracking-wider">Rol
+                        principal</span>
+                    <p class="text-slate-600 leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        Entender cómo se está viviendo HOY la experiencia de los activos que gestiona la célula y
+                        determinar qué "duele".</p>
+                </div>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="bg-green-50/50 p-4 rounded-xl border border-green-100">
+                        <span
+                            class="font-bold text-green-700 flex items-center gap-2 mb-2 uppercase text-xs tracking-widest"><span
+                                class="material-symbols-outlined text-[16px]">check_circle</span> SÍ hace</span>
+                        <ul class="text-slate-700 space-y-2 list-disc pl-5 marker:text-green-500">
+                            <li>Leer Journeys operativos (Micro-journeys)</li>
+                            <li>Identificar Fricción rápida / Feedback directo en NPS relacional</li>
+                            <li>Priorizar "Quick Wins" viables en sprints cortos</li>
+                        </ul>
+                    </div>
+                    <div class="bg-red-50/50 p-4 rounded-xl border border-red-100">
+                        <span
+                            class="font-bold text-red-700 flex items-center gap-2 mb-2 uppercase text-xs tracking-widest"><span
+                                class="material-symbols-outlined text-[16px]">cancel</span> NO hace</span>
+                        <ul class="text-slate-600 space-y-2 list-disc pl-5 marker:text-red-400">
+                            <li>Modelos complejos de experiencia sistémica</li>
+                            <li>Estudios longitudinales o reestructuración pesada de flujos</li>
+                            <li>Instrumentación extensa</li>
+                        </ul>
+                    </div>
+                </div>
+                <div
+                    class="bg-teal-50 p-4 rounded-xl border border-teal-200 shadow-[inset_0_2px_10px_rgba(0,0,0,0.02)]">
+                    <span
+                        class="font-bold text-teal-900 block mb-3 uppercase text-xs tracking-widest flex items-center gap-2"><span
+                            class="material-symbols-outlined text-[16px]">forum</span> Voice of CX:</span>
+                    <p class="text-slate-700 italic font-medium leading-relaxed">"Aquí el cliente abandona
+                        constantemente el formulario según el mapa de calor."</p>
+                    <hr class="border-teal-100 my-2">
+                    <p class="text-slate-700 italic font-medium leading-relaxed">"Esto no es un problema de campaña, es
+                        frustración genuina por un bug UX."</p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tmpl-translator">
+        <div
+            class="glass-panel p-6 rounded-[1.5rem] relative overflow-hidden shadow-lg border-2 border-fuchsia-100 bg-fuchsia-50/20">
+            <div class="absolute top-0 left-0 w-1.5 h-full bg-fuchsia-500"></div>
+            <div class="flex flex-col gap-3 mb-5">
+                <div class="flex items-center justify-between text-fuchsia-600">
+                    <div class="flex items-center gap-3">
+                        <span
+                            class="material-symbols-outlined text-[24px] p-2 bg-fuchsia-100 rounded-xl">record_voice_over</span>
+                        <h4 class="font-bold text-lg font-headline tracking-wide uppercase">Analytics Translator</h4>
+                    </div>
+                </div>
+                <span
+                    class="text-[10px] uppercase font-black tracking-widest bg-fuchsia-100 text-fuchsia-700 border border-fuchsia-200 self-start px-3 py-1 rounded-full shadow-sm">ROL
+                    PUENTE · BRIDGE</span>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-fuchsia-100 shadow-sm">
+                <p class="text-[15px] font-medium text-slate-700 leading-relaxed">
+                    Es la figura esencial que evita el desalineamiento entre el negocio directo y la capacidad
+                    técnica/analítica que construimos en el CDE.
+                </p>
+            </div>
+
+            <ul class="mt-6 space-y-4 px-2">
+                <li class="flex gap-4">
+                    <span class="material-symbols-outlined text-primary mt-0.5">rocket_launch</span>
+                    <div>
+                        <strong class="text-sm uppercase tracking-wider text-slate-800">Vive en Operación
+                            (Marketing Analytic):</strong>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">Entiende profundamente el contexto del
+                            equipo comercial, el estrés de las métricas diarias y sabe priorizar usando lógica de
+                            negocio.</p>
+                    </div>
+                </li>
+                <li class="flex gap-4">
+                    <span class="material-symbols-outlined text-secondary mt-0.5">hub</span>
+                    <div>
+                        <strong class="text-sm uppercase tracking-wider text-slate-800">Opera con
+                            Analytics Hub:</strong>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">Traduce la necesidad del mercado en
+                            requerimientos técnicos viables (para Científicos, Analistas CX/CI Senior, etc.) y devuelve
+                            el output hecho de forma consumible para la célula.</p>
+                    </div>
+                </li>
+                <li class="flex gap-4">
+                    <span class="material-symbols-outlined text-tertiary mt-0.5">trending_up</span>
+                    <div>
+                        <strong class="text-sm uppercase tracking-wider text-slate-800">Aporta a
+                            Evolución:</strong>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">Es el sensor líder para indicar qué
+                            tecnologías o madurez faltan para crear impacto drástico en 1-2 años.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </template>
+
+    <template id="tmpl-triage">
+        <div
+            class="glass-panel p-8 rounded-[1.5rem] relative overflow-hidden shadow-lg border-2 border-slate-100 flex flex-col items-center">
+            <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4 shadow-inner">
+                <span class="material-symbols-outlined text-[36px] text-slate-400">filter_alt</span>
+            </div>
+            <h4 class="font-black text-xl font-headline uppercase mb-8 text-slate-800 tracking-wide">Flujo de Resolución
+            </h4>
+
+            <p class="text-sm text-center text-slate-500 mb-8 max-w-[90%] leading-relaxed">
+                Este funnel de Triage garantiza que los problemas no inunden a Analytics Hub y Evolución, forzando la
+                resolución
+                eficiente en la célula con la ayuda del Translator.
+            </p>
+
+            <div class="w-full space-y-5">
+                <div>
+                    <div class="flex items-center justify-between text-sm font-bold mb-2">
+                        <span class="text-primary bg-primary/10 px-3 py-1 rounded-lg border border-primary/20">En Célula
+                            (Marketing Analytic)</span>
+                        <span class="text-slate-800 text-lg">60 - 70%</span>
+                    </div>
+                    <div
+                        class="w-full bg-slate-100 h-3 rounded-full overflow-hidden shadow-inner border border-slate-200/50">
+                        <div
+                            class="bg-gradient-to-r from-primary/80 to-primary h-full w-[65%] rounded-full shadow-[0_0_10px_rgba(1,70,142,0.4)]">
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-slate-400 mt-2 font-medium uppercase tracking-wider pl-2">Problemas
+                        atómicos, quick-wins y Analytics Hub de BI Generativo.</p>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between text-sm font-bold mb-2">
+                        <span
+                            class="text-secondary bg-secondary/10 px-3 py-1 rounded-lg border border-secondary/20">Escala
+                            a Analytics Hub</span>
+                        <span class="text-slate-800 text-lg">20 - 30%</span>
+                    </div>
+                    <div
+                        class="w-full bg-slate-100 h-3 rounded-full overflow-hidden shadow-inner border border-slate-200/50">
+                        <div
+                            class="bg-gradient-to-r from-secondary/80 to-secondary h-full w-[25%] rounded-full shadow-[0_0_10px_rgba(0,107,95,0.4)]">
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-slate-400 mt-2 font-medium uppercase tracking-wider pl-2">Estudios
+                        profundos y fallos transversales.</p>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between text-sm font-bold mb-2">
+                        <span class="text-tertiary bg-tertiary/10 px-3 py-1 rounded-lg border border-tertiary/20">Llega
+                            a Evolución</span>
+                        <span class="text-slate-800 text-lg">&lt; 10%</span>
+                    </div>
+                    <div
+                        class="w-full bg-slate-100 h-3 rounded-full overflow-hidden shadow-inner border border-slate-200/50">
+                        <div
+                            class="bg-gradient-to-r from-tertiary/80 to-tertiary h-full w-[8%] rounded-full shadow-[0_0_10px_rgba(121,49,8,0.4)]">
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-slate-400 mt-2 font-medium uppercase tracking-wider pl-2">Nuevas
+                        infraestructuras o plataformas requeridas a nivel IT/Martech.</p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tmpl-ci-change">
+        <div class="glass-panel p-6 rounded-[1.5rem] relative overflow-hidden shadow-lg border-2 border-slate-100">
+            <div class="absolute top-0 right-0 w-1.5 h-full bg-primary"></div>
+            <div class="flex flex-col gap-3 mb-6">
+                <div class="flex items-center justify-between text-primary flex-row-reverse">
+                    <div class="flex flex-row-reverse items-center gap-3">
+                        <span
+                            class="material-symbols-outlined text-[24px] p-2 bg-primary/10 rounded-xl">manage_search</span>
+                        <h4
+                            class="font-bold text-lg font-headline tracking-wide uppercase text-right w-full leading-tight">
+                            Analista Consumer Insights Senior<br /><span
+                                class="text-[10px] text-primary/70 font-bold block">(en Analytics Hub)</span>
+                        </h4>
+                    </div>
+                </div>
+                <span
+                    class="text-[10px] uppercase font-black tracking-widest bg-primary/10 text-primary self-end px-3 py-1 rounded-full border border-primary/20">Capa
+                    ANALYTICS HUB</span>
+            </div>
+
+            <div class="space-y-6 text-sm text-right">
+                <div>
+                    <span class="font-bold text-slate-800 block mb-2 uppercase text-xs tracking-wider">Enfoque
+                        Primordial</span>
+                    <ul class="text-slate-600 space-y-2 inline-block text-right">
+                        <li>Estudios ad-hoc complejos</li>
+                        <li>Investigación profunda & diseño metodológico</li>
+                        <li class="text-red-500 font-bold mt-2 pt-2 border-t border-slate-100">Trabajo altamente NO
+                            SCRUM-friendly</li>
+                    </ul>
+                </div>
+
+                <div class="bg-indigo-50/70 p-4 rounded-xl border border-indigo-100 text-left shadow-sm">
+                    <span
+                        class="font-bold text-indigo-900 block mb-3 uppercase text-xs tracking-widest flex items-center gap-2"><span
+                            class="material-symbols-outlined text-[16px]">science</span> Casos de Uso (Ejemplos):</span>
+                    <p class="text-slate-600 font-medium leading-relaxed">Redefinición total de segmentación de
+                        producto, auditoría de percepción de marca frente a competidores, estudios cuali/cuanti
+                        extensos, extracción de insights altamente transversales que afectan a 3+ células a la vez.</p>
+                </div>
+
+                <div
+                    class="bg-emerald-50 p-4 rounded-xl border border-emerald-100 text-left shadow-[inset_0_2px_10px_rgba(0,0,0,0.02)]">
+                    <span
+                        class="font-bold text-emerald-900 block mb-2 uppercase text-[10px] tracking-widest border-b border-emerald-200/50 pb-2">Orígenes
+                        Clave (Flujo de entrada):</span>
+                    <p class="text-slate-700 text-sm font-medium leading-relaxed mt-2">Jamás prioriza tickets directos
+                        de células individuales. Su trabajo entra <strong>vía Translator</strong> o nace de iniciativas
+                        estratégicas corporativas identificadas (nivel Comité) o al detectar señales cruzadas que hacen
+                        eco en múltiples células simultáneamente.</p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tmpl-cx-change">
+        <div class="glass-panel p-6 rounded-[1.5rem] relative overflow-hidden shadow-lg border-2 border-slate-100">
+            <div class="absolute top-0 right-0 w-1.5 h-full bg-teal-600"></div>
+            <div class="flex flex-col gap-3 mb-6">
+                <div class="flex items-center justify-between text-teal-700 flex-row-reverse">
+                    <div class="flex flex-row-reverse items-center gap-3">
+                        <span
+                            class="material-symbols-outlined text-[24px] p-2 bg-teal-100 rounded-xl">psychology_alt</span>
+                        <h4 class="font-bold text-lg font-headline tracking-wide uppercase text-right w-full">Analista
+                            CX Senior<br /><span class="text-[10px] text-teal-700/70 font-bold block">(en
+                                Analytics Hub)</span></h4>
+                    </div>
+                </div>
+                <span
+                    class="text-[10px] uppercase font-black tracking-widest bg-teal-100 text-teal-700 self-end px-3 py-1 rounded-full border border-teal-200">Capa
+                    ANALYTICS HUB</span>
+            </div>
+
+            <div class="space-y-6 text-sm text-right">
+                <div>
+                    <span class="font-bold text-slate-800 block mb-2 uppercase text-xs tracking-wider">Tipo de
+                        Trabajo</span>
+                    <ul class="text-slate-600 space-y-2 inline-block text-right font-medium">
+                        <li>Journey analytics predictivos, avanzados y multi-canal</li>
+                        <li>Correlación profunda de métricas y NPS con facturación y comportamiento</li>
+                        <li>Análisis Root Cause sistémico e histórico</li>
+                        <li>Definición o Diseño estructural primario de nuevas capas de experiencia</li>
+                    </ul>
+                </div>
+
+                <div class="flex flex-col gap-4 text-left">
+                    <div
+                        class="bg-amber-50 rounded-xl p-4 border border-amber-100 shadow-sm relative overflow-hidden w-full">
+                        <div class="w-1 h-full bg-amber-300 absolute left-0 top-0"></div>
+                        <span class="font-black text-amber-900 block text-[10px] uppercase mb-2">Cuándo
+                            interviene:</span>
+                        <ul class="text-slate-700 space-y-2 list-disc pl-4 text-xs font-medium">
+                            <li>El dolor de experiencia es sistémico.</li>
+                            <li>La queja de CX es persistente a través de los sprints u omni-canal.</li>
+                            <li>Es inviable resolverlo con quick wins o ajustes de diseño UI en Marketing Analytic.</li>
+                        </ul>
+                    </div>
+                    <div
+                        class="bg-blue-50 rounded-xl p-4 border border-blue-100 shadow-sm relative overflow-hidden flex flex-col w-full">
+                        <div class="w-1 h-full bg-blue-300 absolute left-0 top-0"></div>
+                        <span class="font-black text-blue-900 block text-[10px] uppercase mb-2">Cómo recibe el
+                            trabajo:</span>
+                        <p class="text-slate-700 text-xs font-bold italic leading-relaxed">"Requerimientos consolidados
+                            exclusivamente vía Analytics Translator y filtrados en priorización del Hub."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tmpl-analytics-engineer">
+        <div class="glass-panel p-6 rounded-[1.5rem] relative overflow-hidden shadow-lg border-2 border-slate-100">
+            <div class="absolute top-0 right-0 w-1.5 h-full bg-cyan-600"></div>
+            <div class="flex flex-col gap-3 mb-6">
+                <div class="flex items-center justify-between text-cyan-700 flex-row-reverse">
+                    <div class="flex flex-row-reverse items-center gap-3">
+                        <span
+                            class="material-symbols-outlined text-[24px] p-2 bg-cyan-100 rounded-xl">engineering</span>
+                        <h4 class="font-bold text-lg font-headline tracking-wide uppercase text-right w-full">Analytics
+                            Engineer</h4>
+                    </div>
+                </div>
+                <span
+                    class="text-[10px] uppercase font-black tracking-widest bg-cyan-100 text-cyan-700 self-end px-3 py-1 rounded-full border border-cyan-200">Rol
+                    transversal</span>
+            </div>
+
+            <div class="space-y-4 text-sm text-slate-700 leading-relaxed">
+                <p class="font-medium">Responsables de que el equipo del CDE cuente con datos precisos, disponibles y de
+                    calidad antes, durante y después de cada iniciativa de Mercadeo, asegurando un soporte continuo en
+                    todas las fases del proceso.</p>
+                <p class="font-medium">Traduce necesidades de negocio en estructuras de datos reutilizables,
+                    definiendo entidades, métricas y features estándar que habilitan atribución, propensión, CX
+                    analytics y BI generativo.</p>
+                <p class="font-medium">Garantiza calidad, escalabilidad y gobierno del dato para decisión, integrando
+                    fuentes cross-channel y conectando analítica con plataformas de activación sin operar campañas ni
+                    herramientas de marketing.</p>
+            </div>
+        </div>
+    </template>
+
+    <template id="tmpl-layer-run">
+        <div
+            class="glass-panel p-8 rounded-[1.5rem] relative overflow-hidden shadow-lg border-2 border-primary/20 bg-white/50 backdrop-blur-md flex flex-col h-full">
+            <div class="absolute top-0 left-0 w-2 h-full bg-primary"></div>
+            <div class="flex items-center gap-4 mb-4 text-primary">
+                <span class="material-symbols-outlined text-[36px] p-3 bg-primary/10 rounded-xl">rocket_launch</span>
+                <h4 class="font-black text-2xl font-headline tracking-wide uppercase leading-tight">Marketing
+                    Analytic<br><span class="text-lg text-slate-500 font-medium">(Run)</span></h4>
+            </div>
+
+            <div
+                class="bg-primary/10 border border-primary/20 text-slate-700 p-4 rounded-xl mt-2 font-medium italic shadow-inner">
+                Marketing Analytic activa decisiones con datos de negocio.
+                Aquí la analítica se usa para ejecutar, medir y aprender.
+            </div>
+
+            <div class="space-y-6 text-sm text-slate-700 mt-6 flex-grow">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h5
+                        class="font-bold text-slate-900 uppercase tracking-widest text-[11px] mb-3 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-xl">target</span> Propósito
+                    </h5>
+                    <p class="text-slate-600 leading-relaxed font-medium">Asegurar que el negocio <strong
+                            class="text-slate-800">tome decisiones informadas de forma continua</strong>, usando datos,
+                        insights y capacidades analíticas existentes para ejecutar estrategias de mercadeo, CX y
+                        evolución.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h5
+                        class="font-bold text-slate-900 uppercase tracking-widest text-[11px] mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-xl">sync</span> Qué pasa en Marketing
+                        Analytic
+                    </h5>
+                    <ul class="space-y-3 text-slate-600">
+                        <li class="flex gap-3"><span
+                                class="material-symbols-outlined text-primary/60 text-lg mt-0.5">check_circle</span>
+                            <span>Se formulan y priorizan <strong>preguntas de negocio</strong> (atribución, audiencias,
+                                metas).</span>
+                        </li>
+                        <li class="flex gap-3"><span
+                                class="material-symbols-outlined text-primary/60 text-lg mt-0.5">check_circle</span>
+                            <span>Se <strong>consumen capacidades analíticas</strong> ya disponibles (dashboards,
+                                insights, modelos, asistentes).</span>
+                        </li>
+                        <li class="flex gap-3"><span
+                                class="material-symbols-outlined text-primary/60 text-lg mt-0.5">check_circle</span>
+                            <span>Se ejecutan campañas, journeys y experimentos.</span>
+                        </li>
+                        <li class="flex gap-3"><span
+                                class="material-symbols-outlined text-primary/60 text-lg mt-0.5">check_circle</span>
+                            <span>Se monitorean resultados y KPIs clave.</span>
+                        </li>
+                        <li class="flex gap-3"><span
+                                class="material-symbols-outlined text-primary/60 text-lg mt-0.5">check_circle</span>
+                            <span>Se cierra el loop con aprendizaje y retroalimentación.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col">
+                    <h5
+                        class="font-bold text-slate-900 uppercase tracking-widest text-[11px] mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-xl">work</span> Tipo de trabajo
+                    </h5>
+                    <ul class="list-disc pl-5 space-y-2 text-slate-600 text-[13px] font-medium flex-grow">
+                        <li>Uso y adopción, no construcción.</li>
+                        <li>Alta velocidad, foco en impacto.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tmpl-layer-change">
+        <div
+            class="glass-panel p-8 rounded-[1.5rem] relative overflow-hidden shadow-lg border-2 border-secondary/20 bg-white/50 backdrop-blur-md flex flex-col h-full">
+            <div class="absolute top-0 left-0 w-2 h-full bg-secondary"></div>
+            <div class="flex items-center gap-4 mb-4 text-secondary">
+                <span class="material-symbols-outlined text-[36px] p-3 bg-secondary/10 rounded-xl">hub</span>
+                <h4 class="font-black text-2xl font-headline tracking-wide uppercase leading-tight">Analytics
+                    Hub<br><span class="text-lg text-slate-500 font-medium">(Change)</span></h4>
+            </div>
+
+            <div
+                class="bg-secondary/10 border border-secondary/20 text-slate-700 p-4 rounded-xl mt-2 font-medium italic shadow-inner">
+                Analytics Hub construye capacidades analíticas confiables.
+            </div>
+
+            <div class="space-y-6 text-sm text-slate-700 mt-6 flex-grow">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h5
+                        class="font-bold text-slate-900 uppercase tracking-widest text-[11px] mb-3 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary text-xl">target</span> Propósito
+                    </h5>
+                    <p class="text-slate-600 leading-relaxed font-medium">Traducir las necesidades del negocio en
+                        <strong class="text-slate-800">capacidades analíticas robustas</strong>, asegurando rigor
+                        técnico, calidad, trazabilidad y reutilización.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h5
+                        class="font-bold text-slate-900 uppercase tracking-widest text-[11px] mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary text-xl">sync</span> Qué pasa en Analytics
+                        Hub
+                    </h5>
+                    <ul class="space-y-3 text-slate-600">
+                        <li class="flex gap-3 items-start"><span
+                                class="material-symbols-outlined text-secondary/60 text-lg mt-0.5">check_circle</span>
+                            <span>Traducción: negocio → hipótesis → métricas → enfoque analítico.</span>
+                        </li>
+                        <li class="flex gap-3 items-start"><span
+                                class="material-symbols-outlined text-secondary/60 text-lg mt-0.5">check_circle</span>
+                            <div>Diseño y construcción de:
+                                <ul class="list-[circle] pl-5 mt-1 text-slate-500 space-y-1 ml-2 font-medium">
+                                    <li>Análisis estadísticos (atribución, causalidad)</li>
+                                    <li>Modelos de categorización / segmentación</li>
+                                    <li>Modelos de propensión / scoring</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="flex gap-3 items-start"><span
+                                class="material-symbols-outlined text-secondary/60 text-lg mt-0.5">check_circle</span>
+                            <span>Validación técnica y de negocio.</span>
+                        </li>
+                        <li class="flex gap-3 items-start"><span
+                                class="material-symbols-outlined text-secondary/60 text-lg mt-0.5">check_circle</span>
+                            <span>Definición de métricas de desempeño y mantenimiento.</span>
+                        </li>
+                        <li class="flex gap-3 items-start"><span
+                                class="material-symbols-outlined text-secondary/60 text-lg mt-0.5">check_circle</span>
+                            <span>Documentación y preparación para despliegue o activación.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col">
+                    <h5
+                        class="font-bold text-slate-900 uppercase tracking-widest text-[11px] mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary text-xl">work</span> Tipo de trabajo
+                    </h5>
+                    <ul class="list-disc pl-5 space-y-2 text-slate-600 text-[13px] font-medium flex-grow">
+                        <li>Construcción y mejora, no operación masiva.</li>
+                        <li>Foco en calidad, consistencia y escalabilidad.</li>
+                        <li>Trabajo especializado y profundo.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tmpl-layer-grow">
+        <div
+            class="glass-panel p-8 rounded-[1.5rem] relative overflow-hidden shadow-lg border-2 border-tertiary/20 bg-white/50 backdrop-blur-md flex flex-col h-full">
+            <div class="absolute top-0 left-0 w-2 h-full bg-tertiary"></div>
+            <div class="flex items-center gap-4 mb-4 text-tertiary">
+                <span class="material-symbols-outlined text-[36px] p-3 bg-tertiary/10 rounded-xl">trending_up</span>
+                <h4 class="font-black text-2xl font-headline tracking-wide uppercase leading-tight">Evolución<br><span
+                        class="text-lg text-slate-500 font-medium">(Grow)</span></h4>
+            </div>
+
+            <div
+                class="bg-tertiary/10 border border-tertiary/20 text-slate-700 p-4 rounded-xl mt-2 font-medium italic shadow-inner">
+                Evolución escala capacidades analíticas en plataforma competitiva.
+            </div>
+
+            <div class="space-y-6 text-sm text-slate-700 mt-6 flex-grow">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h5
+                        class="font-bold text-slate-900 uppercase tracking-widest text-[11px] mb-3 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-tertiary text-xl">target</span> Propósito
+                    </h5>
+                    <p class="text-slate-600 leading-relaxed font-medium">Convertir soluciones exitosas en <strong
+                            class="text-slate-800">capacidades institucionales, escalables y gobernadas</strong>, que
+                        puedan ser reutilizadas de forma transversal por la organización.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <h5
+                        class="font-bold text-slate-900 uppercase tracking-widest text-[11px] mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-tertiary text-xl">sync</span> Qué pasa en Evolución
+                    </h5>
+                    <ul class="space-y-3 text-slate-600">
+                        <li class="flex gap-3 items-start"><span
+                                class="material-symbols-outlined text-tertiary/60 text-lg mt-0.5">check_circle</span>
+                            <span>Identificación de soluciones repetibles y de alto impacto.</span>
+                        </li>
+                        <li class="flex gap-3 items-start"><span
+                                class="material-symbols-outlined text-tertiary/60 text-lg mt-0.5">check_circle</span>
+                            <div>Productización de:
+                                <ul class="list-[circle] pl-5 mt-1 text-slate-500 space-y-1 ml-2 font-medium">
+                                    <li>Modelos analíticos (scoring y decisiones en producción)</li>
+                                    <li>Tablas y datasets curados para consumo transversal</li>
+                                    <li>Bases de conocimiento para contexto de IA</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="flex gap-3 items-start"><span
+                                class="material-symbols-outlined text-tertiary/60 text-lg mt-0.5">check_circle</span>
+                            <span>Orquestación de agentes low-code con guardrails y contexto de negocio.</span>
+                        </li>
+                        <li class="flex gap-3 items-start"><span
+                                class="material-symbols-outlined text-tertiary/60 text-lg mt-0.5">check_circle</span>
+                            <span>Definición de gobierno, SLAs, monitoreo y mantenimiento.</span>
+                        </li>
+                        <li class="flex gap-3 items-start"><span
+                                class="material-symbols-outlined text-tertiary/60 text-lg mt-0.5">check_circle</span>
+                            <span>Escalamiento a nuevos casos de uso y equipos.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col">
+                    <h5
+                        class="font-bold text-slate-900 uppercase tracking-widest text-[11px] mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-tertiary text-xl">work</span> Tipo de trabajo
+                    </h5>
+                    <ul class="list-disc pl-5 space-y-2 text-slate-600 text-[13px] font-medium flex-grow">
+                        <li>Evolución estructural, no ejecución puntual.</li>
+                        <li>Foco en eficiencia, reutilización y automatización.</li>
+                        <li>Horizonte de mediano y largo plazo.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tmpl-ai-first">
+        <div
+            class="glass-panel p-8 rounded-[1.5rem] relative overflow-hidden shadow-lg border-2 border-fuchsia-200 bg-white/70 backdrop-blur-md flex flex-col gap-6">
+            <div class="absolute top-0 left-0 w-2 h-full bg-fuchsia-500"></div>
+
+            <div class="flex items-start justify-between gap-4 border-b border-fuchsia-100 pb-5">
+                <div class="flex items-center gap-4 text-fuchsia-700">
+                    <span
+                        class="material-symbols-outlined text-[36px] p-3 bg-fuchsia-100 rounded-2xl">auto_awesome</span>
+                    <div>
+                        <h4 class="font-black text-2xl font-headline tracking-wide uppercase leading-tight">AI First
+                        </h4>
+                        <p class="text-sm text-slate-500 font-bold uppercase tracking-widest">Nueva visual estratégica
+                        </p>
+                    </div>
+                </div>
+                <span
+                    class="text-[10px] uppercase font-black tracking-widest bg-fuchsia-100 text-fuchsia-700 border border-fuchsia-200 px-3 py-1 rounded-full self-start">Visión
+                    transversal</span>
+            </div>
+
+            <div class="bg-fuchsia-50/70 border border-fuchsia-100 rounded-2xl p-5 shadow-sm">
+                <h5 class="font-black text-fuchsia-800 uppercase tracking-widest text-[11px] mb-3">Principio rector</h5>
+                <p class="text-slate-700 font-medium leading-relaxed mb-4">AI First no significa “todo es modelos
+                    complejos”, sino que <strong class="text-slate-900">toda capacidad debe estar diseñada para ser
+                        aumentada, asistida o automatizada por IA desde el inicio</strong>.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-slate-700">
+                    <div class="bg-white rounded-xl border border-fuchsia-100 p-4 flex gap-3"><span
+                            class="material-symbols-outlined text-fuchsia-600">chat</span><span>Lenguaje natural como
+                            interfaz por defecto.</span></div>
+                    <div class="bg-white rounded-xl border border-fuchsia-100 p-4 flex gap-3"><span
+                            class="material-symbols-outlined text-fuchsia-600">bolt</span><span>Automatización de
+                            análisis repetitivos.</span></div>
+                    <div class="bg-white rounded-xl border border-fuchsia-100 p-4 flex gap-3"><span
+                            class="material-symbols-outlined text-fuchsia-600">psychology</span><span>Humanos enfocados
+                            en decisión, contexto y criterio, no en cómputo.</span></div>
+                    <div class="bg-white rounded-xl border border-fuchsia-100 p-4 flex gap-3"><span
+                            class="material-symbols-outlined text-fuchsia-600">hub</span><span>Modelos y agentes
+                            integrados al flujo operativo, no como proyectos aislados.</span></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-5">
+                <div class="rounded-[1.5rem] border border-primary/20 bg-primary/5 p-6">
+                    <div class="flex items-start justify-between gap-4 mb-5">
+                        <div>
+                            <div class="text-[10px] font-black uppercase tracking-widest text-primary/80 mb-2">MARKETING
+                                ANALYTIC (RUN)</div>
+                            <h5 class="font-black text-slate-900 text-xl font-headline">La IA activa decisiones</h5>
+                            <p class="text-sm text-slate-600 font-medium mt-2">Objetivo: operar marketing hoy, con
+                                decisiones rápidas y mínima fricción cognitiva.</p>
+                        </div>
+                        <span
+                            class="text-[10px] uppercase font-black tracking-widest bg-primary/10 text-primary px-3 py-1 rounded-full border border-primary/20">IA
+                            copiloto y asistiva</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div class="bg-white rounded-2xl border border-primary/10 p-4">
+                            <div class="font-black text-primary uppercase tracking-widest text-[11px] mb-2">Core ·
+                                Generar Narrativas</div>
+                            <ul class="space-y-2 text-slate-700">
+                                <li>Narrativas automáticas sobre KPIs, campañas y journeys.</li>
+                                <li>NLG, preguntas en lenguaje natural y alertas con explicación.</li>
+                                <li>Convierte datos en señales, no en dashboards.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white rounded-2xl border border-primary/10 p-4">
+                            <div class="font-black text-primary uppercase tracking-widest text-[11px] mb-2">Diagnosticar
+                                Causas</div>
+                            <ul class="space-y-2 text-slate-700">
+                                <li>Detección automática de anomalías y descomposición de métricas.</li>
+                                <li>Root cause analysis asistido y comparativos inteligentes.</li>
+                                <li>La IA propone hipótesis iniciales; el analista valida y decide.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white rounded-2xl border border-primary/10 p-4">
+                            <div class="font-black text-primary uppercase tracking-widest text-[11px] mb-2">Priorizar
+                                Experimentos</div>
+                            <ul class="space-y-2 text-slate-700">
+                                <li>Pruebas A/B con hipótesis, segmentos y variables sugeridas por IA.</li>
+                                <li>Priorización automática de experimentos.</li>
+                                <li>Lectura asistida de resultados y siguiente mejor experimento.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white rounded-2xl border border-primary/10 p-4">
+                            <div class="font-black text-primary uppercase tracking-widest text-[11px] mb-2">Detectar
+                                Señales CX</div>
+                            <ul class="space-y-2 text-slate-700">
+                                <li>NLP y análisis de sentimiento sobre NPS, comentarios y fricciones.</li>
+                                <li>Detección de momentos de dolor y clustering automático de feedback.</li>
+                                <li>Escucha activa del cliente a escala.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-[1.5rem] border border-secondary/20 bg-secondary/5 p-6">
+                    <div class="flex items-start justify-between gap-4 mb-5">
+                        <div>
+                            <div class="text-[10px] font-black uppercase tracking-widest text-secondary/80 mb-2">
+                                ANALYTICS HUB (CHANGE)</div>
+                            <h5 class="font-black text-slate-900 text-xl font-headline">La IA construye capacidades</h5>
+                            <p class="text-sm text-slate-600 font-medium mt-2">Objetivo: crear capacidades analíticas
+                                nuevas y reutilizables para todo marketing.</p>
+                        </div>
+                        <span
+                            class="text-[10px] uppercase font-black tracking-widest bg-secondary/10 text-secondary px-3 py-1 rounded-full border border-secondary/20">IA
+                            analítica y predictiva</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div class="bg-white rounded-2xl border border-secondary/10 p-4">
+                            <div class="font-black text-secondary uppercase tracking-widest text-[11px] mb-2">Core ·
+                                Modelar Decisiones</div>
+                            <ul class="space-y-2 text-slate-700">
+                                <li>Modelos de propensión, segmentación predictiva y atribución avanzada.</li>
+                                <li>Modelos causales para incrementalidad e impacto.</li>
+                                <li>Diseñados para ser consumidos por otros sistemas, no por PDFs o notebooks aislados.
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-white rounded-2xl border border-secondary/10 p-4">
+                            <div class="font-black text-secondary uppercase tracking-widest text-[11px] mb-2">Base ·
+                                Estandarizar Features</div>
+                            <ul class="space-y-2 text-slate-700">
+                                <li>Creación, versionado y reutilización de variables para IA.</li>
+                                <li>Definiciones estándar de cliente, canal y campaña.</li>
+                                <li>Es el lenguaje común de los modelos.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white rounded-2xl border border-secondary/10 p-4">
+                            <div class="font-black text-secondary uppercase tracking-widest text-[11px] mb-2">Infra ·
+                                Orquestar Datos</div>
+                            <ul class="space-y-2 text-slate-700">
+                                <li>Pipelines para alimentar modelos, BI Generativo y operación casi en tiempo real.
+                                </li>
+                                <li>Calidad de datos automatizada, observabilidad y data contracts.</li>
+                                <li>Infraestructura lista para escalar IA con gobierno.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white rounded-2xl border border-secondary/10 p-4">
+                            <div class="font-black text-secondary uppercase tracking-widest text-[11px] mb-2">Escala ·
+                                Gobernar BI Generativo</div>
+                            <ul class="space-y-2 text-slate-700">
+                                <li>En Marketing Analytic se consume; en Analytics Hub se diseña la capacidad.</li>
+                                <li>Prompts estándar, glosarios semánticos y gobierno de respuestas.</li>
+                                <li>Seguridad y consistencia para toda la organización.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-[1.5rem] border border-tertiary/20 bg-tertiary/5 p-6">
+                    <div class="flex items-start justify-between gap-4 mb-5">
+                        <div>
+                            <div class="text-[10px] font-black uppercase tracking-widest text-tertiary/80 mb-2">
+                                EVOLUCIÓN (GROW)</div>
+                            <h5 class="font-black text-slate-900 text-xl font-headline">La IA escala capacidades</h5>
+                            <p class="text-sm text-slate-600 font-medium mt-2">Objetivo: pasar de insights a decisiones
+                                automatizadas y crecimiento sostenible.</p>
+                        </div>
+                        <span
+                            class="text-[10px] uppercase font-black tracking-widest bg-tertiary/10 text-tertiary px-3 py-1 rounded-full border border-tertiary/20">IA
+                            agentiva y productiva</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div class="bg-white rounded-2xl border border-tertiary/10 p-4">
+                            <div class="font-black text-tertiary uppercase tracking-widest text-[11px] mb-2">Core ·
+                                Productizar Modelos</div>
+                            <ul class="space-y-2 text-slate-700">
+                                <li>Despliegue, monitoreo y reentrenamiento automático de modelos.</li>
+                                <li>Versionado, drift detection y retraining pipelines.</li>
+                                <li>Los modelos viven en producción, no en PowerPoint.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white rounded-2xl border border-tertiary/10 p-4">
+                            <div class="font-black text-tertiary uppercase tracking-widest text-[11px] mb-2">Decisión ·
+                                Orquestar Agentes Low-Code</div>
+                            <ul class="space-y-2 text-slate-700">
+                                <li>Agentes configurables por negocio para casos como priorización, targeting y next
+                                    best action.</li>
+                                <li>Orquestación de reglas, modelos y contexto sin depender de desarrollo pesado.</li>
+                                <li>Human-in-the-loop y guardrails cuando aplica.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white rounded-2xl border border-tertiary/10 p-4">
+                            <div class="font-black text-tertiary uppercase tracking-widest text-[11px] mb-2">Base ·
+                                Curar Datos y Conocimiento</div>
+                            <ul class="space-y-2 text-slate-700">
+                                <li>Tablas curadas y datasets confiables para consumo transversal.</li>
+                                <li>Bases de conocimiento con contexto de cliente, canal y negocio.</li>
+                                <li>Fundamento para respuestas y decisiones consistentes de IA.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white rounded-2xl border border-tertiary/10 p-4">
+                            <div class="font-black text-tertiary uppercase tracking-widest text-[11px] mb-2">Escala ·
+                                Reutilizar Capacidades</div>
+                            <ul class="space-y-2 text-slate-700">
+                                <li>Patrones de despliegue para modelos, tablas y agentes low-code.</li>
+                                <li>Industrialización con gobierno para reutilización transversal.</li>
+                                <li>Base para crecimiento sostenido y productivo.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-200 rounded-[1.5rem] p-6">
+                <h5 class="font-black text-slate-900 uppercase tracking-widest text-[11px] mb-4">Vista final resumida
+                </h5>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <div class="bg-white rounded-2xl border border-primary/10 p-4">
+                        <div class="font-black text-primary uppercase tracking-widest text-[11px] mb-2">Marketing
+                            Analytic (Run)</div>
+                        <div class="text-slate-900 font-bold mb-2">Activar decisiones</div>
+                        <p class="text-slate-600">BI Generativo, diagnóstico automático, experimentación asistida y CX
+                            signals.</p>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-secondary/10 p-4">
+                        <div class="font-black text-secondary uppercase tracking-widest text-[11px] mb-2">Analytics Hub
+                            (Change)</div>
+                        <div class="text-slate-900 font-bold mb-2">Construir capacidades</div>
+                        <p class="text-slate-600">Ciencia de Datos, Feature Store, Ingeniería Analítica y BI Generativo
+                            gobernado.</p>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-tertiary/10 p-4">
+                        <div class="font-black text-tertiary uppercase tracking-widest text-[11px] mb-2">Evolución
+                            (Grow)</div>
+                        <div class="text-slate-900 font-bold mb-2">Escalar capacidades</div>
+                        <p class="text-slate-600">Modelos productizados, tablas y bases de conocimiento, y agentes
+                            low-code gobernados.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        function showInfo(id) {
+            if (currentView === 1) {
+                return;
+            }
+
+            const tmpl = document.getElementById('tmpl-' + id);
+            if (!tmpl) {
+                console.warn('Template ID not found: tmpl-' + id);
+                return;
+            }
+
+            const panelContent = document.getElementById('panelContent');
+            const slidePanel = document.getElementById('slidePanel');
+            const backdrop = document.getElementById('backdrop');
+
+            if (id.startsWith('layer-')) {
+                slidePanel.classList.remove('max-w-[420px]', 'max-w-[720px]');
+                slidePanel.classList.add('max-w-[600px]');
+            } else {
+                slidePanel.classList.remove('max-w-[720px]');
+                slidePanel.classList.remove('max-w-[600px]');
+                slidePanel.classList.add('max-w-[420px]');
+            }
+
+            // Re-trigger animation
+            panelContent.classList.remove('animate-fade-in');
+            void panelContent.offsetWidth; // Force reflow
+
+            panelContent.innerHTML = tmpl.innerHTML;
+            panelContent.classList.add('animate-fade-in');
+
+            slidePanel.classList.remove('translate-x-full');
+            backdrop.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closePanel() {
+            const slidePanel = document.getElementById('slidePanel');
+            const backdrop = document.getElementById('backdrop');
+
+            slidePanel.classList.add('translate-x-full');
+            backdrop.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        // Add support for clicking outside the panel
+        document.addEventListener('keydown', function (event) {
+            if (event.key === "Escape") closePanel();
+        });
+
+
+
+        // ---- VIEW SWITCHER ----
+        let currentView = 1;
+        let isDiagramPanelActive = false;
+
+        function updateLegendVisibility() {
+            const legend = document.getElementById('iconLegend');
+            if (!legend) return;
+
+            const shouldShow = currentView === 2 && isDiagramPanelActive;
+            legend.style.display = shouldShow ? '' : 'none';
+            legend.style.opacity = shouldShow ? '1' : '0';
+        }
+
+        function setView(viewNum) {
+            currentView = viewNum;
+            [1, 2, 3].forEach(n => {
+                const btn = document.getElementById('btn-view-' + n);
+                btn.classList.toggle('active-view-btn', n === viewNum);
+            });
+            // Show/hide Translator pillar and legend only on view 2 (Roles)
+            const pillar = document.getElementById('translatorPillar');
+            if (viewNum === 2) {
+                pillar.style.opacity = '1';
+                pillar.style.pointerEvents = 'auto';
+                pillar.style.width = '';
+            } else {
+                pillar.style.opacity = '0';
+                pillar.style.pointerEvents = 'none';
+                pillar.style.width = '0';
+            }
+            document.querySelectorAll('.view-content').forEach(el => {
+                const elView = parseInt(el.getAttribute('data-view'));
+                if (elView === viewNum) {
+                    el.style.display = '';
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(8px)';
+                    el.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+                    requestAnimationFrame(() => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    });
+                } else {
+                    el.style.display = 'none';
+                    el.style.opacity = '';
+                    el.style.transform = '';
+                    el.style.transition = '';
+                }
+            });
+            updateLegendVisibility();
+            closePanel();
+        }
+
+        const hScroll = document.getElementById('hScroll');
+        const navTrack = document.getElementById('screenNavTrack');
+        const navPrev = document.getElementById('navPrev');
+        const navNext = document.getElementById('navNext');
+        const screenPanels = hScroll ? Array.from(hScroll.querySelectorAll(':scope > .h-panel')) : [];
+        let activeScreenIndex = 0;
+        let lastNavActiveIndex = -1;
+
+        function updateNavTrackScrollMode() {
+            if (!navTrack) return;
+            const needs = navTrack.scrollWidth > navTrack.clientWidth + 2;
+            navTrack.classList.toggle('nav-track--scroll', needs);
+            if (!needs) navTrack.scrollLeft = 0;
+        }
+
+        function scrollActiveDotIntoNav() {
+            if (!navTrack || !navTrack.classList.contains('nav-track--scroll')) return;
+            const dot = navTrack.children[activeScreenIndex];
+            if (dot && typeof dot.scrollIntoView === 'function') {
+                dot.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: 'auto' });
+            }
+        }
+
+        function scrollToScreen(index, opts) {
+            if (!hScroll || !screenPanels.length) return;
+            const targetIndex = Math.max(0, Math.min(index, screenPanels.length - 1));
+            const target = screenPanels[targetIndex];
+            const behavior = (opts && opts.behavior) || 'smooth';
+            const updateHash = !opts || opts.updateHash !== false;
+            hScroll.scrollTo({ left: target.offsetLeft, behavior });
+            if (updateHash && target.id) {
+                const next = '#' + target.id;
+                if (location.hash !== next) {
+                    history.replaceState(null, '', next);
+                }
+            }
+        }
+
+        /** Alias en URL: #diagramPanel → mismo panel que #pantalla-18 */
+        function resolveHashPanelId(raw) {
+            if (!raw) return '';
+            const id = raw.replace(/^#/, '');
+            if (id === 'diagramPanel') return 'pantalla-18';
+            return id;
+        }
+
+        function applyHashScroll(options) {
+            if (!hScroll || !screenPanels.length) return;
+            const id = resolveHashPanelId(location.hash || '');
+            if (!id) return;
+            const el = document.getElementById(id);
+            if (!el) return;
+            const idx = screenPanels.indexOf(el);
+            if (idx < 0) return;
+            const behavior = (options && options.behavior) || 'auto';
+            scrollToScreen(idx, { behavior: behavior, updateHash: false });
+        }
+
+        function getClosestScreenIndex() {
+            if (!hScroll || !screenPanels.length) return 0;
+            const center = hScroll.scrollLeft + (hScroll.clientWidth / 2);
+            let closestIndex = 0;
+            let minDistance = Number.POSITIVE_INFINITY;
+
+            screenPanels.forEach((panel, index) => {
+                const panelCenter = panel.offsetLeft + (panel.clientWidth / 2);
+                const distance = Math.abs(center - panelCenter);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestIndex = index;
+                }
+            });
+
+            return closestIndex;
+        }
+
+        function updateScreenNav() {
+            if (!screenPanels.length) return;
+            activeScreenIndex = getClosestScreenIndex();
+
+            screenPanels.forEach((panel, index) => {
+                panel.dataset.active = index === activeScreenIndex ? 'true' : 'false';
+            });
+
+            if (navPrev) navPrev.disabled = activeScreenIndex === 0;
+            if (navNext) navNext.disabled = activeScreenIndex === screenPanels.length - 1;
+
+            if (navTrack) {
+                Array.from(navTrack.children).forEach((dot, index) => {
+                    dot.classList.toggle('active', index === activeScreenIndex);
+                });
+            }
+
+            if (activeScreenIndex !== lastNavActiveIndex) {
+                lastNavActiveIndex = activeScreenIndex;
+                requestAnimationFrame(scrollActiveDotIntoNav);
+            }
+        }
+
+        if (navTrack && screenPanels.length) {
+            screenPanels.forEach((panel, index) => {
+                const label = panel.getAttribute('data-screen-title') || `Pantalla ${index + 1}`;
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'nav-dot';
+                button.innerHTML = `<span class="nav-label">${label}</span>`;
+                button.addEventListener('click', () => scrollToScreen(index));
+                navTrack.appendChild(button);
+            });
+            requestAnimationFrame(function () {
+                updateNavTrackScrollMode();
+                if ('ResizeObserver' in window) {
+                    new ResizeObserver(updateNavTrackScrollMode).observe(navTrack);
+                }
+            });
+        }
+
+        window.addEventListener('resize', updateNavTrackScrollMode, { passive: true });
+
+        if (hScroll) {
+            hScroll.addEventListener('scroll', () => {
+                updateScreenNav();
+            }, { passive: true });
+        }
+
+        if (navPrev) navPrev.addEventListener('click', () => scrollToScreen(activeScreenIndex - 1));
+        if (navNext) navNext.addEventListener('click', () => scrollToScreen(activeScreenIndex + 1));
+
+        updateScreenNav();
+
+        requestAnimationFrame(function () {
+            applyHashScroll({ behavior: 'auto' });
+        });
+        window.addEventListener('hashchange', function () {
+            applyHashScroll({ behavior: 'smooth' });
+        });
+
+        const diagramPanel = document.getElementById('pantalla-18');
+        if (hScroll && diagramPanel && 'IntersectionObserver' in window) {
+            const panelObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.target === diagramPanel) {
+                        isDiagramPanelActive = entry.isIntersecting && entry.intersectionRatio >= 0.6;
+                        updateLegendVisibility();
+                    }
+                });
+            }, {
+                root: hScroll,
+                threshold: [0, 0.6, 1]
+            });
+            panelObserver.observe(diagramPanel);
+        } else {
+            isDiagramPanelActive = true;
+            updateLegendVisibility();
+        }
+    </script>
+</body>
+
+</html>

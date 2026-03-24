@@ -1,0 +1,376 @@
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.layer-run {
+    border-left: 4px solid #01468e;
+    background: linear-gradient(to right, rgba(1, 70, 142, 0.05), transparent);
+}
+
+.layer-change {
+    border-left: 4px solid #006b5f;
+    background: linear-gradient(to right, rgba(0, 107, 95, 0.05), transparent);
+}
+
+.layer-grow {
+    border-left: 4px solid #793108;
+    background: linear-gradient(to right, rgba(121, 49, 8, 0.05), transparent);
+}
+
+.role-gbi {
+    border-left: 3px solid #8b5cf6;
+    background: rgba(139, 92, 246, 0.1);
+    color: #6d28d9;
+}
+
+.role-ci {
+    border-left: 3px solid #01468e;
+    background: rgba(1, 70, 142, 0.1);
+    color: #00458d;
+}
+
+.role-cx {
+    border-left: 3px solid #0f766e;
+    background: rgba(15, 118, 110, 0.1);
+    color: #115e59;
+}
+
+.role-translator {
+    border-left: 3px solid #c026d3;
+    background: rgba(192, 38, 211, 0.1);
+    color: #a21caf;
+}
+
+.role-gbi-hub {
+    border-left: 3px solid #4f46e5;
+    background: rgba(79, 70, 229, 0.1);
+    color: #4338ca;
+}
+
+.role-cientificos {
+    border-left: 3px solid #e11d48;
+    background: rgba(225, 29, 72, 0.1);
+    color: #be123c;
+}
+
+.role-ingenieros {
+    border-left: 3px solid #0891b2;
+    background: rgba(8, 145, 178, 0.1);
+    color: #0e7490;
+}
+
+.role-martech {
+    border-left: 3px solid #d97706;
+    background: rgba(245, 158, 11, 0.1);
+    color: #b45309;
+}
+
+.connect-line-vertical {
+    width: 2px;
+    background: repeating-linear-gradient(to bottom, #cbd5e1 0, #cbd5e1 4px, transparent 4px, transparent 8px);
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Interactive scale effect */
+.interactive-node {
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.interactive-node:hover {
+    transform: scale(1.03);
+    filter: brightness(0.95);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.interactive-node:active {
+    transform: scale(0.98);
+}
+
+/* View Switcher */
+.view-btn {
+    color: #64748b;
+    background: transparent;
+}
+
+.view-btn:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.active-view-btn {
+    background: #01468e !important;
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(1, 70, 142, 0.3);
+}
+
+/* Altura aproximada de la píldora fija de puntos (top-3 + contenido + margen) */
+:root {
+    --screen-nav-safe: 4.25rem;
+    /* Flechas a los lados en md+: solo margen inferior cómodo + safe area */
+    --screen-arrows-safe: 1rem;
+}
+
+/* Horizontal scroll snap */
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+/* iPad / Safari iOS: 100vh puede quedar corto con barras del sistema; 100dvh encaja mejor. */
+@supports (height: 100dvh) {
+    html,
+    body {
+        height: 100dvh;
+        max-height: 100dvh;
+    }
+}
+
+.h-scroll-wrap {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+@supports (height: 100dvh) {
+    .h-scroll-wrap {
+        height: 100dvh;
+        max-height: 100dvh;
+    }
+}
+
+.h-scroll-wrap::-webkit-scrollbar {
+    display: none;
+}
+
+.h-scroll-wrap {
+    scrollbar-width: none;
+}
+
+/* 100% del contenedor de scroll (≈ viewport), evita overflow horizontal por 100vw + scrollbar */
+.h-panel {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    scroll-snap-align: start;
+    overflow: hidden;
+}
+
+/*
+ * La barra de puntos es position:fixed y tapa el inicio de cada panel.
+ * padding-top en cada panel deja el texto/etiquetas por debajo del nav.
+ */
+.h-scroll-wrap > section.h-panel {
+    padding-top: calc(var(--screen-nav-safe) + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(var(--screen-arrows-safe) + env(safe-area-inset-bottom, 0px));
+}
+
+.h-scroll-wrap > main#pantalla-18 {
+    padding-top: calc(var(--screen-nav-safe) + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(var(--screen-arrows-safe) + env(safe-area-inset-bottom, 0px));
+}
+
+/* En sm+ el encabezado del diagrama vuelve a absolute; top respecto al viewport-nav */
+@media (min-width: 640px) {
+    #pantalla-18 > .diagram-header-row {
+        top: calc(var(--screen-nav-safe) + 0.35rem);
+    }
+}
+
+/* Cover panel styles */
+.cover-bg {
+    background: linear-gradient(135deg, #f0f5ff 0%, #e8f5f3 50%, #fdf6f2 100%);
+}
+
+@keyframes fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.anim-fade-up {
+    animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.anim-delay-1 {
+    animation-delay: 0.15s;
+}
+
+.anim-delay-2 {
+    animation-delay: 0.30s;
+}
+
+.anim-delay-3 {
+    animation-delay: 0.50s;
+}
+
+.anim-delay-4 {
+    animation-delay: 0.70s;
+}
+
+@keyframes bounce-x {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(6px);
+    }
+}
+
+.bounce-x {
+    animation: bounce-x 1.4s ease-in-out infinite;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Barra de puntos: scroll horizontal solo si no caben; si no, evita “scroll anidado” y captura del gesto. */
+.nav-track {
+    overflow-x: visible;
+    overflow-y: hidden;
+    /* Evita que el 1.º y el último punto queden bajo el redondeo de la píldora o el borde del scroll */
+    padding-inline: 0.5rem;
+    box-sizing: border-box;
+}
+
+.nav-track.nav-track--scroll {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+/* --- Dot Navigation & Tooltips --- */
+/* Tamaño real con width/height (sin scale ni sombra exterior): evita recorte por overflow-x y por backdrop-filter+rounded en WebKit. */
+.nav-dot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    position: relative;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    background: transparent;
+    border-radius: 50%;
+}
+
+.nav-dot::after {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    transition: width 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        height 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        background 0.3s ease;
+}
+
+.nav-dot:hover::after {
+    width: 13px;
+    height: 13px;
+    background: #01468e;
+}
+
+.nav-dot.active::after {
+    width: 15px;
+    height: 15px;
+    background: #01468e;
+}
+
+.nav-label {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    background: #0f172a;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: normal;
+    text-align: center;
+    max-width: min(240px, 78vw);
+    line-height: 1.25;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100;
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+}
+
+.nav-dot:hover .nav-label {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.nav-label::after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-bottom-color: #0f172a;
+}
