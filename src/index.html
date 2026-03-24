@@ -46,7 +46,7 @@
             },
         }
     </script>
-    <link rel="stylesheet" href="css/styles.css?v=persist-ios-1774377187280821000" />
+    <link rel="stylesheet" href="css/styles.css?v=diagram-view-1774378657545258000" />
 </head>
 
 <body class="bg-background font-body text-slate-800 antialiased">
@@ -2300,6 +2300,7 @@
         // ---- VIEW SWITCHER ----
         let currentView = 1;
         let isDiagramPanelActive = false;
+        const DIAGRAM_VIEW_STORAGE_KEY = 'ia-first-diagram-view';
 
         function updateLegendVisibility() {
             const legend = document.getElementById('iconLegend');
@@ -2347,6 +2348,20 @@
             });
             updateLegendVisibility();
             closePanel();
+            try {
+                localStorage.setItem(DIAGRAM_VIEW_STORAGE_KEY, String(viewNum));
+            } catch (_) {
+            }
+        }
+
+        function getInitialDiagramView() {
+            try {
+                const raw = localStorage.getItem(DIAGRAM_VIEW_STORAGE_KEY);
+                const parsed = Number.parseInt(raw || '', 10);
+                if ([1, 2, 3].includes(parsed)) return parsed;
+            } catch (_) {
+            }
+            return 1;
         }
 
         const hScroll = document.getElementById('hScroll');
@@ -2508,6 +2523,8 @@
         if (navNext) navNext.addEventListener('click', () => scrollToScreen(activeScreenIndex + 1));
 
         const initialId = getInitialScreenId();
+        const initialDiagramView = getInitialDiagramView();
+        setView(initialDiagramView);
         updateScreenNav();
 
         requestAnimationFrame(function () {
