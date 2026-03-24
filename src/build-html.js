@@ -281,7 +281,7 @@ function buildPantalla8(p) {
                         style="font-size: clamp(1.35rem, 3.2vw, 2.65rem);">AI First</h2>
                     <p class="text-slate-600 text-xs md:text-sm mt-2 leading-snug max-w-full md:max-w-3xl">${introHtml}</p>
                 </div>
-                <div class="cards-scroll-mobile grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 min-h-0 overflow-x-hidden">
+                <div class="cards-scroll-mobile shrink-0 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 overflow-x-hidden">
                     ${cards.join('\n')}
                 </div>
                 ${impactSummaryHtml}
@@ -611,7 +611,7 @@ function parseNumberedSimple(block) {
 
 /** Rejilla 2 columnas para pantallas 14–17 (el MD_INSERT reemplaza todo el bloque, incluido el wrapper). */
 function wrapLineaConocimientoGrid(innerHtml) {
-  return `<div class="linea-cards-grid grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 min-h-0 items-stretch">${innerHtml}</div>`;
+  return `<div class="linea-cards-grid shrink-0 grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 items-stretch">${innerHtml}</div>`;
 }
 
 function buildOportunidadesGrid(items, cardClass) {
