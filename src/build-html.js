@@ -21,14 +21,14 @@ const buildMetadataPath = path.join(__dirname, '../build/build-data.json');
 function resolveCacheVersion() {
   const fromEnv = process.env.CACHE_BUSTER || process.env.GITHUB_SHA || process.env.BUILD_SOURCEVERSION;
   if (fromEnv && String(fromEnv).trim()) {
-    return String(fromEnv).trim().slice(0, 12);
+    return String(fromEnv).trim().replace(/\s+/g, '-').slice(0, 32);
   }
   try {
     const repoRoot = path.join(__dirname, '..');
     const head = execSync('git rev-parse --short HEAD', { cwd: repoRoot }).toString().trim();
     const isCi = String(process.env.GITHUB_ACTIONS || '').toLowerCase() === 'true';
     if (isCi) return head;
-    const stamp = Date.now().toString(36).slice(-4);
+    const stamp = Date.now().toString(36);
     return `${head}-${stamp}`;
   } catch (_) {
     return String(Date.now());
