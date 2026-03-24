@@ -142,6 +142,16 @@
     }
 }
 
+@media (hover: none), (pointer: coarse) {
+    .mobile-top-nav {
+        display: none !important;
+    }
+
+    :root {
+        --screen-nav-safe: 0.75rem;
+    }
+}
+
 /* Horizontal scroll snap */
 html,
 body {
