@@ -236,10 +236,10 @@ function buildPantalla8(p) {
     };
     const lineBadge = (label, data) =>
       data
-        ? `<div class="rounded-xl border border-slate-200 bg-white px-3 py-2.5 md:px-4 md:py-3 shadow-sm min-w-[160px]">
-                <p class="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-slate-500">${escapeHtml(label)}</p>
-                <p class="mt-1 text-sm md:text-base font-black text-slate-900 leading-none">${fmt(data.mid)}%</p>
-                <p class="mt-1 text-[10px] md:text-xs text-slate-600">Rango: ${fmt(data.min)}% - ${fmt(data.max)}%</p>
+        ? `<div class="rounded-lg md:rounded-xl border border-slate-200 bg-white px-2.5 py-2 md:px-4 md:py-3 shadow-sm w-full md:min-w-[160px]">
+                <p class="text-[9px] md:text-[11px] font-black uppercase tracking-widest text-slate-500">${escapeHtml(label)}</p>
+                <p class="mt-0.5 md:mt-1 text-xs md:text-base font-black text-slate-900 leading-none">${fmt(data.mid)}%</p>
+                <p class="mt-0.5 md:mt-1 text-[9px] md:text-xs text-slate-600">Rango: ${fmt(data.min)}% - ${fmt(data.max)}%</p>
             </div>`
         : '';
 
@@ -248,22 +248,22 @@ function buildPantalla8(p) {
     impactBadges.push(lineBadge('Ingeniería', ingenieria));
     impactBadges.push(lineBadge('Ciencia', ciencia));
     if (cde) {
-      cdeBadge = `<div class="rounded-2xl border border-fuchsia-300 bg-gradient-to-r from-fuchsia-50 to-purple-50 px-5 py-4 md:px-6 md:py-5 shadow-md w-full sm:w-auto sm:min-w-[300px]">
-            <p class="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-fuchsia-700">CDE total</p>
-            <p class="mt-1.5 text-xl md:text-2xl font-black text-fuchsia-900 leading-none">${fmt(cde.mid)}%</p>
-            <p class="mt-1.5 text-[11px] md:text-sm text-fuchsia-800">Rango: ${fmt(cde.min)}% - ${fmt(cde.max)}%</p>
+      cdeBadge = `<div class="rounded-2xl border border-fuchsia-300 bg-gradient-to-r from-fuchsia-50 to-purple-50 px-3 py-3 md:px-6 md:py-5 shadow-md w-full">
+            <p class="text-[9px] md:text-[11px] font-black uppercase tracking-widest text-fuchsia-700">CDE total</p>
+            <p class="mt-1 md:mt-1.5 text-base md:text-2xl font-black text-fuchsia-900 leading-none">${fmt(cde.mid)}%</p>
+            <p class="mt-1 md:mt-1.5 text-[9px] md:text-sm text-fuchsia-800">Rango: ${fmt(cde.min)}% - ${fmt(cde.max)}%</p>
         </div>`;
     }
   }
 
   const impactSummaryHtml = impactBadges.filter(Boolean).length
-    ? `<div class="shrink-0 rounded-2xl border border-fuchsia-200 bg-white/90 px-4 py-3 md:px-5 md:py-4 shadow-md">
-            <p class="text-[11px] md:text-xs font-black uppercase tracking-[0.18em] text-fuchsia-700">Resumen ponderado de impacto</p>
-            <p class="mt-1 text-xs md:text-sm text-slate-600">Impacto estimado por línea de conocimiento y consolidado del CDE.</p>
-            <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3">
+    ? `<div class="shrink-0 rounded-2xl border border-fuchsia-200 bg-white/90 px-3 py-2.5 md:px-5 md:py-4 shadow-md">
+            <p class="text-[9px] md:text-xs font-black uppercase tracking-[0.18em] text-fuchsia-700">Resumen ponderado</p>
+            <p class="hidden md:block mt-1 text-xs md:text-sm text-slate-600">Impacto estimado por línea de conocimiento y consolidado del CDE.</p>
+            <div class="mt-2 md:mt-3 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-1.5 md:gap-3">
                         ${impactBadges.filter(Boolean).join('')}
                     </div>
-            ${cdeBadge ? `<div class="mt-3 flex justify-center">${cdeBadge}</div>` : ''}
+            ${cdeBadge ? `<div class="mt-2 md:mt-3 flex justify-center">${cdeBadge}</div>` : ''}
                 </div>`
     : '';
 
@@ -271,7 +271,7 @@ function buildPantalla8(p) {
             id="pantalla-8"
             class="h-panel bg-gradient-to-br from-slate-50 to-slate-100 relative overflow-hidden px-5 md:px-8 lg:px-10"
             data-screen-title="Visión AI First">
-        <div class="max-w-4xl mx-auto h-full min-h-0 flex flex-col justify-start overflow-y-auto overflow-x-hidden gap-3 py-2 md:py-4">
+        <div class="max-w-4xl mx-auto h-full min-h-0 flex flex-col justify-start overflow-y-auto overflow-x-hidden gap-2 md:gap-4 py-2 md:py-4">
                 <div class="shrink-0">
                     <div class="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-fuchsia-700 mb-1">${escapeHtml(etiqueta)}</div>
                     <h2 class="font-headline font-black text-slate-900 tracking-tight leading-none"
