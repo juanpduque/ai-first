@@ -278,7 +278,7 @@ function buildPantalla8(p) {
                         style="font-size: clamp(1.35rem, 3.2vw, 2.65rem);">AI First</h2>
                     <p class="text-slate-600 text-xs md:text-sm mt-2 leading-snug max-w-3xl">${introHtml}</p>
                 </div>
-                <div class="grid grid-cols-2 gap-2 md:gap-3 min-h-0">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 min-h-0">
                     ${cards.join('\n')}
                 </div>
                 ${impactSummaryHtml}
