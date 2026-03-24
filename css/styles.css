@@ -289,9 +289,12 @@ body {
 
 .nav-track.nav-track--scroll {
     overflow-x: auto;
+    overflow-y: hidden;
     overscroll-behavior-x: contain;
     touch-action: pan-x;
     -webkit-overflow-scrolling: touch;
+    padding-bottom: 2.8rem;
+    margin-bottom: -2.8rem;
 }
 
 
@@ -310,6 +313,13 @@ body {
     padding: 0;
     background: transparent;
     border-radius: 50%;
+    z-index: 1;
+}
+
+.nav-dot:hover,
+.nav-dot:focus-visible,
+.nav-dot.active {
+    z-index: 120;
 }
 
 .nav-dot::after {
@@ -349,20 +359,48 @@ body {
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    white-space: normal;
+    white-space: nowrap;
     text-align: center;
-    max-width: min(240px, 78vw);
+    max-width: min(180px, 70vw);
+    overflow: hidden;
+    text-overflow: ellipsis;
     line-height: 1.25;
     opacity: 0;
     pointer-events: none;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 100;
+    z-index: 200;
     box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
 }
 
 .nav-dot:hover .nav-label {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
+}
+
+.nav-dot:focus-visible .nav-label,
+.nav-dot.active .nav-label {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.nav-dot:first-child .nav-label {
+    left: 0;
+    transform: translateX(0) translateY(8px);
+}
+
+.nav-dot:last-child .nav-label {
+    left: auto;
+    right: 0;
+    transform: translateX(0) translateY(8px);
+}
+
+.nav-dot:first-child:hover .nav-label,
+.nav-dot:first-child:focus-visible .nav-label,
+.nav-dot:first-child.active .nav-label,
+.nav-dot:last-child:hover .nav-label,
+.nav-dot:last-child:focus-visible .nav-label,
+.nav-dot:last-child.active .nav-label {
+    transform: translateX(0) translateY(0);
 }
 
 .nav-label::after {
@@ -373,4 +411,15 @@ body {
     transform: translateX(-50%);
     border: 6px solid transparent;
     border-bottom-color: #0f172a;
+}
+
+.nav-dot:first-child .nav-label::after {
+    left: 16px;
+    transform: none;
+}
+
+.nav-dot:last-child .nav-label::after {
+    left: auto;
+    right: 16px;
+    transform: none;
 }
