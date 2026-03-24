@@ -46,7 +46,7 @@
             },
         }
     </script>
-    <link rel="stylesheet" href="css/styles.css?v=854b1e3641ca" />
+    <link rel="stylesheet" href="css/styles.css?v=4b27f05960753e1b0d863b1728b547ec" />
 </head>
 
 <body class="bg-background font-body text-slate-800 antialiased">
@@ -2354,6 +2354,7 @@
         const navPrev = document.getElementById('navPrev');
         const navNext = document.getElementById('navNext');
         const screenPanels = hScroll ? Array.from(hScroll.querySelectorAll(':scope > .h-panel')) : [];
+        const SCREEN_STORAGE_KEY = 'ia-first-last-screen';
         let activeScreenIndex = 0;
         let lastNavActiveIndex = -1;
 
@@ -2395,9 +2396,34 @@
             return id;
         }
 
+        function getInitialScreenId() {
+            const hashId = resolveHashPanelId(location.hash || '');
+            if (hashId) return hashId;
+            try {
+                return resolveHashPanelId(localStorage.getItem(SCREEN_STORAGE_KEY) || '');
+            } catch (_) {
+                return '';
+            }
+        }
+
+        function persistActiveScreen() {
+            if (!screenPanels.length) return;
+            const panel = screenPanels[activeScreenIndex];
+            if (!panel || !panel.id) return;
+            const nextHash = '#' + panel.id;
+            if (location.hash !== nextHash) {
+                history.replaceState(null, '', nextHash);
+            }
+            try {
+                localStorage.setItem(SCREEN_STORAGE_KEY, panel.id);
+            } catch (_) {
+            }
+        }
+
         function applyHashScroll(options) {
             if (!hScroll || !screenPanels.length) return;
-            const id = resolveHashPanelId(location.hash || '');
+            const explicitId = options && options.id ? String(options.id) : '';
+            const id = resolveHashPanelId(explicitId || location.hash || '');
             if (!id) return;
             const el = document.getElementById(id);
             if (!el) return;
@@ -2445,15 +2471,7 @@
             if (activeScreenIndex !== lastNavActiveIndex) {
                 lastNavActiveIndex = activeScreenIndex;
                 requestAnimationFrame(scrollActiveDotIntoNav);
-                
-                // Actualizar el hash en la URL basado en la pantalla actual
-                const panel = screenPanels[activeScreenIndex];
-                if (panel && panel.id) {
-                    const nextHash = '#' + panel.id;
-                    if (location.hash !== nextHash) {
-                        history.replaceState(null, '', nextHash);
-                    }
-                }
+                persistActiveScreen();
             }
         }
 
@@ -2489,10 +2507,15 @@
         updateScreenNav();
 
         requestAnimationFrame(function () {
-            applyHashScroll({ behavior: 'auto' });
+            const initialId = getInitialScreenId();
+            applyHashScroll({ behavior: 'auto', id: initialId });
         });
         window.addEventListener('hashchange', function () {
             applyHashScroll({ behavior: 'smooth' });
+        });
+        window.addEventListener('pagehide', persistActiveScreen);
+        document.addEventListener('visibilitychange', function () {
+            if (document.visibilityState === 'hidden') persistActiveScreen();
         });
 
         const diagramPanel = document.getElementById('pantalla-18');
