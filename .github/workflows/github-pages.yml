@@ -1,5 +1,5 @@
-# Publica el sitio en GitHub Pages (rama main).
-# Activar en el repo: Settings → Pages → Build and deployment → Source: GitHub Actions.
+# Publica el sitio en GitHub Pages (rama gh-pages).
+# Activar en el repo: Settings → Pages → Build and deployment → Source: Deploy from a branch → gh-pages / Root.
 name: Deploy GitHub Pages
 
 on:
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -19,9 +19,6 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,20 +33,14 @@ jobs:
 
       - name: Assemble static site
         run: |
-          mkdir -p _site
-          cp src/index.html _site/
-          cp -r src/css _site/
-          cp src/flujo_ciclico.html _site/
-          touch _site/.nojekyll
+          mkdir -p build
+          cp src/index.html build/
+          cp -r src/css build/ 2>/dev/null || true
+          cp src/flujo_ciclico.html build/ 2>/dev/null || true
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          path: _site
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
+          cname: false
