@@ -46,7 +46,7 @@
             },
         }
     </script>
-    <link rel="stylesheet" href="css/styles.css?v=5d1e703d5d9f" />
+    <link rel="stylesheet" href="css/styles.css?v=d36ceb5bc9a1" />
 </head>
 
 <body class="bg-background font-body text-slate-800 antialiased">
@@ -2445,6 +2445,15 @@
             if (activeScreenIndex !== lastNavActiveIndex) {
                 lastNavActiveIndex = activeScreenIndex;
                 requestAnimationFrame(scrollActiveDotIntoNav);
+                
+                // Actualizar el hash en la URL basado en la pantalla actual
+                const panel = screenPanels[activeScreenIndex];
+                if (panel && panel.id) {
+                    const nextHash = '#' + panel.id;
+                    if (location.hash !== nextHash) {
+                        history.replaceState(null, '', nextHash);
+                    }
+                }
             }
         }
 
