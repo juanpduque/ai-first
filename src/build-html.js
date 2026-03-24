@@ -157,7 +157,9 @@ const SHORT_P8 = [
 ];
 
 function buildPantalla8(p) {
-  const sections = splitMarkdownH3(p);
+  const block = typeof p === 'string' ? p : ((p && p.body) || '');
+  const impactSummary = p && typeof p === 'object' ? p.impactSummary : null;
+  const sections = splitMarkdownH3(block);
   const sobre = sections.find((s) => s.title.includes('Sobre AI First')) || sections[0] || { title: '', body: '' };
   const principiosSection = sections.find((s) => s.title.includes('Principios')) || { title: '', body: '' };
   const sobreBody = sobre.body || '';
@@ -186,6 +188,47 @@ function buildPantalla8(p) {
                     </div>`;
   });
 
+  const impactBadges = [];
+  let cdeBadge = '';
+  if (impactSummary) {
+    const { bi, growth, ingenieria, ciencia, cde } = impactSummary;
+    const fmt = (n) => {
+      const v = Math.round(n * 10) / 10;
+      return Number.isInteger(v) ? String(v) : v.toFixed(1);
+    };
+    const lineBadge = (label, data) =>
+      data
+        ? `<div class="rounded-xl border border-slate-200 bg-white px-3 py-2.5 md:px-4 md:py-3 shadow-sm min-w-[160px]">
+                <p class="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-slate-500">${escapeHtml(label)}</p>
+                <p class="mt-1 text-sm md:text-base font-black text-slate-900 leading-none">${fmt(data.mid)}%</p>
+                <p class="mt-1 text-[10px] md:text-xs text-slate-600">Rango: ${fmt(data.min)}% - ${fmt(data.max)}%</p>
+            </div>`
+        : '';
+
+    impactBadges.push(lineBadge('BI', bi));
+    impactBadges.push(lineBadge('Growth', growth));
+    impactBadges.push(lineBadge('Ingeniería', ingenieria));
+    impactBadges.push(lineBadge('Ciencia', ciencia));
+    if (cde) {
+      cdeBadge = `<div class="rounded-2xl border border-fuchsia-300 bg-gradient-to-r from-fuchsia-50 to-purple-50 px-5 py-4 md:px-6 md:py-5 shadow-md w-full sm:w-auto sm:min-w-[300px]">
+            <p class="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-fuchsia-700">CDE total</p>
+            <p class="mt-1.5 text-xl md:text-2xl font-black text-fuchsia-900 leading-none">${fmt(cde.mid)}%</p>
+            <p class="mt-1.5 text-[11px] md:text-sm text-fuchsia-800">Rango: ${fmt(cde.min)}% - ${fmt(cde.max)}%</p>
+        </div>`;
+    }
+  }
+
+  const impactSummaryHtml = impactBadges.filter(Boolean).length
+    ? `<div class="shrink-0 rounded-2xl border border-fuchsia-200 bg-white/90 px-4 py-3 md:px-5 md:py-4 shadow-md">
+            <p class="text-[11px] md:text-xs font-black uppercase tracking-[0.18em] text-fuchsia-700">Resumen ponderado de impacto</p>
+            <p class="mt-1 text-xs md:text-sm text-slate-600">Impacto estimado por línea de conocimiento y consolidado del CDE.</p>
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3">
+                        ${impactBadges.filter(Boolean).join('')}
+                    </div>
+            ${cdeBadge ? `<div class="mt-3 flex justify-center">${cdeBadge}</div>` : ''}
+                </div>`
+    : '';
+
   return `<section
             id="pantalla-8"
             class="h-panel bg-gradient-to-br from-slate-50 to-slate-100 relative overflow-hidden px-5 md:px-8 lg:px-10"
@@ -200,8 +243,54 @@ function buildPantalla8(p) {
                 <div class="grid grid-cols-2 gap-2 md:gap-3 min-h-0">
                     ${cards.join('\n')}
                 </div>
+                ${impactSummaryHtml}
             </div>
         </section>`;
+}
+
+function parseImpactRange(text) {
+  if (!text) return null;
+  const values = Array.from(String(text).matchAll(/(\d+(?:[.,]\d+)?)\s*%/g)).map((m) =>
+    parseFloat(m[1].replace(',', '.'))
+  );
+  if (values.length === 0) return null;
+  if (values.length === 1) {
+    return { min: values[0], max: values[0], mid: values[0] };
+  }
+  const min = values[0];
+  const max = values[1];
+  return { min, max, mid: (min + max) / 2 };
+}
+
+function computeWeightedImpactFromBlock(block) {
+  const items = parseIngenieriaItems(block || '');
+  const ranges = items
+    .map((it) => parseImpactRange(it.impact))
+    .filter(Boolean);
+  if (!ranges.length) return null;
+  const count = ranges.length;
+  const min = ranges.reduce((sum, r) => sum + r.min, 0) / count;
+  const max = ranges.reduce((sum, r) => sum + r.max, 0) / count;
+  return { min, max, mid: (min + max) / 2, count };
+}
+
+function computeImpactSummary(pantallas) {
+  const bi = computeWeightedImpactFromBlock(pantallas[14] || '');
+  const growth = computeWeightedImpactFromBlock(pantallas[15] || '');
+  const ingenieria = computeWeightedImpactFromBlock(pantallas[16] || '');
+  const ciencia = computeWeightedImpactFromBlock(pantallas[17] || '');
+  const lines = [bi, growth, ingenieria, ciencia].filter(Boolean);
+  if (!lines.length) return { bi, growth, ingenieria, ciencia, cde: null };
+  const totalWeight = lines.reduce((sum, x) => sum + (x.count || 1), 0);
+  const cdeMin = lines.reduce((sum, x) => sum + x.min * (x.count || 1), 0) / totalWeight;
+  const cdeMax = lines.reduce((sum, x) => sum + x.max * (x.count || 1), 0) / totalWeight;
+  return {
+    bi,
+    growth,
+    ingenieria,
+    ciencia,
+    cde: { min: cdeMin, max: cdeMax, mid: (cdeMin + cdeMax) / 2 },
+  };
 }
 
 function parseLayerBlocks(body) {
@@ -563,8 +652,11 @@ function buildPantalla17(block) {
 }
 
 function buildBlockP8P13(pantallas) {
+  const impactSummary = computeImpactSummary(pantallas);
+  const p8Block = pantallas[8] || '';
+  const p8WithSummary = { body: p8Block, impactSummary };
   const parts = [
-    buildPantalla8(pantallas[8] || ''),
+    buildPantalla8(p8WithSummary),
     // Las pantallas 9, 10, 11 y 12 se ocultan: no se generan las secciones relacionadas.
     buildPantalla13(pantallas[13] || ''),
   ];
@@ -812,16 +904,10 @@ function main() {
 
   const inserts = {
     block_p8_p13: buildBlockP8P13(pantallas),
-    p14_grid: buildOportunidadesGrid(
-      parseNumberedSimple(pantallas[14] || ''),
-      'bg-white rounded-xl border border-purple-200 p-3 md:p-4 shadow-sm min-h-0'
-    ),
-    p15_grid: buildOportunidadesGrid(
-      parseNumberedSimple(pantallas[15] || ''),
-      'bg-slate-50 rounded-xl border border-amber-200 p-3 md:p-4 shadow-sm min-h-0'
-    ),
+    p14_grid: buildIngenieriaGrid(parseIngenieriaItems(pantallas[14] || '')),
+    p15_grid: buildIngenieriaGrid(parseIngenieriaItems(pantallas[15] || '')),
     p16_grid: buildIngenieriaGrid(parseIngenieriaItems(p16)),
-    p17_grid: buildPantalla17(pantallas[17] || ''),
+    p17_grid: buildIngenieriaGrid(parseIngenieriaItems(pantallas[17] || '')),
   };
 
   let out = template;

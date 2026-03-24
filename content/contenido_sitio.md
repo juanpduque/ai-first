@@ -26,14 +26,12 @@ Este archivo resume el contenido actual de la presentación web (`index.html`) p
 - **Título:** Cultura
 - **Mensaje principal:**
   Promovemos la toma de decisiones basadas en información. Inyectamos datos, experimentación, ciencia y aprendizaje rápido y constante al ejercicio de mercadeo.
-- **Imagen:** ![Imagen Pantalla 3](assets/images/pantalla-3-imagen.png)
 
 ## Pantalla 4 · Bienestar
 
 - **Título:** Bienestar
 - **Mensaje principal:**
   Cuando una persona se siente bien, trabaja mejor. Nuestro comité de bienestar piensa en grande para que trabajar en el CDE sea increíble.
-- **Imagen:** ![Imagen Pantalla 4](assets/images/pantalla-4-imagen.png)
 
 ## Pantalla 5 · Propósito
 
@@ -47,7 +45,6 @@ Este archivo resume el contenido actual de la presentación web (`index.html`) p
 - **Mensaje principal:**
   Contribuir activamente a que las estrategias de mercadeo y CX impulsen los objetivos de negocio y marca, haciendo mercadeo dirigido por los datos de principio a fin.
 - **Lema:** SOMOS BANQUEROS | SOMOS MARQUETEROS | SOMOS ANALÍTICOS
-- **Imagen:** ![Imagen Pantalla 6](assets/images/pantalla-6-imagen.png)
 
 ## Pantalla 7 · Objetivos y KPI’s {KR}
 
@@ -229,36 +226,53 @@ Si delegamos responsabilidades a la IA requerimos un marco de gobernanza tan rob
 
 ## Pantalla 14 · BI Generativo (Oportunidades IA First)
 
-1. **Semántica desde Figma + sugerencia de eventos**  
-   Modelos de IA extraen semántica de Figma y sugieren eventos basados en taxonomía histórica.
-2. **Integración nativa a repositorios**  
-   Generación automática de snippets de código.
-3. **Agentes autónomos de auditoría**  
-   Agentes escanean miles de páginas diariamente, simulan tráfico y validan eventos.
-4. **Visión computacional + auto-reparación**  
-   Detección automática de cambios y auto-reparación de scripts.
-5. **Monitoreo inteligente de KPIs**  
-   Agentes monitorean automáticamente indicadores clave, identifican tendencias ocultas y disparan investigación profunda.
-6. **Preguntar a los datos (Dashboardless)**  
-   Interfaz conversacional para consultar datos sin depender de dashboards estáticos.
-7. **Segmentación en lenguaje natural + clustering dinámico**  
-   Creación de audiencias con lenguaje natural y detección de segmentos ocultos por comportamientos sincrónicos y señales afines.
-8. **Escucha social y autogestión en Insights Hub**
+**Contexto:**
+BI Generativo debe reducir fricción entre dato y decisión, automatizando tareas de instrumentación, monitoreo e interpretación para liberar capacidad analítica.
+
+1. **Semántica desde Figma + sugerencia de eventos**
+   - Modelos de IA extraen semántica de Figma y sugieren eventos basados en taxonomía histórica.
+   - Generación automática de snippets y checklist técnico para implementación.
+    - **Impacto:** Reducción del 22% - 32% del tiempo de un analista de inteligencia digital.
+
+2. **Agentes autónomos de auditoría + auto-reparación**
+   - Agentes escanean páginas, simulan tráfico y validan eventos contra estándar.
+   - Detección de cambios con visión computacional y propuesta de corrección automática.
+    - **Impacto:** Reducción del 45% - 60% del tiempo de un analista de inteligencia digital.
+
+3. **Monitoreo inteligente de KPIs y alertamiento explicativo**
+   - Agentes monitorean KPIs, detectan anomalías y explican posibles causas.
+   - Priorización automática de investigaciones por impacto de negocio.
+    - **Impacto:** Reducción del 18% - 28% del tiempo de un analista de inteligencia digital.
+
+4. **Dashboardless + segmentación en lenguaje natural**
+   - Interfaz conversacional para consultar datos y crear audiencias sin SQL manual.
+   - Clustering dinámico para descubrir segmentos por comportamiento.
+    - **Impacto:** Reducción del 28% - 38% del tiempo de un analista de inteligencia digital.
 
 ## Pantalla 15 · Growth (Propuestas IA First)
 
-1. **IA para hipótesis, diseño y análisis de experimentos**  
-   IA para generación de hipótesis, estructuración de experimentos (diseño, variantes, criterios), análisis estadístico de resultados y recomendaciones.
-2. **Estimación de impacto ex-ante**  
-   Modelos que estimen impacto esperado de un experimento previo a ejecutarlo.
-3. **Rol AT como modelo de agentes**  
-   Transformar el rol AT hacia un modelo de agentes que acompañen el flujo completo de estrategias de mercadeo.
-4. **Exploración automática de comportamiento real**  
-   Exploración automática de comportamiento real de usuarios para generar insights accionables.
-5. **Dashboardless para Growth**  
-   Dashboards menos estáticos, con respuestas generadas por IA.
-6. **Evaluación de NSM con usuarios sintéticos**  
-   IA para evaluar NSM y medir efectividad de experimentos con usuarios sintéticos.
+**Contexto:**
+En Growth, IA First debe acelerar el ciclo completo hipótesis → experimento → lectura → decisión para aumentar velocidad de aprendizaje y foco en impacto.
+
+1. **IA para hipótesis, diseño y análisis de experimentos**
+   - IA genera hipótesis, sugiere diseño experimental y propone criterios de éxito.
+   - Lectura estadística asistida y recomendaciones del siguiente experimento.
+    - **Impacto:** Reducción del 24% - 34% del tiempo de un analista de growth.
+
+2. **Estimación de impacto ex-ante y priorización**
+   - Modelos estiman impacto esperado antes de ejecutar pruebas.
+   - Priorización automática de backlog de experimentos por valor esperado.
+    - **Impacto:** Reducción del 26% - 36% del tiempo de un analista de growth.
+
+3. **Exploración automática de comportamiento y dashboardless**
+   - Detección automática de patrones de comportamiento y fricciones.
+   - Consulta conversacional para insights sin dependencia de dashboards estáticos.
+    - **Impacto:** Reducción del 30% - 42% del tiempo de un analista de growth.
+
+4. **NSM con usuarios sintéticos + rol AT como agentes**
+   - IA evalúa NSM y escenarios de experimento con usuarios sintéticos.
+   - Evolución del rol AT hacia agentes que acompañan diseño, ejecución y seguimiento.
+    - **Impacto:** Reducción del 14% - 22% del tiempo de un analista de growth.
 
 ## Pantalla 16 · Ingeniería de datos (Oportunidades IA First)
 
@@ -273,21 +287,38 @@ Si bien ya incorporamos IA, el objetivo es dar el siguiente salto para dejar de 
 2. **Democratización de Audiencias (lenguaje natural + generativas)**
    - Interfaz de lenguaje natural para que analistas de Mercadeo, analistas de Clervin u otros generadores de audiencias describan su necesidad y un LLM la traduzca a SQL en un data warehouse, generando su audiencia de manera rápida, eficiente y segura.
    - Modelos de propensión y clustering que propongan segmentos basados en probabilidad de compra o riesgo de fuga.
-   - **Impacto:** Reducción del 20% - 30% del tiempo de un ingeniero de datos.
+   - **Impacto:** Reducción del 23% - 33% del tiempo de un ingeniero de datos.
 
 3. **Gestor conocimiento Analítica Digital (Data Team Brain)**
    - Implementación de un Hub de conocimiento basado en IA que ingeste grabaciones de sesiones, archivos SQL dispersos en OneDrive, planes de medición, resultados de ejercicios y documentación de herramientas.
    - Uso de técnicas de RAG para que cualquier miembro del equipo consulte dudas técnicas o de negocio en lenguaje natural.
-   - **Impacto:** Reducción del 60% en tiempo de búsqueda; menos interrupciones, menor dependencia de otras personas y menos reprocesos.
+    - **Impacto:** Reducción del 50% - 65% en tiempo de búsqueda; menos interrupciones, menor dependencia de otras personas y menos reprocesos.
 
 4. **Eficiencia Operativa de Ingeniería**
    - Auto-documentación: flujo donde el LLM lea Git y genere diccionarios de datos automáticamente (-15% de tiempo).
    - Datos sintéticos: IA para crear sets de prueba y estresar modelos antes de producción (-20% ciclo QA).
    - Optimización en BigQuery: IA para identificar y reescribir consultas ineficientes, y apoyar definición e implementación de esquemas de datos costoeficientes.
+    - **Impacto:** Reducción del 18% - 27% del tiempo de un ingeniero de datos.
 
-## Pantalla 17 · Ciencia de datos (pendiente por detallar)
+## Pantalla 17 · Ciencia de datos (Oportunidades IA First)
 
-- Esta sección está creada en la web, pero el contenido final puede ajustarse con el mismo formato de oportunidades IA First.
+**Contexto:**
+El equipo de Ciencia de Datos puede capturar valor de IA en dos aproximaciones complementarias: como consumidor (aumenta productividad individual) y como constructor (crea activos escalables para el negocio).
+
+1. **Aproximación 1 · Consumidor (Copilots de código para productividad)**
+   - Uso de copilots en notebooks, SQL y Python para acelerar codificación, documentación, pruebas y refactorización.
+   - Soporte en generación de features, validaciones y análisis exploratorio.
+   - **Impacto:** Reducción del 18% - 28% del tiempo de un científico de datos.
+
+2. **Aproximación 2 · Constructor (Productos IA para escalar decisiones)**
+   - Diseñar y operar copilots/agents para casos de negocio (drivers, recomendadores, siguiente mejor acción).
+   - Productizar componentes reutilizables: evaluación de modelos, monitoreo de drift y plantillas MLOps.
+   - **Impacto:** Reducción del 27% - 37% del tiempo de un científico de datos.
+
+3. **Aproximación 3 · Industrialización del ciclo DS**
+   - Estandarizar feature engineering, evaluación y despliegue con pipelines asistidos por IA.
+   - Automatizar documentación técnica y trazabilidad de experimentos.
+   - **Impacto:** Reducción del 22% - 32% del tiempo de un científico de datos.
 
 ## Pantalla 18 · Diagrama
 
