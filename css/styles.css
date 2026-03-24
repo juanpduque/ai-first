@@ -136,6 +136,12 @@
     --screen-arrows-safe: 1rem;
 }
 
+@media (max-width: 639px) {
+    :root {
+        --screen-nav-safe: 0.75rem;
+    }
+}
+
 /* Horizontal scroll snap */
 html,
 body {
