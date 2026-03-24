@@ -2179,6 +2179,7 @@
         const SCREEN_STORAGE_KEY = 'ia-first-last-screen';
         let activeScreenIndex = 0;
         let lastNavActiveIndex = -1;
+        let canPersistScreen = false;
 
         function updateNavTrackScrollMode() {
             if (!navTrack) return;
@@ -2293,7 +2294,9 @@
             if (activeScreenIndex !== lastNavActiveIndex) {
                 lastNavActiveIndex = activeScreenIndex;
                 requestAnimationFrame(scrollActiveDotIntoNav);
-                persistActiveScreen();
+                if (canPersistScreen) {
+                    persistActiveScreen();
+                }
             }
         }
 
@@ -2326,11 +2329,16 @@
         if (navPrev) navPrev.addEventListener('click', () => scrollToScreen(activeScreenIndex - 1));
         if (navNext) navNext.addEventListener('click', () => scrollToScreen(activeScreenIndex + 1));
 
+        const initialId = getInitialScreenId();
         updateScreenNav();
 
         requestAnimationFrame(function () {
-            const initialId = getInitialScreenId();
-            applyHashScroll({ behavior: 'auto', id: initialId });
+            requestAnimationFrame(function () {
+                applyHashScroll({ behavior: 'auto', id: initialId });
+                updateScreenNav();
+                canPersistScreen = true;
+                persistActiveScreen();
+            });
         });
         window.addEventListener('hashchange', function () {
             applyHashScroll({ behavior: 'smooth' });

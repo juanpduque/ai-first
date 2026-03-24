@@ -46,7 +46,7 @@
             },
         }
     </script>
-    <link rel="stylesheet" href="css/styles.css?v=persist-mobile-17743770733336430" />
+    <link rel="stylesheet" href="css/styles.css?v=persist-ios-1774377187280821000" />
 </head>
 
 <body class="bg-background font-body text-slate-800 antialiased">
@@ -2357,6 +2357,7 @@
         const SCREEN_STORAGE_KEY = 'ia-first-last-screen';
         let activeScreenIndex = 0;
         let lastNavActiveIndex = -1;
+        let canPersistScreen = false;
 
         function updateNavTrackScrollMode() {
             if (!navTrack) return;
@@ -2471,7 +2472,9 @@
             if (activeScreenIndex !== lastNavActiveIndex) {
                 lastNavActiveIndex = activeScreenIndex;
                 requestAnimationFrame(scrollActiveDotIntoNav);
-                persistActiveScreen();
+                if (canPersistScreen) {
+                    persistActiveScreen();
+                }
             }
         }
 
@@ -2504,11 +2507,16 @@
         if (navPrev) navPrev.addEventListener('click', () => scrollToScreen(activeScreenIndex - 1));
         if (navNext) navNext.addEventListener('click', () => scrollToScreen(activeScreenIndex + 1));
 
+        const initialId = getInitialScreenId();
         updateScreenNav();
 
         requestAnimationFrame(function () {
-            const initialId = getInitialScreenId();
-            applyHashScroll({ behavior: 'auto', id: initialId });
+            requestAnimationFrame(function () {
+                applyHashScroll({ behavior: 'auto', id: initialId });
+                updateScreenNav();
+                canPersistScreen = true;
+                persistActiveScreen();
+            });
         });
         window.addEventListener('hashchange', function () {
             applyHashScroll({ behavior: 'smooth' });
