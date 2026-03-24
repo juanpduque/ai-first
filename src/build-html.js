@@ -565,8 +565,7 @@ function buildPantalla17(block) {
 function buildBlockP8P13(pantallas) {
   const parts = [
     buildPantalla8(pantallas[8] || ''),
-    // Las pantallas 9, 10 y 11 se ocultan: no se generan las secciones relacionadas.
-    buildPantalla12(pantallas[12] || ''),
+    // Las pantallas 9, 10, 11 y 12 se ocultan: no se generan las secciones relacionadas.
     buildPantalla13(pantallas[13] || ''),
   ];
   return parts.join('\n\n');
