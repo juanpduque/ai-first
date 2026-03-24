@@ -132,6 +132,8 @@
 /* Altura aproximada de la píldora fija de puntos (top-3 + contenido + margen) */
 :root {
     --screen-nav-safe: 4.25rem;
+    /* Flechas a los lados en md+: solo margen inferior cómodo + safe area */
+    --screen-arrows-safe: 1rem;
 }
 
 /* Horizontal scroll snap */
@@ -141,6 +143,15 @@ body {
     overflow: hidden;
     overflow-x: hidden;
     max-width: 100%;
+}
+
+/* iPad / Safari iOS: 100vh puede quedar corto con barras del sistema; 100dvh encaja mejor. */
+@supports (height: 100dvh) {
+    html,
+    body {
+        height: 100dvh;
+        max-height: 100dvh;
+    }
 }
 
 .h-scroll-wrap {
@@ -155,6 +166,13 @@ body {
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
+}
+
+@supports (height: 100dvh) {
+    .h-scroll-wrap {
+        height: 100dvh;
+        max-height: 100dvh;
+    }
 }
 
 .h-scroll-wrap::-webkit-scrollbar {
@@ -183,10 +201,12 @@ body {
  */
 .h-scroll-wrap > section.h-panel {
     padding-top: calc(var(--screen-nav-safe) + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(var(--screen-arrows-safe) + env(safe-area-inset-bottom, 0px));
 }
 
 .h-scroll-wrap > main#pantalla-18 {
     padding-top: calc(var(--screen-nav-safe) + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(var(--screen-arrows-safe) + env(safe-area-inset-bottom, 0px));
 }
 
 /* En sm+ el encabezado del diagrama vuelve a absolute; top respecto al viewport-nav */
@@ -258,37 +278,67 @@ body {
     scrollbar-width: none;
 }
 
+/* Barra de puntos: scroll horizontal solo si no caben; si no, evita “scroll anidado” y captura del gesto. */
+.nav-track {
+    overflow-x: visible;
+    overflow-y: hidden;
+    /* Evita que el 1.º y el último punto queden bajo el redondeo de la píldora o el borde del scroll */
+    padding-inline: 0.5rem;
+    box-sizing: border-box;
+}
+
+.nav-track.nav-track--scroll {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
+}
+
 
 /* --- Dot Navigation & Tooltips --- */
+/* Tamaño real con width/height (sin scale ni sombra exterior): evita recorte por overflow-x y por backdrop-filter+rounded en WebKit. */
 .nav-dot {
-    display: block;
-    width: 8px;
-    height: 8px;
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    background: #cbd5e1;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
     position: relative;
     cursor: pointer;
     border: none;
     padding: 0;
-    flex-shrink: 0;
+    background: transparent;
+    border-radius: 50%;
 }
 
-.nav-dot:hover {
-    background: #01468e;
-    transform: scale(1.6);
+.nav-dot::after {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    transition: width 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        height 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        background 0.3s ease;
 }
 
-.nav-dot.active {
+.nav-dot:hover::after {
+    width: 13px;
+    height: 13px;
     background: #01468e;
-    transform: scale(1.8);
-    box-shadow: 0 0 12px rgba(1, 70, 142, 0.3);
+}
+
+.nav-dot.active::after {
+    width: 15px;
+    height: 15px;
+    background: #01468e;
 }
 
 .nav-label {
     position: absolute;
-    top: 28px;
+    top: calc(100% + 6px);
     left: 50%;
     transform: translateX(-50%) translateY(8px);
     background: #0f172a;

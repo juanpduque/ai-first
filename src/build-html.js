@@ -169,12 +169,14 @@ function buildPantalla8(p) {
   }
 
   const cards = items.slice(0, 4).map((it, i) => {
-    const sub = it.subs[0] ? `<p class="text-sm text-slate-600">${mdInlineToHtml(it.subs[0])}</p>` : '';
-    return `<div class="bg-white/80 rounded-2xl border border-fuchsia-100 p-5 shadow-sm">
-                        <div class="flex gap-3 items-start">
-                            <span class="material-symbols-outlined text-fuchsia-600 text-[24px] flex-shrink-0">${ICONS_P8[i] || 'star'}</span>
-                            <div>
-                                <h3 class="font-black text-slate-900 text-sm mb-2">${escapeHtml(it.title)}</h3>
+    const sub = it.subs[0]
+      ? `<p class="text-[11px] md:text-xs text-slate-600 leading-snug">${mdInlineToHtml(it.subs[0])}</p>`
+      : '';
+    return `<div class="bg-white/80 rounded-xl border border-fuchsia-100 p-3 md:p-4 shadow-sm min-h-0">
+                        <div class="flex gap-2 items-start">
+                            <span class="material-symbols-outlined text-fuchsia-600 text-[20px] md:text-[22px] flex-shrink-0">${ICONS_P8[i] || 'star'}</span>
+                            <div class="min-w-0">
+                                <h3 class="font-black text-slate-900 text-xs md:text-sm mb-1 leading-tight">${escapeHtml(it.title)}</h3>
                                 ${sub}
                             </div>
                         </div>
@@ -183,16 +185,16 @@ function buildPantalla8(p) {
 
   return `<section
             id="pantalla-8"
-            class="h-panel bg-gradient-to-br from-slate-50 to-slate-100 relative overflow-hidden px-8 md:px-12 lg:px-16"
+            class="h-panel bg-gradient-to-br from-slate-50 to-slate-100 relative overflow-hidden px-5 md:px-8 lg:px-10"
             data-screen-title="Visión AI First">
-            <div class="max-w-4xl mx-auto h-full flex flex-col justify-center py-16 md:py-20">
-                <div class="mb-8">
-                    <div class="text-[12px] font-black uppercase tracking-widest text-fuchsia-700 mb-3">${escapeHtml(etiqueta)}</div>
-                    <h2 class="font-headline font-black text-slate-900 tracking-tight"
-                        style="font-size: clamp(2.1rem, 5vw, 4rem);">AI First</h2>
-                    <p class="text-slate-600 text-base md:text-lg mt-4 leading-relaxed max-w-3xl">${introHtml}</p>
+            <div class="max-w-4xl mx-auto h-full min-h-0 flex flex-col justify-center overflow-hidden gap-3 py-2 md:py-4">
+                <div class="shrink-0">
+                    <div class="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-fuchsia-700 mb-1">${escapeHtml(etiqueta)}</div>
+                    <h2 class="font-headline font-black text-slate-900 tracking-tight leading-none"
+                        style="font-size: clamp(1.35rem, 3.2vw, 2.65rem);">AI First</h2>
+                    <p class="text-slate-600 text-xs md:text-sm mt-2 leading-snug max-w-3xl">${introHtml}</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                <div class="grid grid-cols-2 gap-2 md:gap-3 min-h-0">
                     ${cards.join('\n')}
                 </div>
             </div>
@@ -231,25 +233,25 @@ function buildLayerSection(p, theme) {
   const cardHtml = cards
     .map(
       (c) => `
-                    <div class="bg-white rounded-2xl border ${border} p-5 shadow-sm">
-                        <h3 class="font-black text-slate-900 mb-3 text-sm uppercase tracking-widest ${accent}">${escapeHtml(c.title)}</h3>
-                        <ul class="text-sm text-slate-600 space-y-1 list-disc pl-5">
+                    <div class="bg-white rounded-xl border ${border} p-3 md:p-4 shadow-sm min-h-0 flex flex-col">
+                        <h3 class="font-black text-slate-900 mb-1.5 text-[10px] md:text-[11px] uppercase tracking-widest leading-tight ${accent}">${escapeHtml(c.title)}</h3>
+                        <ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug">
                             ${c.bullets.map((x) => `<li>${mdInlineToHtml(x)}</li>`).join('')}
                         </ul>
                     </div>`
     )
     .join('');
 
-  return `<section id="${escapeHtml(panelId)}" class="h-panel ${grad} relative overflow-hidden px-8 md:px-12 lg:px-16"
+  return `<section id="${escapeHtml(panelId)}" class="h-panel ${grad} relative overflow-hidden px-5 md:px-8 lg:px-10"
             data-screen-title="${escapeHtml(dataTitle)}">
-            <div class="max-w-4xl mx-auto h-full flex flex-col justify-center py-16 md:py-20">
-                <div class="mb-8">
-                    <div class="text-[12px] font-black uppercase tracking-widest ${accent} mb-3">${escapeHtml(etiqueta || capLabel)}</div>
-                    <h2 class="font-headline font-black text-slate-900 tracking-tight"
-                        style="font-size: clamp(2.1rem, 5vw, 4rem);">${escapeHtml(h2)}</h2>
-                    <p class="text-slate-600 text-base md:text-lg mt-4 leading-relaxed max-w-3xl">${mdInlineToHtml(lead.paragraph)}</p>
+            <div class="max-w-4xl mx-auto h-full min-h-0 flex flex-col justify-center overflow-hidden py-2 md:py-4">
+                <div class="shrink-0 mb-2 md:mb-3">
+                    <div class="text-[10px] md:text-[11px] font-black uppercase tracking-widest ${accent} mb-1">${escapeHtml(etiqueta || capLabel)}</div>
+                    <h2 class="font-headline font-black text-slate-900 tracking-tight leading-none"
+                        style="font-size: clamp(1.35rem, 3.2vw, 2.65rem);">${escapeHtml(h2)}</h2>
+                    <p class="text-slate-600 text-xs md:text-sm mt-1.5 md:mt-2 leading-snug max-w-3xl">${mdInlineToHtml(lead.paragraph)}</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                <div class="grid grid-cols-2 gap-2 md:gap-3 min-h-0 shrink">
                     ${cardHtml}
                 </div>
             </div>
@@ -328,29 +330,29 @@ function buildPantalla12(block) {
     const headParts = col.head.replace(/\s*\((Run|CHANGE|Grow)\)\s*$/i, '').trim();
     const tagMatch = col.head.match(/\((Run|CHANGE|Grow)\)/i);
     const tag = tagMatch ? tagMatch[1].toUpperCase() : ['RUN', 'CHANGE', 'GROW'][i];
-    return `<div class="rounded-2xl border-2 ${th.border} bg-gradient-to-br ${th.grad} p-8 shadow-md">
-                        <div class="flex items-start gap-3 mb-4">
-                            <span class="material-symbols-outlined ${th.sub.replace('text-', 'text-')} text-[32px]">${th.icon}</span>
-                            <div>
-                                <h3 class="font-headline font-black ${th.h} text-xl tracking-tight">${escapeHtml(headParts)}</h3>
-                                <p class="text-[11px] font-black uppercase tracking-widest ${th.sub} mt-1">${tag}</p>
+    return `<div class="rounded-xl border-2 ${th.border} bg-gradient-to-br ${th.grad} p-3 md:p-4 shadow-md min-h-0">
+                        <div class="flex items-start gap-2 mb-2">
+                            <span class="material-symbols-outlined ${th.sub.replace('text-', 'text-')} text-[22px] md:text-[26px] shrink-0">${th.icon}</span>
+                            <div class="min-w-0">
+                                <h3 class="font-headline font-black ${th.h} text-sm md:text-base tracking-tight leading-tight">${escapeHtml(headParts)}</h3>
+                                <p class="text-[9px] md:text-[10px] font-black uppercase tracking-widest ${th.sub} mt-0.5">${tag}</p>
                             </div>
                         </div>
-                        <p class="text-sm text-slate-700 leading-relaxed">
+                        <p class="text-[11px] md:text-xs text-slate-700 leading-snug">
                             <strong>${escapeHtml(col.subtitle)}</strong><br />
                             ${mdInlineToHtml(col.body)}
                         </p>
                     </div>`;
   });
 
-  return `<section id="pantalla-12" class="h-panel bg-white relative overflow-hidden px-8 md:px-12 lg:px-16"
+  return `<section id="pantalla-12" class="h-panel bg-white relative overflow-hidden px-5 md:px-8 lg:px-10"
             data-screen-title="Resumen 3 Capas">
-            <div class="max-w-6xl mx-auto h-full flex flex-col justify-center py-16 md:py-20">
-                <div class="mb-12 text-center">
-                    <h2 class="font-headline font-black text-slate-900 tracking-tight"
-                        style="font-size: clamp(2.1rem, 5vw, 4rem);">Las 3 Capas de AI First</h2>
+            <div class="max-w-6xl mx-auto h-full min-h-0 flex flex-col justify-center overflow-hidden gap-3 py-2 md:py-4">
+                <div class="shrink-0 text-center mb-1">
+                    <h2 class="font-headline font-black text-slate-900 tracking-tight leading-none"
+                        style="font-size: clamp(1.25rem, 2.8vw, 2.25rem);">Las 3 Capas de AI First</h2>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-3 min-h-0">
                     ${cards.join('\n')}
                 </div>
             </div>
@@ -360,13 +362,24 @@ function buildPantalla12(block) {
 function parseH3SectionsAsCards(block) {
   const secs = splitMarkdownH3(block);
   const cards = [];
+  const ulCls =
+    'text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug break-words [overflow-wrap:anywhere]';
+  const subCls =
+    'text-[11px] md:text-xs font-bold text-slate-800 mb-1 leading-tight break-words [overflow-wrap:anywhere]';
+  const subWrap = 'min-w-0 md:mb-0';
+
   for (const { title, body } of secs) {
     const bullets = body
       .split('\n')
       .map((l) => l.trim())
       .filter((l) => l.startsWith('-') && !l.startsWith('---'))
       .map((l) => l.replace(/^-\s+/, ''));
-    const subsections = body.split(/\n#### /);
+    /* Si el cuerpo empieza con ####, split('\n#### ') deja todo el primer bloque en [0] sin título h4 → texto “fuera” de la estructura. */
+    let normalized = body.trim();
+    if (normalized.startsWith('#### ')) {
+      normalized = `\n${normalized}`;
+    }
+    const subsections = normalized.split('\n#### ');
     let html = '';
     if (subsections.length > 1) {
       html = subsections
@@ -377,7 +390,7 @@ function parseH3SectionsAsCards(block) {
               .filter((l) => l.trim().startsWith('-'))
               .map((l) => `<li>${mdInlineToHtml(l.replace(/^-\s+/, ''))}</li>`)
               .join('');
-            return bs ? `<ul class="text-sm text-slate-600 space-y-1 list-disc pl-5">${bs}</ul>` : '';
+            return bs ? `<div class="${subWrap}"><ul class="${ulCls}">${bs}</ul></div>` : '';
           }
           const n = ss.indexOf('\n');
           const st = n === -1 ? ss : ss.slice(0, n);
@@ -387,13 +400,11 @@ function parseH3SectionsAsCards(block) {
             .filter((l) => l.trim().startsWith('-'))
             .map((l) => `<li>${mdInlineToHtml(l.replace(/^-\s+/, ''))}</li>`)
             .join('');
-          return `<p class="text-sm font-bold text-slate-800 mt-2">${escapeHtml(st.trim())}</p><ul class="text-sm text-slate-600 space-y-1 list-disc pl-5">${lis}</ul>`;
+          return `<div class="${subWrap}"><p class="${subCls}">${escapeHtml(st.trim())}</p><ul class="${ulCls}">${lis}</ul></div>`;
         })
         .join('');
     } else {
-      html = `<ul class="text-sm text-slate-600 space-y-1 list-disc pl-5">${bullets
-        .map((b) => `<li>${mdInlineToHtml(b)}</li>`)
-        .join('')}</ul>`;
+      html = `<ul class="${ulCls}">${bullets.map((b) => `<li>${mdInlineToHtml(b)}</li>`).join('')}</ul>`;
     }
     cards.push({ title, html });
   }
@@ -412,26 +423,36 @@ function buildPantalla13(block) {
   const rest = cut >= 0 ? block.slice(cut) : '';
   const cards = parseH3SectionsAsCards(rest);
 
-  const cardChunks = cards.map(
-    (c) => `<div class="bg-white rounded-2xl border border-indigo-200 p-5 shadow-sm">
-                        <h3 class="font-black text-slate-900 mb-3 text-sm uppercase tracking-widest text-indigo-700">${escapeHtml(c.title)}</h3>
-                        ${c.html}
-                    </div>`
-  );
+  const oneCard = (c) => {
+    const multicol = c.title.toLowerCase().includes('capacidades por frente');
+    const innerClass = multicol
+      ? 'min-h-0 min-w-0 overflow-x-hidden overflow-y-auto grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-3 lg:grid-cols-4 lg:gap-x-3 lg:gap-y-2'
+      : 'min-h-0 min-w-0 overflow-y-auto overflow-x-hidden';
+    return `<div class="bg-white rounded-xl border border-indigo-200 p-3 md:p-4 shadow-sm min-h-0 min-w-0 flex flex-col overflow-hidden">
+                        <h3 class="font-black text-slate-900 mb-1.5 text-[10px] md:text-[11px] uppercase tracking-widest text-indigo-700 leading-tight shrink-0">${escapeHtml(c.title)}</h3>
+                        <div class="${innerClass}">${c.html}</div>
+                    </div>`;
+  };
+
+  const topRow = cards.slice(0, 2).map(oneCard).join('\n');
+  const bottomCol = cards.slice(2).map(oneCard).join('\n');
 
   return `<section
             id="pantalla-13"
-            class="h-panel bg-gradient-to-br from-indigo-50 to-violet-100 relative overflow-hidden px-8 md:px-12 lg:px-16"
+            class="h-panel bg-gradient-to-br from-indigo-50 to-violet-100 relative overflow-hidden px-5 md:px-8 lg:px-10"
             data-screen-title="Gobernanza de IA">
-            <div class="max-w-6xl mx-auto h-full flex flex-col justify-center py-16 md:py-20">
-                <div class="mb-8 md:mb-10">
-                    <div class="text-[12px] font-black uppercase tracking-widest text-indigo-700 mb-3">CAPÍTULO TRANSVERSAL</div>
-                    <h2 class="font-headline font-black text-slate-900 tracking-tight"
-                        style="font-size: clamp(2.1rem, 5vw, 4rem);">Gobernanza de IA</h2>
-                    <p class="text-slate-600 text-base md:text-lg mt-4 leading-relaxed max-w-4xl">${mdInlineToHtml(intro)}</p>
+            <div class="max-w-6xl mx-auto h-full min-h-0 flex flex-col justify-center overflow-hidden gap-2 md:gap-3 py-2 md:py-4">
+                <div class="shrink-0">
+                    <div class="text-[10px] md:text-[11px] font-black uppercase tracking-widest text-indigo-700 mb-1">CAPÍTULO TRANSVERSAL</div>
+                    <h2 class="font-headline font-black text-slate-900 tracking-tight leading-none"
+                        style="font-size: clamp(1.35rem, 3.2vw, 2.65rem);">Gobernanza de IA</h2>
+                    <p class="text-slate-600 text-xs md:text-sm mt-2 leading-snug max-w-4xl">${mdInlineToHtml(intro)}</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    ${cardChunks.join('\n')}
+                <div class="flex min-h-0 min-w-0 flex-col gap-2 md:gap-3">
+                    <div class="grid min-h-0 min-w-0 grid-cols-1 gap-2 md:grid-cols-2 md:gap-3">
+                        ${topRow}
+                    </div>
+                    ${bottomCol ? `<div class="flex min-h-0 min-w-0 flex-col gap-2 md:gap-3">${bottomCol}</div>` : ''}
                 </div>
             </div>
         </section>`;
@@ -455,15 +476,21 @@ function parseNumberedSimple(block) {
   return items;
 }
 
+/** Rejilla 2 columnas para pantallas 14–17 (el MD_INSERT reemplaza todo el bloque, incluido el wrapper). */
+function wrapLineaConocimientoGrid(innerHtml) {
+  return `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3 min-h-0 items-stretch">${innerHtml}</div>`;
+}
+
 function buildOportunidadesGrid(items, cardClass) {
-  return items
+  const inner = items
     .map(
       (it) => `<div class="${cardClass}">
-                        <h3 class="font-black text-slate-900 mb-2">${it.n}. ${escapeHtml(it.title)}</h3>
-                        <p class="text-sm text-slate-600">${mdInlineToHtml(it.body)}</p>
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">${it.n}. ${escapeHtml(it.title)}</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">${mdInlineToHtml(it.body)}</p>
                     </div>`
     )
     .join('\n');
+  return wrapLineaConocimientoGrid(inner);
 }
 
 function parseIngenieriaItems(block) {
@@ -487,24 +514,25 @@ function parseIngenieriaItems(block) {
 }
 
 function buildIngenieriaGrid(items) {
-  return items
+  const inner = items
     .map((it) => {
       const ul =
         it.bullets.length > 0
-          ? `<ul class="text-sm text-slate-600 space-y-1 list-disc pl-5">${it.bullets
+          ? `<ul class="text-[11px] md:text-xs text-slate-600 space-y-0.5 list-disc pl-3.5 leading-snug">${it.bullets
               .map((b) => `<li>${mdInlineToHtml(b)}</li>`)
               .join('')}</ul>`
           : '';
       const imp = it.impact
-        ? `<p class="text-xs font-bold text-cyan-800 mt-3">${mdInlineToHtml('Impacto: ' + it.impact)}</p>`
+        ? `<p class="text-[10px] md:text-xs font-bold text-cyan-800 mt-2 leading-snug">${mdInlineToHtml('Impacto: ' + it.impact)}</p>`
         : '';
-      return `<div class="bg-white rounded-2xl border border-cyan-200 p-5 shadow-sm">
-                        <h3 class="font-black text-slate-900 mb-2">${it.n}. ${escapeHtml(it.title)}</h3>
+      return `<div class="bg-white rounded-xl border border-cyan-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">${it.n}. ${escapeHtml(it.title)}</h3>
                         ${ul}
                         ${imp}
                     </div>`;
     })
     .join('\n');
+  return wrapLineaConocimientoGrid(inner);
 }
 
 const DEFAULT_P17_CARDS = [
@@ -520,14 +548,15 @@ function buildPantalla17(block) {
     simple.length > 0
       ? simple.map((it) => [it.title, it.body])
       : DEFAULT_P17_CARDS;
-  return cards
+  const inner = cards
     .map(
-      ([t, b]) => `<div class="bg-slate-50 rounded-2xl border border-rose-200 p-5 shadow-sm">
-                        <h3 class="font-black text-slate-900 mb-2">${escapeHtml(t)}</h3>
-                        <p class="text-sm text-slate-600">${mdInlineToHtml(b)}</p>
+      ([t, b]) => `<div class="bg-slate-50 rounded-xl border border-rose-200 p-3 md:p-4 shadow-sm min-h-0">
+                        <h3 class="font-black text-slate-900 mb-1 text-xs md:text-sm leading-tight">${escapeHtml(t)}</h3>
+                        <p class="text-[11px] md:text-xs text-slate-600 leading-snug">${mdInlineToHtml(b)}</p>
                     </div>`
     )
     .join('\n');
+  return wrapLineaConocimientoGrid(inner);
 }
 
 function buildBlockP8P13(pantallas) {
@@ -806,11 +835,11 @@ function main() {
     block_p8_p13: buildBlockP8P13(pantallas),
     p14_grid: buildOportunidadesGrid(
       parseNumberedSimple(pantallas[14] || ''),
-      'bg-white rounded-2xl border border-purple-200 p-5 shadow-sm'
+      'bg-white rounded-xl border border-purple-200 p-3 md:p-4 shadow-sm min-h-0'
     ),
     p15_grid: buildOportunidadesGrid(
       parseNumberedSimple(pantallas[15] || ''),
-      'bg-slate-50 rounded-2xl border border-amber-200 p-5 shadow-sm'
+      'bg-slate-50 rounded-xl border border-amber-200 p-3 md:p-4 shadow-sm min-h-0'
     ),
     p16_grid: buildIngenieriaGrid(parseIngenieriaItems(p16)),
     p17_grid: buildPantalla17(pantallas[17] || ''),

@@ -282,6 +282,13 @@ npm run build
 - Limpia cache: Ctrl+Shift+R (Hard refresh)
 - Revisa que pipeline completó sin errores
 
+## Capturas de pantalla (PNG)
+
+1. Primera vez: `npm run screenshots:setup` (descarga Chromium en `./.playwright-browsers`).
+2. `npm run screenshots` — ejecuta `build`, levanta `python3 -m http.server` sobre `src/`, abre Chromium y guarda PNG en `screenshots/`: **17 slides** (`01-…`–`17-…`) más **el diagrama (pantalla 18)** con **`setView(1|2|3)`** (Capacidades, Roles, Artefactos) y, si el área con scroll tiene overflow, capturas extra **scroll-derecha** / **scroll-abajo** por nivel.
+
+Requisitos: Python 3 y red (Tailwind/fonts CDN al cargar la página).
+
 ## Próximas Mejoras
 
 - [ ] Auto-sync back: HTML → Markdown (para cambios desde UI)

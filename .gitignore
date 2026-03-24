@@ -5,6 +5,9 @@ dist/
 *.min.js
 *.min.css
 
+# Playwright (Chromium del proyecto)
+.playwright-browsers/
+
 # Node modules
 node_modules/
 package-lock.json
