@@ -24,9 +24,13 @@ function resolveCacheVersion() {
     return String(fromEnv).trim().slice(0, 12);
   }
   try {
-    return execSync('git rev-parse --short HEAD', { cwd: path.join(__dirname, '..') })
-      .toString()
-      .trim();
+    const repoRoot = path.join(__dirname, '..');
+    const head = execSync('git rev-parse --short HEAD', { cwd: repoRoot }).toString().trim();
+    const isDirty = execSync('git status --porcelain', { cwd: repoRoot }).toString().trim().length > 0;
+    if (isDirty) {
+      return `${head}-${Date.now().toString(36)}`.slice(0, 12);
+    }
+    return head;
   } catch (_) {
     return String(Date.now());
   }
