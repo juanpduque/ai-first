@@ -10,12 +10,27 @@
 
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 const templatePath = path.join(__dirname, 'index.template.html');
 const contentMdPath = path.join(__dirname, '../content/contenido_sitio.md');
 const diagramaMdPath = path.join(__dirname, '../content/diagrama_textos.md');
 const outputPath = path.join(__dirname, 'index.html');
 const buildMetadataPath = path.join(__dirname, '../build/build-data.json');
+
+function resolveCacheVersion() {
+  const fromEnv = process.env.CACHE_BUSTER || process.env.GITHUB_SHA || process.env.BUILD_SOURCEVERSION;
+  if (fromEnv && String(fromEnv).trim()) {
+    return String(fromEnv).trim().slice(0, 12);
+  }
+  try {
+    return execSync('git rev-parse --short HEAD', { cwd: path.join(__dirname, '..') })
+      .toString()
+      .trim();
+  } catch (_) {
+    return String(Date.now());
+  }
+}
 
 function escapeHtml(s) {
   if (s == null) return '';
@@ -913,6 +928,8 @@ function main() {
   let out = template;
   out = applyMdInserts(out, inserts);
   out = applyMdPatches(out, patches);
+  const cacheVersion = resolveCacheVersion();
+  out = out.replace(/href="css\/styles\.css(?:\?v=[^"]*)?"/g, `href="css/styles.css?v=${cacheVersion}"`);
 
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
   fs.writeFileSync(outputPath, out, 'utf-8');
